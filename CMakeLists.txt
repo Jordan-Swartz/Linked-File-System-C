@@ -13,8 +13,8 @@ add_executable(LinkedFS ${SOURCES}
         include/file_system.h
         include/file_operation.h
         include/memory_management.h
+        include/ui.h
         src/file_system.c
         src/memory_management.c
         src/ui.c
-        src/ui.h
         include/ui.h)
