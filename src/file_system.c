@@ -9,10 +9,38 @@
  * contain nodes/tree struct
  */
 
-#include <stdio.h>
+#include <stdlib.h>
 
-int main(void)
-{
-    printf("Hello, World!\n");
-    return 0;
+/*Data Structures*/
+//node type
+typedef enum {
+    Directory,
+    File
+} NodeType;
+
+//file node
+typedef struct {
+    char name[100];
+    NodeType type;
+    int permissions;
+    int size;
+
+    struct FSNode* child_head;
+    struct FSNode* next;
+} FSNode;
+
+/*Global Variables*/
+//root
+FSNode* root = NULL;
+
+void create_node() {
+
+    ss
 }
+
+
+
+
+
+
+
