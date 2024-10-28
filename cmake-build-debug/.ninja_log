@@ -1,0 +1,14 @@
+# ninja log v6
+2	74	1730084731135233967	CMakeFiles/LinkedFS.dir/src/file_system.c.o	e957a8f51b5623ba
+1	41	1730084708495233967	CMakeFiles/LinkedFS.dir/src/file_operation.c.o	b5d45f56a5ffbc18
+1	49	1730084838651233967	build.ninja	7b2f3ac426047b8c
+11	221	1730081956001150792	CMakeFiles/LinkedFS.dir/src/ui.c.o	458c0197f62f193e
+41	105	1730084708534233967	CMakeFiles/LinkedFS.dir/src/memory_management.c.o	3864b6e4887ccd8b
+86	161	1730082101751150792	LinkedFS	9e3ca6e5a1b51cfe
+2	47	1730084838651233967	build.ninja	7b2f3ac426047b8c
+2	92	1730085403497233967	CMakeFiles/LinkedFS.dir/src/file_system.c.o	e957a8f51b5623ba
+5	106	1730085403500233967	CMakeFiles/LinkedFS.dir/src/ui.c.o	458c0197f62f193e
+106	172	1730085403601233967	LinkedFS	9e3ca6e5a1b51cfe
+4	117	1730090986998233967	CMakeFiles/LinkedFS.dir/src/ui.c.o	458c0197f62f193e
+1	127	1730090986995233967	CMakeFiles/LinkedFS.dir/src/file_system.c.o	e957a8f51b5623ba
+127	161	1730090987121233967	LinkedFS	9e3ca6e5a1b51cfe
