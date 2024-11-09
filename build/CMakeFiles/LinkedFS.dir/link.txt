@@ -1,0 +1,1 @@
+/usr/bin/gcc -g CMakeFiles/LinkedFS.dir/src/file_operation.c.o CMakeFiles/LinkedFS.dir/src/file_system.c.o CMakeFiles/LinkedFS.dir/src/memory_management.c.o CMakeFiles/LinkedFS.dir/src/ui.c.o -o LinkedFS 

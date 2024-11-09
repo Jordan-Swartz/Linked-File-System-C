@@ -1,0 +1,22 @@
+[
+{
+  "directory": "/home/jordan/workspace/c/C_Projects/Linked-File-System-C/build",
+  "command": "/usr/bin/gcc  -I/home/jordan/workspace/c/C_Projects/Linked-File-System-C/include -g -std=gnu99 -o CMakeFiles/LinkedFS.dir/src/file_operation.c.o -c /home/jordan/workspace/c/C_Projects/Linked-File-System-C/src/file_operation.c",
+  "file": "/home/jordan/workspace/c/C_Projects/Linked-File-System-C/src/file_operation.c"
+},
+{
+  "directory": "/home/jordan/workspace/c/C_Projects/Linked-File-System-C/build",
+  "command": "/usr/bin/gcc  -I/home/jordan/workspace/c/C_Projects/Linked-File-System-C/include -g -std=gnu99 -o CMakeFiles/LinkedFS.dir/src/file_system.c.o -c /home/jordan/workspace/c/C_Projects/Linked-File-System-C/src/file_system.c",
+  "file": "/home/jordan/workspace/c/C_Projects/Linked-File-System-C/src/file_system.c"
+},
+{
+  "directory": "/home/jordan/workspace/c/C_Projects/Linked-File-System-C/build",
+  "command": "/usr/bin/gcc  -I/home/jordan/workspace/c/C_Projects/Linked-File-System-C/include -g -std=gnu99 -o CMakeFiles/LinkedFS.dir/src/memory_management.c.o -c /home/jordan/workspace/c/C_Projects/Linked-File-System-C/src/memory_management.c",
+  "file": "/home/jordan/workspace/c/C_Projects/Linked-File-System-C/src/memory_management.c"
+},
+{
+  "directory": "/home/jordan/workspace/c/C_Projects/Linked-File-System-C/build",
+  "command": "/usr/bin/gcc  -I/home/jordan/workspace/c/C_Projects/Linked-File-System-C/include -g -std=gnu99 -o CMakeFiles/LinkedFS.dir/src/ui.c.o -c /home/jordan/workspace/c/C_Projects/Linked-File-System-C/src/ui.c",
+  "file": "/home/jordan/workspace/c/C_Projects/Linked-File-System-C/src/ui.c"
+}
+]
