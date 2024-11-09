@@ -6,6 +6,10 @@
 #define FILE_SYSTEM_H
 
 /*Data Structures*/
+
+/*Type Definitions*/
+typedef struct FSNode FSNode;
+
 //node type
 typedef enum {
     Directory,
@@ -20,23 +24,24 @@ typedef enum {
 } Permissions;
 
 //file node
-typedef struct {
+struct FSNode {
     char name[100];
     NodeType type;
     Permissions permissions;
     int size;
     struct FSNode* child_head;
     struct FSNode* next;
+    struct FSNode* previous;
     struct FSNode* parent;
-} FSNode;
+};
 
 /*Global Variables*/
 //root and current
-extern FSNode* root;
-extern FSNode* current;
+// extern FSNode* root;
+// extern FSNode* current;
 
 //functions
-void system_setup();
+void system_setup(FSNode* root);
 void create_node();
 void delete_node();
 void set_current();
