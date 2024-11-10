@@ -9,6 +9,7 @@
 
 /*Type Definitions*/
 typedef struct FSNode FSNode;
+typedef struct FileSystem FileSystem;
 
 //node type
 typedef enum {
@@ -29,10 +30,15 @@ struct FSNode {
     NodeType type;
     Permissions permissions;
     int size;
-    struct FSNode* child_head;
-    struct FSNode* next;
-    struct FSNode* previous;
-    struct FSNode* parent;
+    FSNode* child_head;
+    FSNode* next;
+    FSNode* previous;
+    FSNode* parent;
+};
+
+struct FileSystem {
+    char hostname[100];
+    FSNode* root;
 };
 
 /*Global Variables*/
@@ -41,7 +47,8 @@ struct FSNode {
 // extern FSNode* current;
 
 //functions
-void system_setup(FSNode* root);
+void system_setup(FileSystem* system);
+void root_setup(FSNode* root);
 void create_node();
 void delete_node();
 void set_current();

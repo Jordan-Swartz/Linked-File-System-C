@@ -16,21 +16,19 @@
 #include "file_operation.h"
 
 int main(void) {
-    //prompt if they want to load existing system or create a new one
+    //create and initialize system
+    FileSystem system;
+    system_load(&system);
 
-    //create root
-    FSNode root;
-    FSNode* current = &root;
-
-    //initialize new system
-    system_load(&root); //pass in address of root
+    //set current to system root
+    FSNode* current = system.root;
 
     //test
     create_node(current);
     create_node(current);
     create_node(current);
 
-    // display_current_path();
+    display_current_path(&system, current);
 
     char input;
 
@@ -45,12 +43,12 @@ int main(void) {
 /**
  *
  */
-void system_load(FSNode* root) {
+void system_load(FileSystem* system) {
     //open system file to read
     FILE* file = fopen("", "r");
 
     if (file == NULL) {
-        system_setup(root);
+        system_setup(system);
         return;
     }
 
@@ -69,25 +67,27 @@ void system_save() {
 /**
  *
  */
-// void display_current_path() {
-//     FSNode* iter = current;
-//     char path[1024] = "";  // Path buffer to store the full path
-//     char temp[256];        // Temporary buffer for each directory name
-//
-//     // Traverse upwards from the current node to the root
-//     while (iter != NULL) {
-//         // Prepend the current directory name to the path
-//         sprintf(temp, "/%s", iter->name);
-//         strcat(temp, path);  // Append the current node to the path
-//         strcpy(path, temp);  // Copy back the new path
-//
-//         // Move to the parent node (go upwards)
-//         iter = iter->parent;
-//     }
-//
-//     // Print the full path
-//     printf("%s\n", path);
-// }
+void display_current_path(const FileSystem* system, FSNode* current) {
+    FSNode* iter = current;
+
+    //path hostname
+    char path[1024] = "";
+    strcpy(path, system->hostname);
+    strcat(path, "~$");
+
+    //create path starting at root
+    while (iter != NULL) {
+        strcat(path, "/");
+        strcat(path, iter->name);
+        iter = iter->next;
+    }
+
+    //display path
+    strcat(path, "$");
+    printf("%s", path);
+
+    //FIX ME: GO FROM CURRENT TO ROOT NOT REVERSE
+}
 
 
 

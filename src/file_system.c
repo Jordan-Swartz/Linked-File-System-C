@@ -15,14 +15,25 @@
 
 #include "file_system.h"
 
-// FSNode* root = NULL;
-// FSNode* current = NULL;
-// FSNode* previous = NULL;
 
 /**
  *
  */
-void system_setup(FSNode* root) {
+void system_setup(FileSystem* system) {
+    //set up system
+    printf("Enter system name: ");
+    scanf("%s", system->hostname);
+    strcat(system->hostname, "@JDS:");
+
+    //allocate memory for root node and initialize
+    system->root = (FSNode*)malloc(sizeof(FSNode));
+    root_setup(system->root);
+}
+
+/**
+ *
+ */
+void root_setup(FSNode* root) {
     //set up root
     printf("Enter root name: ");
     scanf("%s", root->name);
@@ -34,7 +45,6 @@ void system_setup(FSNode* root) {
     root->previous = NULL;
     root->parent = NULL;
     printf("Root directory %s initialized.\n", root->name);
-
 }
 
 /**
