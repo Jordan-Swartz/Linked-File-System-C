@@ -122,7 +122,7 @@ void delete_node() {
 
 //TEST DELETE ME
 void set_current() {
-
+    //test
 }
 
 
