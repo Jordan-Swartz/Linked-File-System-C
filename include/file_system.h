@@ -19,14 +19,15 @@ typedef enum {
 
 //permissions
 typedef enum {
-    r___,
-    r_w_,
-    r_w_e
+    Read,
+    Read_Write,
+    Read_Write_Execute
 } Permissions;
 
 //file node
 struct FSNode {
     char name[100];
+    char owner[100];
     NodeType type;
     Permissions permissions;
     int size;
@@ -38,18 +39,18 @@ struct FSNode {
 
 struct FileSystem {
     char hostname[100];
+    char host_signature[100];
     FSNode* root;
 };
 
 /*Global Variables*/
-//root and current
-// extern FSNode* root;
-// extern FSNode* current;
+extern const char* NodeTypeNames[];
+extern const char* PermissionsNames[];
 
 //functions
 void system_setup(FileSystem* system);
-void root_setup(FSNode* root);
-void create_node();
+void root_setup(FileSystem* system, FSNode* root);
+void create_node(FileSystem* system, FSNode* current);
 void delete_node();
 void set_current();
 

@@ -15,6 +15,9 @@
 
 #include "file_system.h"
 
+/*Global Variables*/
+const char* NodeTypeNames[] = {"D", "F"};
+const char* PermissionsNames[] = {"R____", "R_W__", "R_W_E"};
 
 /**
  *
@@ -23,22 +26,24 @@ void system_setup(FileSystem* system) {
     //set up system
     printf("Enter system name: ");
     scanf("%s", system->hostname);
-    strcat(system->hostname, "@JDS:");
+    strcpy(system->host_signature, system->hostname);
+    strcat(system->host_signature, "@JDS:");
 
     //allocate memory for root node and initialize
     system->root = (FSNode*)malloc(sizeof(FSNode));
-    root_setup(system->root);
+    root_setup(system, system->root);
 }
 
 /**
  *
  */
-void root_setup(FSNode* root) {
+void root_setup(FileSystem* system, FSNode* root) {
     //set up root
     printf("Enter root name: ");
     scanf("%s", root->name);
+    strcpy(root->owner, system->hostname);
     root->type = Directory;
-    root->permissions = r_w_e;
+    root->permissions = Read_Write;
     root->size = 0;
     root->child_head = NULL;
     root->next = NULL;
@@ -50,7 +55,7 @@ void root_setup(FSNode* root) {
 /**
  *
  */
-void create_node(FSNode* current) {
+void create_node(FileSystem* system, FSNode* current) {
     //check current directory type
     if (current->type == File) {
         printf("Error: Cannot create a new node inside a file.");
@@ -66,7 +71,8 @@ void create_node(FSNode* current) {
     printf("What type of node would you like to create? (Directory=0, File=1) ");
     scanf("%u", &new_node->type);
 
-    new_node->permissions = r_w_e;
+    strcpy(new_node->owner, system->hostname);
+    new_node->permissions = Read_Write;
     new_node->child_head = NULL;
     new_node->next = NULL;
     new_node->previous = NULL;
@@ -76,6 +82,7 @@ void create_node(FSNode* current) {
     if (current->child_head == NULL) {
         current->child_head = new_node;
         printf("New node added.\n");
+        current->size++;
         return;
     }
 
@@ -120,7 +127,9 @@ void create_node(FSNode* current) {
     //insert at end
     iter->next = new_node;
     new_node->previous = iter;
+    current->size++;
     printf("New node added at the end.\n");
+
 }
 
 /**
