@@ -37,7 +37,7 @@ void system_setup(FileSystem* system) {
 /**
  *
  */
-void root_setup(FileSystem* system, FSNode* root) {
+void root_setup(const FileSystem* system, FSNode* root) {
     //set up root
     printf("Enter root name: ");
     scanf("%s", root->name);
@@ -55,23 +55,15 @@ void root_setup(FileSystem* system, FSNode* root) {
 /**
  *
  */
-void create_node(FileSystem* system, FSNode* current) {
-    //check current directory type
-    if (current->type == File) {
-        printf("Error: Cannot create a new node inside a file.");
-        return;
-    }
-
+void create_node(const FileSystem* system, FSNode* current, const char* name,
+                 const int type) {
     //create node
     FSNode* new_node = (FSNode*)malloc(sizeof(FSNode));
 
     //populate attributes
-    printf("Enter new node name: ");
-    scanf("%s", new_node->name);
-    printf("What type of node would you like to create? (Directory=0, File=1) ");
-    scanf("%u", &new_node->type);
-
+    strcpy(new_node->name, name);
     strcpy(new_node->owner, system->hostname);
+    new_node->type = type;
     new_node->permissions = Read_Write;
     new_node->child_head = NULL;
     new_node->next = NULL;
@@ -81,7 +73,7 @@ void create_node(FileSystem* system, FSNode* current) {
     //add to front of current->child_head list if empty
     if (current->child_head == NULL) {
         current->child_head = new_node;
-        printf("New node added.\n");
+        printf("New node %s added.\n", name);
         current->size++;
         return;
     }
@@ -107,7 +99,7 @@ void create_node(FileSystem* system, FSNode* current) {
 
             //link iter previous to new node
             iter->previous = new_node;
-            printf("New node added.\n");
+            printf("New node %s added.\n", name);
             return;
 
         } else if (strcmp(iter->name, new_node->name) == 0) {
@@ -128,7 +120,7 @@ void create_node(FileSystem* system, FSNode* current) {
     iter->next = new_node;
     new_node->previous = iter;
     current->size++;
-    printf("New node added at the end.\n");
+    printf("New node %s added.\n", name);
 
 }
 
@@ -139,10 +131,61 @@ void delete_node() {
 
 }
 
+/**
+ * pwd move to file_system
+ */
+void display_current_path(const FileSystem* system, const FSNode* current) {
+    char path[1024] = "$";
+    char temp[100] = "";
+    FSNode* iter = current;
+
+    //create path starting from current and traversing up to the root
+    while (iter != NULL) {
+        sprintf(temp,"/%s%s", iter->name, path);
+        strcpy(path, temp);
+        iter = iter->parent;
+    }
+
+    //append system name to front of path
+    sprintf(temp, "%s~%s", system->host_signature, path);
+    strcpy(path, temp);
+
+    //display path
+    printf("%s ", path);
+    fflush(stdout);
+}
+
+/**
+ * ls -la move to file_system
+ */
+void display_directory_nodes(const FileSystem* system, const FSNode* current) {
+    FSNode* iter = current->child_head;
+
+    //display size
+    printf("size: %d\n", current->size);
+
+    while (iter != NULL) {
+        printf("%s_%s %d %s %s\n", NodeTypeNames[iter->type], PermissionsNames[iter->permissions],
+            iter->size, system->hostname, iter->name);
+        iter = iter->next;
+    }
+}
+
+void change_directory(FSNode* current) {
+    //check current directory type
+    if (current->type == File) {
+        printf("Error: Cannot create a new node inside a file.");
+        return;
+    }
+
+}
+
 //TEST DELETE ME
 void set_current() {
     //test
 }
+
+
 
 
 

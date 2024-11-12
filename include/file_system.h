@@ -12,17 +12,10 @@ typedef struct FSNode FSNode;
 typedef struct FileSystem FileSystem;
 
 //node type
-typedef enum {
-    Directory,
-    File
-} NodeType;
+typedef enum { Directory, File } NodeType;
 
 //permissions
-typedef enum {
-    Read,
-    Read_Write,
-    Read_Write_Execute
-} Permissions;
+typedef enum { Read, Read_Write, Read_Write_Execute } Permissions;
 
 //file node
 struct FSNode {
@@ -49,9 +42,12 @@ extern const char* PermissionsNames[];
 
 //functions
 void system_setup(FileSystem* system);
-void root_setup(FileSystem* system, FSNode* root);
-void create_node(FileSystem* system, FSNode* current);
+void root_setup(const FileSystem* system, FSNode* root);
+void create_node(const FileSystem* system, FSNode* current, const char* name, const int type);
 void delete_node();
+void display_current_path(const FileSystem* system, const FSNode* current);
+void display_directory_nodes(const FileSystem* system, const FSNode* current);
+void change_directory();
 void set_current();
 
 #endif //FILE_SYSTEM_H

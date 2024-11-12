@@ -5,11 +5,12 @@
 #ifndef UI_H
 #define UI_H
 
+#include "file_system.h"
 
-void system_load();
-void system_save();
-void collect_input_command();
-void display_current_path();
-void display_directory_nodes();
+//return status
+typedef enum { Success, Error, Exit } InputReturn;
+
+void display_menu();
+int process_input_command(const FileSystem* system, FSNode* current);
 
 #endif //UI_H

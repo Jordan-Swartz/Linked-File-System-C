@@ -6,7 +6,6 @@
  *
  */
 
-#include <stdlib.h>		//standard lib
 #include <stdio.h>		//I/O features
 #include <string.h>		//String lib
 
@@ -17,104 +16,103 @@
 
 
 int main(void) {
+    //load menu
+    load_menu();
+
     //create and initialize system
     FileSystem system;
     system_load(&system);
 
     //set current to system root
     FSNode* current = system.root;
-    display_directory_nodes(&system, current);
 
-    //test
-    create_node(&system, current);
-    create_node(&system, current);
-    create_node(&system, current);
+    //clear buffer before processing input
+    int ch;
+    while ((ch = getchar()) != '\n' && ch != EOF);
 
-    display_current_path(&system, current);
-    display_directory_nodes(&system, current);
-
-
-    //collect input command
-    char input;
-
+    //process input
     do {
+        display_menu();
+    } while (process_input_command(&system, current) != Exit);
 
-    } while (input != 'q');
-
-    system_save();
+    //save system state, free memory and end program
+    system_save(&system);
+    free_menu();
     return 0;
 }
 
 /**
  *
  */
-void system_load(FileSystem* system) {
-    //open system file to read
-    FILE* file = fopen("", "r");
-
-    if (file == NULL) {
-        system_setup(system);
-        return;
-    }
-
-    fclose(file);
-}
-
-/**
- *
- */
-void system_save() {
-    //open system file to write
-    FILE* file = fopen("", "w");
-    fclose(file);
-}
-
-/**
- *
- */
-void collect_input_command() {
-
-}
-
-/**
- *
- */
-void display_current_path(const FileSystem* system, FSNode* current) {
-    char path[1024] = "$";
-    char temp[100] = "";
-    FSNode* iter = current;
-
-    //create path starting from current and traversing up to the root
-    while (iter != NULL) {
-        sprintf(temp,"/%s%s", iter->name, path);
-        strcpy(path, temp);
-        iter = iter->parent;
-    }
-
-    //append system name to front of path
-    sprintf(temp, "%s~%s", system->host_signature, path);
-    strcpy(path, temp);
-
-    //display path
-    printf("%s\n", path);
-    fflush(stdout);
-}
-
-/**
- *
- */
-void display_directory_nodes(const FileSystem* system, FSNode* current) {
-    FSNode* iter = current->child_head;
-
-    //display size
-    printf("size: %d\n", current->size);
-
-    while (iter != NULL) {
-        printf("%s_%s %d %s %s\n", NodeTypeNames[iter->type], PermissionsNames[iter->permissions],
-            iter->size, system->hostname, iter->name);
-        iter = iter->next;
+void display_menu() {
+    if (menu_content != NULL) {
+        printf("\n%s\n", menu_content);
+    } else {
+        printf("Error: menu content not loaded\n");
     }
 }
+
+/**
+ *
+ */
+int process_input_command(const FileSystem* system, FSNode* current) {
+    //commands list:
+
+    //display current path
+    display_current_path(system, current);
+
+    /////collect input
+    char input_str[1024];
+    fgets(input_str, sizeof(input_str), stdin);
+    input_str[strcspn(input_str, "\n")] = 0;
+
+    //parse command and arg
+    char* command = strtok(input_str, " ");
+    char* argument = strtok(NULL, " ");
+
+    //process make directory
+    if (strcmp(command, "mkdir") == 0) {
+        if (argument != NULL) {
+            create_node(system, current, argument, Directory);
+            return Success;
+
+        } else {
+            printf("\nError: '%s' missing argument\n", command);
+            return Error;
+        }
+
+    }
+    //process display current path
+    else if (strcmp(command, "pwd") == 0) {
+        display_current_path(system, current);
+        printf("\n");
+        return Success;
+
+    }
+    //process display directory contents
+    else if (strcmp(command, "ls") == 0)  {
+        if (argument != NULL) {
+            printf("bop :P");
+        } else {
+            display_directory_nodes(system, current);
+            // printf("\n");
+        }
+        return Success;
+
+    }
+    //process exit system
+    else if (strcmp(command, "exit") == 0)  {
+        return Exit;
+
+    }
+    //process unknown command
+    else {
+        printf("\nError: '%s' command not found\n", command);
+        return Error;
+    }
+}
+
+
 
 
 
