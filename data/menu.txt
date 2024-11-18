@@ -12,6 +12,6 @@ rn <old_name> <new_name>    - renames a file or directory
 chmod <permissions> <file>  - changes permissions for a file (e.g., "chmod 755 myfile")
 cp <source> <destination>   - copies a file or directory to a new location
 find <name>                 - searches for a given file or directory name in the current directory
-exit                        - exits the system
 history                     - displays the command history for the session
 cat <file_name>             - displays the contents of a file
+exit                        - exits the system

@@ -15,7 +15,7 @@
 #include "file_operation.h"
 
 
-int main(void) {
+int main(int argc, char* argv) {
     //load menu
     load_menu();
 
@@ -29,10 +29,11 @@ int main(void) {
     //clear buffer before processing input
     int ch;
     while ((ch = getchar()) != '\n' && ch != EOF);
+    display_menu();
 
     //process input
     do {
-        display_menu();
+        //display_menu();
     } while (process_input_command(&system, current) != Exit);
 
     //save system state, free memory and end program
@@ -56,25 +57,47 @@ void display_menu() {
  *
  */
 int process_input_command(const FileSystem* system, FSNode* current) {
-    //commands list:
-
     //display current path
     display_current_path(system, current);
 
     /////collect input
     char input_str[1024];
-    fgets(input_str, sizeof(input_str), stdin);
-    input_str[strcspn(input_str, "\n")] = 0;
+    fgets(input_str, sizeof(input_str), stdin);      //get entire line
+    input_str[strcspn(input_str, "\n")] = 0;    //remove newline char
 
     //parse command and arg
     char* command = strtok(input_str, " ");
     char* argument = strtok(NULL, " ");
+    char* argument2 = strtok(NULL, " ");
 
     //process make directory
     if (strcmp(command, "mkdir") == 0) {
         if (argument != NULL) {
             create_node(system, current, argument, Directory);
             return Success;
+
+        } else {
+            printf("\nError: '%s' missing argument\n", command);
+            return Error;
+        }
+
+    }
+    //process make file
+    else if (strcmp(command, "touch") == 0) {
+        if (argument != NULL) {
+            create_node(system, current, argument, File);
+            return Success;
+
+        } else {
+            printf("\nError: '%s' missing argument\n", command);
+            return Error;
+        }
+
+    }
+    //process delete file or directory
+    else if (strcmp(command, "rm") == 0) {
+        if (argument != NULL) {
+
 
         } else {
             printf("\nError: '%s' missing argument\n", command);
@@ -89,15 +112,57 @@ int process_input_command(const FileSystem* system, FSNode* current) {
         return Success;
 
     }
+    //process changing directory
+    else if (strcmp(command, "cd") == 0) {
+        if (argument != NULL) {
+            char temp[256];
+            int i = 0;
+
+            while (argument[i] != '\0') {
+                if (argument[i] == '/') {
+
+                }
+                i++;
+            }
+
+
+        } else {
+            printf("\nError: '%s' missing argument\n", command);
+            return Error;
+        }
+
+    }
     //process display directory contents
     else if (strcmp(command, "ls") == 0)  {
         if (argument != NULL) {
+            //parse arg to change to directory and then display its contents
             printf("bop :P");
+
         } else {
             display_directory_nodes(system, current);
             // printf("\n");
         }
         return Success;
+
+    }
+    //process move file or directory
+    else if (strcmp(command, "mv") == 0) {
+        if (argument != NULL || argument2 != NULL) {
+
+        } else {
+            printf("\nError: '%s' missing argument\n", command);
+            return Error;
+        }
+
+    }
+    //process rename file or directory
+    else if (strcmp(command, "mv") == 0) {
+        if (argument != NULL || argument2 != NULL) {
+
+        } else {
+            printf("\nError: '%s' missing argument\n", command);
+            return Error;
+        }
 
     }
     //process exit system
@@ -111,6 +176,11 @@ int process_input_command(const FileSystem* system, FSNode* current) {
         return Error;
     }
 }
+
+char* parse_relative_path() {
+
+}
+
 
 
 

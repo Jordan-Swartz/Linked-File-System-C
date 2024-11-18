@@ -12,5 +12,6 @@ typedef enum { Success, Error, Exit } InputReturn;
 
 void display_menu();
 int process_input_command(const FileSystem* system, FSNode* current);
+void parse_relative_path();
 
 #endif //UI_H
