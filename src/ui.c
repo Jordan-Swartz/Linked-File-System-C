@@ -121,6 +121,7 @@ int process_input_command(const FileSystem* system, FSNode* current) {
             while (argument[i] != '\0') {
                 if (argument[i] == '/') {
                     //TODO finish method
+                    //
                 }
                 i++;
             }
