@@ -132,14 +132,23 @@ int process_input_command(const FileSystem* system, FSNode* current) {
 
         //process change to root '~'
         if (argument[0] == '~') {
-            //FIXME
-            change_directory(current, system->root->name);
+            while (strcmp(current->name, system->root->name) != 0) {
+                change_directory_backward(&current);
+            }
             return Success;
         }
 
         //process change to previous '..'
+        if (strcmp(argument, "..") == 0) {
+            if (strcmp(current->name, system->root->name) == 0) {
+                printf("Error: Already at the root directory.");
+                return Error;
+            }
+            change_directory_backward(&current);
+            return Success;
+        }
 
-        //parse and process change
+        //parse and process forward change
         char temp[256];
         int i = 0;
         int temp_index = 0;
@@ -150,7 +159,7 @@ int process_input_command(const FileSystem* system, FSNode* current) {
                 //process temp
                 //if temp process is success:
                 //skip to next char, reset temp and index;
-                if (change_directory(current, temp) != Error) {
+                if (change_directory_forward(current, temp) != Error) {
                     temp[0] = '\0';
                     temp_index = 0;
                 } else {
@@ -163,14 +172,6 @@ int process_input_command(const FileSystem* system, FSNode* current) {
                 temp_index++;
             }
             i++;
-        }
-
-        //FIXME
-        //handle single directory change
-        if (change_directory(current, temp) != Error) {
-            return Success;
-        } else {
-
         }
     }
 

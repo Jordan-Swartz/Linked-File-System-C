@@ -98,3 +98,6 @@
 5	228	1731902561807778770	CMakeFiles/LinkedFS.dir/src/ui.c.o	458c0197f62f193e
 230	293	1731902562032891269	LinkedFS	9e3ca6e5a1b51cfe
 4	203	1732421815643426549	CMakeFiles/LinkedFS.dir/src/file_operation.c.o	b5d45f56a5ffbc18
+17	266	1732479786981921518	CMakeFiles/LinkedFS.dir/src/file_operation.c.o	b5d45f56a5ffbc18
+26	267	1732479786992927018	CMakeFiles/LinkedFS.dir/src/file_system.c.o	e957a8f51b5623ba
+267	310	1732479787220040519	CMakeFiles/LinkedFS.dir/src/memory_management.c.o	3864b6e4887ccd8b

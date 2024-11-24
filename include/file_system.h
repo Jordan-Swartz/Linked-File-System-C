@@ -47,7 +47,8 @@ void create_node(const FileSystem* system, FSNode* current, const char* name, co
 void delete_node();
 void display_current_path(const FileSystem* system, const FSNode* current);
 void display_directory_nodes(const FileSystem* system, const FSNode* current);
-int change_directory();
+int change_directory_forward();
+void change_directory_backward();
 void set_current();
 
 #endif //FILE_SYSTEM_H

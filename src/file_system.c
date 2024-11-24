@@ -15,6 +15,8 @@
 
 #include "file_system.h"
 
+#include <ui.h>
+
 /*Global Variables*/
 const char* NodeTypeNames[] = {"D", "F"};
 const char* PermissionsNames[] = {"R____", "R_W__", "R_W_E"};
@@ -171,18 +173,25 @@ void display_directory_nodes(const FileSystem* system, const FSNode* current) {
     }
 }
 
-int change_directory(FSNode* current, char* change_to) {
-    //check current directory type
-    if (current->type == File) {
-        printf("Error: Cannot create a new node inside a file.");
-        return;
-    }
-
+int change_directory_forward(FSNode** current, char* change_to) {
     //binary search with early termination since contents are alphabetical
     int middle = (int)(current->size / 2);
         //binary search to find node with same name as change_to in list
         //return error if not found
         //change current to found node and return success
+
+    //if match is a file error
+    if (current->type == File) {
+        printf("Error: %s is not a directory.", change_to);
+        return Error;
+    }
+
+    current = changeto;
+    return Success;
+}
+
+void change_directory_backward(FSNode** current) {
+    (*current) = (*current)->parent;
 }
 
 //TEST DELETE ME
