@@ -18,17 +18,24 @@ char* menu_content = NULL;
 /**
  *
  */
-void system_load(FileSystem* system) {
+void system_load(FileSystem* system, const char* existing_system) {
     //open system file to read
-    FILE* file = fopen("", "r");
+    FILE* file = fopen(existing_system, "r");
 
-    if (file == NULL) {
+    //get file size
+    fseek(file, 0, SEEK_END);
+    long file_size = ftell(file);
+    rewind(file);
+
+    //if file is empty create new system
+    if (file_size == 0) {
         system_setup(system);
         return;
     }
 
+    //load existing system
+
     fclose(file);
-    ///
 }
 
 /**

@@ -21,7 +21,14 @@ int main(int argc, char* argv) {
 
     //create and initialize system
     FileSystem system;
-    system_load(&system);
+
+    if (argc == 2) {
+        char* existing_system = (char*)argv[1];
+        system_load(&system, existing_system);
+    } else {
+        printf("Error: missing file for system\n");
+        return Error;
+    }
 
     //set current to system root
     FSNode* current = system.root;
@@ -80,8 +87,8 @@ int process_input_command(const FileSystem* system, FSNode* current) {
             printf("\nError: '%s' missing argument\n", command);
             return Error;
         }
-
     }
+
     //process make file
     else if (strcmp(command, "touch") == 0) {
         if (argument != NULL) {
@@ -92,85 +99,121 @@ int process_input_command(const FileSystem* system, FSNode* current) {
             printf("\nError: '%s' missing argument\n", command);
             return Error;
         }
-
     }
+
     //process delete file or directory
     else if (strcmp(command, "rm") == 0) {
         if (argument != NULL) {
-
+            //TODO finish method
 
         } else {
             printf("\nError: '%s' missing argument\n", command);
             return Error;
         }
-
     }
+
     //process display current path
     else if (strcmp(command, "pwd") == 0) {
         display_current_path(system, current);
         printf("\n");
         return Success;
-
     }
+
     //process changing directory
     else if (strcmp(command, "cd") == 0) {
-        if (argument != NULL) {
-            char temp[256];
-            int i = 0;
-
-            while (argument[i] != '\0') {
-                if (argument[i] == '/') {
-                    //TODO finish method
-                    //
-                }
-                i++;
-            }
-
-
-        } else {
+        //check for argument errors
+        if (argument2 != NULL) {
+            printf("\nError: '%s' too many arguments\n", command);
+            return Error;
+        } else if (argument == NULL) {
             printf("\nError: '%s' missing argument\n", command);
             return Error;
         }
 
+        //process change to root '~'
+        if (argument[0] == '~') {
+            //FIXME
+            change_directory(current, system->root->name);
+            return Success;
+        }
+
+        //process change to previous '..'
+
+        //parse and process change
+        char temp[256];
+        int i = 0;
+        int temp_index = 0;
+
+        while (argument[i] != '\0') {
+            if (argument[i] == '/') {
+                //TODO finish method
+                //process temp
+                //if temp process is success:
+                //skip to next char, reset temp and index;
+                if (change_directory(current, temp) != Error) {
+                    temp[0] = '\0';
+                    temp_index = 0;
+                } else {
+                    printf("\nError: No such file or directory\n");
+                    return Error;
+                }
+            } else {
+                //append char to buffer
+                temp[temp_index] = argument[i];
+                temp_index++;
+            }
+            i++;
+        }
+
+        //FIXME
+        //handle single directory change
+        if (change_directory(current, temp) != Error) {
+            return Success;
+        } else {
+
+        }
     }
+
     //process display directory contents
     else if (strcmp(command, "ls") == 0)  {
         if (argument != NULL) {
             //parse arg to change to directory and then display its contents
-            printf("bop :P");
+            //TODO finish method
 
         } else {
             display_directory_nodes(system, current);
             // printf("\n");
         }
         return Success;
-
     }
+
     //process move file or directory
     else if (strcmp(command, "mv") == 0) {
         if (argument != NULL || argument2 != NULL) {
+            //TODO finish method
 
         } else {
             printf("\nError: '%s' missing argument\n", command);
             return Error;
         }
-
     }
+
     //process rename file or directory
     else if (strcmp(command, "mv") == 0) {
         if (argument != NULL || argument2 != NULL) {
+            //TODO finish method
 
         } else {
             printf("\nError: '%s' missing argument\n", command);
             return Error;
         }
-
     }
+
     //process exit system
     else if (strcmp(command, "exit") == 0)  {
         return Exit;
-
     }
+
     //process unknown command
     else {
         printf("\nError: '%s' command not found\n", command);

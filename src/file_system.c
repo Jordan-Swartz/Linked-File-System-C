@@ -171,13 +171,18 @@ void display_directory_nodes(const FileSystem* system, const FSNode* current) {
     }
 }
 
-void change_directory(FSNode* current) {
+int change_directory(FSNode* current, char* change_to) {
     //check current directory type
     if (current->type == File) {
         printf("Error: Cannot create a new node inside a file.");
         return;
     }
 
+    //binary search with early termination since contents are alphabetical
+    int middle = (int)(current->size / 2);
+        //binary search to find node with same name as change_to in list
+        //return error if not found
+        //change current to found node and return success
 }
 
 //TEST DELETE ME

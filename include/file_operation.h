@@ -8,7 +8,7 @@
 /*Global Variables*/
 extern char* menu_content;
 
-void system_load(FileSystem* system);
+void system_load(FileSystem* system, const char* existing_system);
 void system_save(FileSystem* system);
 void load_menu();
 void free_menu();
