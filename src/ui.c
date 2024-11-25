@@ -45,7 +45,7 @@ int main(int argc, char* argv) {
     //process input
     do {
         //display_menu();
-    } while (process_input_command(&system, current) != Exit);
+    } while (process_input_command(&system, &current) != Exit);
 
     //save system state, free memory and end program
     system_save(&system);
@@ -67,9 +67,9 @@ void display_menu() {
 /**
  *
  */
-int process_input_command(const FileSystem* system, FSNode* current) {
+int process_input_command(const FileSystem* system, FSNode** current) {
     //display current path
-    display_current_path(system, current);
+    display_current_path(system, (*current));
 
     /////collect input
     char input_str[1024];
@@ -84,7 +84,7 @@ int process_input_command(const FileSystem* system, FSNode* current) {
     //process make directory
     if (strcmp(command, "mkdir") == 0) {
         if (argument != NULL) {
-            create_node(system, current, argument, Directory);
+            create_node(system, (*current), argument, Directory);
             return Success;
 
         } else {
@@ -96,7 +96,7 @@ int process_input_command(const FileSystem* system, FSNode* current) {
     //process make file
     else if (strcmp(command, "touch") == 0) {
         if (argument != NULL) {
-            create_node(system, current, argument, File);
+            create_node(system, (*current), argument, File);
             return Success;
 
         } else {
@@ -118,7 +118,7 @@ int process_input_command(const FileSystem* system, FSNode* current) {
 
     //process display current path
     else if (strcmp(command, "pwd") == 0) {
-        display_current_path(system, current);
+        display_current_path(system, (*current));
         printf("\n");
         return Success;
     }
@@ -136,7 +136,7 @@ int process_input_command(const FileSystem* system, FSNode* current) {
 
         //process change to root '~'
         if (argument[0] == '~') {
-            while (strcmp(current->name, system->root->name) != 0) {
+            while (strcmp((*current)->name, system->root->name) != 0) {
                 change_directory_backward(&current);
             }
             return Success;
@@ -144,7 +144,7 @@ int process_input_command(const FileSystem* system, FSNode* current) {
 
         //process change to previous '..'
         if (strcmp(argument, "..") == 0) {
-            if (strcmp(current->name, system->root->name) == 0) {
+            if (strcmp((*current)->name, system->root->name) == 0) {
                 printf("Error: Already at the root directory.");
                 return Error;
             }
@@ -174,6 +174,11 @@ int process_input_command(const FileSystem* system, FSNode* current) {
             }
             i++;
         }
+
+        //process single directory change
+        if (change_directory_forward(&current, temp) == Error) {
+            printf("\nError: No such file or directory\n");
+        }
     }
 
     //process display directory contents
@@ -184,7 +189,7 @@ int process_input_command(const FileSystem* system, FSNode* current) {
             //refactor parsing in change directoryu method to helper
 
         } else {
-            display_directory_nodes(system, current);
+            display_directory_nodes(system, (*current));
             // printf("\n");
         }
         return Success;

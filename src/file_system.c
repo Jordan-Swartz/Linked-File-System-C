@@ -178,7 +178,7 @@ int change_directory_forward(FSNode** current, char* change_to_name) {
 
     //traverse list for match
     FSNode* iter = (*current)->child_head;
-    while (iter != NULL && iter->name[0] > change_to_name[0]) {
+    while (iter != NULL && iter->name[0] <= change_to_name[0]) {
         if (strcmp(iter->name, change_to_name) == 0) {
             change_to_node = iter;
             break;
@@ -187,8 +187,12 @@ int change_directory_forward(FSNode** current, char* change_to_name) {
         }
     }
 
+    //FIXME
+    //DOUBLE POINTER ISSUE
+
     //return if no node found or match is a file error
     if (change_to_node == NULL) {
+        printf("No match found\n");
         return Error;
     }
     else if (change_to_node->type == File) {
@@ -197,6 +201,7 @@ int change_directory_forward(FSNode** current, char* change_to_name) {
     }
 
     //change current
+    printf("Match found\n");
     set_current(current, change_to_node);
     return Success;
 }
