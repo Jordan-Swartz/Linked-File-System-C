@@ -22,20 +22,24 @@ int main(int argc, char* argv) {
     //create and initialize system
     FileSystem system;
 
-    if (argc == 2) {
-        char* existing_system = (char*)argv[1];
-        system_load(&system, existing_system);
-    } else {
-        printf("Error: missing file for system\n");
-        return Error;
-    }
+    // if (argc == 2) {
+    //     char* existing_system = (char*)argv[1];
+    //     system_load(&system, existing_system);
+    // } else {
+    //     printf("Error: missing file for system\n");
+    //     return Error;
+    // }
+
+    //TEST
+    char* existing_system = "../data/test.txt";
+    system_load(&system, existing_system);
 
     //set current to system root
     FSNode* current = system.root;
 
     //clear buffer before processing input
     int ch;
-    while ((ch = getchar()) != '\n' && ch != EOF);
+    while ((ch = getchar()) != '\n' && ch != Error);
     display_menu();
 
     //process input
@@ -155,11 +159,8 @@ int process_input_command(const FileSystem* system, FSNode* current) {
 
         while (argument[i] != '\0') {
             if (argument[i] == '/') {
-                //TODO finish method
-                //process temp
-                //if temp process is success:
-                //skip to next char, reset temp and index;
-                if (change_directory_forward(current, temp) != Error) {
+                //change current to directory stored in buffer
+                if (change_directory_forward(&current, temp) != Error) {
                     temp[0] = '\0';
                     temp_index = 0;
                 } else {
@@ -180,6 +181,7 @@ int process_input_command(const FileSystem* system, FSNode* current) {
         if (argument != NULL) {
             //parse arg to change to directory and then display its contents
             //TODO finish method
+            //refactor parsing in change directoryu method to helper
 
         } else {
             display_directory_nodes(system, current);
@@ -222,9 +224,9 @@ int process_input_command(const FileSystem* system, FSNode* current) {
     }
 }
 
-char* parse_relative_path() {
-
-}
+// char* parse_relative_path() {
+//
+// }
 
 
 

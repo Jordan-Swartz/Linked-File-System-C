@@ -173,20 +173,31 @@ void display_directory_nodes(const FileSystem* system, const FSNode* current) {
     }
 }
 
-int change_directory_forward(FSNode** current, char* change_to) {
-    //binary search with early termination since contents are alphabetical
-    int middle = (int)(current->size / 2);
-        //binary search to find node with same name as change_to in list
-        //return error if not found
-        //change current to found node and return success
+int change_directory_forward(FSNode** current, char* change_to_name) {
+    FSNode* change_to_node = NULL;
 
-    //if match is a file error
-    if (current->type == File) {
-        printf("Error: %s is not a directory.", change_to);
+    //traverse list for match
+    FSNode* iter = (*current)->child_head;
+    while (iter != NULL && iter->name[0] > change_to_name[0]) {
+        if (strcmp(iter->name, change_to_name) == 0) {
+            change_to_node = iter;
+            break;
+        } else {
+            iter = iter->next;
+        }
+    }
+
+    //return if no node found or match is a file error
+    if (change_to_node == NULL) {
+        return Error;
+    }
+    else if (change_to_node->type == File) {
+        printf("Error: %s is not a directory.\n", change_to_name);
         return Error;
     }
 
-    current = changeto;
+    //change current
+    set_current(current, change_to_node);
     return Success;
 }
 
@@ -194,9 +205,9 @@ void change_directory_backward(FSNode** current) {
     (*current) = (*current)->parent;
 }
 
-//TEST DELETE ME
-void set_current() {
-    //test
+
+void set_current(FSNode** current, FSNode* change_to_node) {
+    (*current) = change_to_node;
 }
 
 
