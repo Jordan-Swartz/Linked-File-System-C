@@ -83,6 +83,15 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process make directory
     if (strcmp(command, "mkdir") == 0) {
+    //FIXME
+
+
+
+    //handle case if arg has ' / '
+
+
+
+
         if (argument != NULL) {
             create_node(system, (*current), argument, Directory);
             return Success;
@@ -118,7 +127,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process display current path
     else if (strcmp(command, "pwd") == 0) {
-        display_current_path(system, (*current));
+        display_current_path(system, current);
         printf("\n");
         return Success;
     }
@@ -137,7 +146,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         //process change to root '~'
         if (argument[0] == '~') {
             while (strcmp((*current)->name, system->root->name) != 0) {
-                change_directory_backward(&current);
+                change_directory_backward(current);
             }
             return Success;
         }
@@ -148,7 +157,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
                 printf("Error: Already at the root directory.");
                 return Error;
             }
-            change_directory_backward(&current);
+            change_directory_backward(current);
             return Success;
         }
 
@@ -160,7 +169,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         while (argument[i] != '\0') {
             if (argument[i] == '/') {
                 //change current to directory stored in buffer
-                if (change_directory_forward(&current, temp) != Error) {
+                if (change_directory_forward(current, temp) != Error) {
                     temp[0] = '\0';
                     temp_index = 0;
                 } else {
@@ -176,7 +185,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         }
 
         //process single directory change
-        if (change_directory_forward(&current, temp) == Error) {
+        if (change_directory_forward(current, temp) == Error) {
             printf("\nError: No such file or directory\n");
         }
     }
@@ -186,7 +195,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         if (argument != NULL) {
             //parse arg to change to directory and then display its contents
             //TODO finish method
-            //refactor parsing in change directoryu method to helper
+            //refactor parsing in change directory method to helper
 
         } else {
             display_directory_nodes(system, (*current));

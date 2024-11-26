@@ -42,11 +42,11 @@ extern const char* PermissionsNames[];
 
 //functions
 void system_setup(FileSystem* system);
-void root_setup(const FileSystem* system, FSNode* root);
-void create_node(const FileSystem* system, FSNode* current, const char* name, const int type);
+void root_setup();
+void create_node();
 void delete_node();
-void display_current_path(const FileSystem* system, const FSNode* current);
-void display_directory_nodes(const FileSystem* system, const FSNode* current);
+void display_current_path();
+void display_directory_nodes();
 int change_directory_forward();
 void change_directory_backward();
 void set_current();
