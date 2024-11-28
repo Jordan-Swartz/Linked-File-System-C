@@ -8,7 +8,7 @@
 #include "file_system.h"
 
 //return status
-typedef enum { Success, Error, Exit } InputReturn;
+typedef enum { Success, Error, Error_File, Exit } InputReturn;
 
 void display_menu();
 int process_input_command();

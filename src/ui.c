@@ -154,7 +154,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         //process change to previous '..'
         if (strcmp(argument, "..") == 0) {
             if (strcmp((*current)->name, system->root->name) == 0) {
-                printf("Error: Already at the root directory.");
+                printf("Error: Already at the root directory.\n");
                 return Error;
             }
             change_directory_backward(current);
@@ -169,9 +169,13 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         while (argument[i] != '\0') {
             if (argument[i] == '/') {
                 //change current to directory stored in buffer
-                if (change_directory_forward(current, temp) != Error) {
+                int change_result = change_directory_forward(current, temp);
+                if (change_result == Success) {
                     temp[0] = '\0';
                     temp_index = 0;
+                } else if (change_result == Error_File) {
+                    printf("Error: %s is not a directory.\n", change_to_name);
+                    return Error;
                 } else {
                     printf("\nError: No such file or directory\n");
                     return Error;

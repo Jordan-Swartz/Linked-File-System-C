@@ -193,8 +193,7 @@ int change_directory_forward(FSNode** current, char* change_to_name) {
         return Error;
     }
     else if (change_to_node->type == File) {
-        printf("Error: %s is not a directory.\n", change_to_name);
-        return Error;
+        return Error_File;
     }
 
     //change current
