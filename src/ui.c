@@ -165,42 +165,63 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Success;
         }
 
-        //parse and process forward change
-        char temp[256] = {0};
-        int i = 0, temp_index = 0, change_result = -1;
+        // //parse and process forward change
+        // char temp[256] = {0};
+        // int i = 0, temp_index = 0, change_result = -1;
 
+        //parse argument
+        char** parsed_path = parse_relative_path(argument);
+        int i = 0, change_result = -1;;
 
-        while (argument[i] != '\0') {
-            if (argument[i] == '/') {
-                //change current to directory stored in buffer
-                change_result = change_directory_forward(current, temp);
-                if (change_result == Success) {
-                    temp[0] = '\0';
-                    temp_index = 0;
-                } else if (change_result == Error_File) {
-                    printf("Error: '%s' is not a directory.\n", temp);
-                    return Error;
-                } else {
-                    printf("\nError: '%s' -> No such file or directory\n", temp);
-                    return Error;
-                }
+        while (parsed_path[i] != NULL) {
+            change_result = change_directory_forward(current, parsed_path[i]);
+            if (change_result == Error_File) {
+                printf("Error: '%s' is not a directory.\n", parsed_path[i]);
+                free_relative_path(parsed_path);
+                return Error;
+            } else if (change_result == Error) {
+                printf("\nError: '%s' -> No such file or directory\n", parsed_path[i]);
+                free_relative_path(parsed_path);
+                return Error;
             } else {
-                //append char to buffer
-                temp[temp_index] = argument[i];
-                temp_index++;
+                i++;
             }
-            i++;
         }
+        free_relative_path(parsed_path);
+        return Success;
 
-        //process single directory change
-        change_result = change_directory_forward(current, temp);
-        if (change_result == Error_File) {
-            printf("Error: '%s' is not a directory.\n", temp);
-            return Error;
-        } else if (change_result == Error) {
-            printf("\nError: '%s' -> No such file or directory\n", temp);
-            return Error;
-        }
+
+        // while (argument[i] != '\0') {
+        //     if (argument[i] == '/') {
+        //         //change current to directory stored in buffer
+        //         change_result = change_directory_forward(current, temp);
+        //         if (change_result == Success) {
+        //             temp[0] = '\0';
+        //             temp_index = 0;
+        //         } else if (change_result == Error_File) {
+        //             printf("Error: '%s' is not a directory.\n", temp);
+        //             return Error;
+        //         } else {
+        //             printf("\nError: '%s' -> No such file or directory\n", temp);
+        //             return Error;
+        //         }
+        //     } else {
+        //         //append char to buffer
+        //         temp[temp_index] = argument[i];
+        //         temp_index++;
+        //     }
+        //     i++;
+        // }
+        //
+        // //process single directory change
+        // change_result = change_directory_forward(current, temp);
+        // if (change_result == Error_File) {
+        //     printf("Error: '%s' is not a directory.\n", temp);
+        //     return Error;
+        // } else if (change_result == Error) {
+        //     printf("\nError: '%s' -> No such file or directory\n", temp);
+        //     return Error;
+        // }
 
     }
 
@@ -253,7 +274,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 }
 
 //return array of parsed strings
-char** parse_relative_path(char* argument) {
+char** parse_relative_path(const char* argument) {
     char temp[256];
     int i = 0, temp_index = 0, arr_index = 0;
 
@@ -262,22 +283,49 @@ char** parse_relative_path(char* argument) {
 
     while (argument[i] != '\0') {
         if (argument[i] == '/') {
+            //add null char
+            temp[temp_index] = '\0';
 
-            char* string = (char*)malloc(i);
-            strcpy(string, temp);
-            strcpy(parsed_path[arr_index], string);
+            //allocate memory for and copy temp to substring
+            char* substring = (char*)malloc(temp_index + 1);
+            strcpy(substring, temp);
+
+            //add substring to array, reset buffer index, and clear buffer
+            parsed_path[arr_index] = substring;
             arr_index++;
-
+            temp_index = 0;
+            memset(temp, 0, sizeof(temp));
         } else {
+            //add next char to buffer
             temp[temp_index] = argument[i];
             temp_index++;
         }
         i++;
     }
 
+    //handle final substring if needed
+    if (temp_index > 0) {
+        temp[temp_index] = '\0';
+        char* substring = (char*)malloc(temp_index + 1);
+        strcpy(substring, temp);
+        parsed_path[arr_index] = substring;
+        arr_index++;
+    }
+
+    //null terminate array
+    parsed_path[arr_index] = NULL;
+
     return parsed_path;
 }
 
+void free_relative_path(char** path) {
+    int i = 0;
+    while (path[i] != NULL) {
+        free(path[i]);
+        i++;
+    }
+    free(path);
+}
 
 
 
