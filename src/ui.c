@@ -11,6 +11,9 @@
 
 //header files
 #include "ui.h"
+
+#include <stdlib.h>
+
 #include "file_system.h"
 #include "file_operation.h"
 
@@ -132,6 +135,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         return Success;
     }
 
+
     //process changing directory
     else if (strcmp(command, "cd") == 0) {
         //check for argument errors
@@ -162,22 +166,22 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         }
 
         //parse and process forward change
-        char temp[256];
-        int i = 0;
-        int temp_index = 0;
+        char temp[256] = {0};
+        int i = 0, temp_index = 0, change_result = -1;
+
 
         while (argument[i] != '\0') {
             if (argument[i] == '/') {
                 //change current to directory stored in buffer
-                int change_result = change_directory_forward(current, temp);
+                change_result = change_directory_forward(current, temp);
                 if (change_result == Success) {
                     temp[0] = '\0';
                     temp_index = 0;
                 } else if (change_result == Error_File) {
-                    printf("Error: %s is not a directory.\n", change_to_name);
+                    printf("Error: '%s' is not a directory.\n", temp);
                     return Error;
                 } else {
-                    printf("\nError: No such file or directory\n");
+                    printf("\nError: '%s' -> No such file or directory\n", temp);
                     return Error;
                 }
             } else {
@@ -189,9 +193,15 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         }
 
         //process single directory change
-        if (change_directory_forward(current, temp) == Error) {
-            printf("\nError: No such file or directory\n");
+        change_result = change_directory_forward(current, temp);
+        if (change_result == Error_File) {
+            printf("Error: '%s' is not a directory.\n", temp);
+            return Error;
+        } else if (change_result == Error) {
+            printf("\nError: '%s' -> No such file or directory\n", temp);
+            return Error;
         }
+
     }
 
     //process display directory contents
@@ -242,9 +252,31 @@ int process_input_command(const FileSystem* system, FSNode** current) {
     }
 }
 
-// char* parse_relative_path() {
-//
-// }
+//return array of parsed strings
+char** parse_relative_path(char* argument) {
+    char temp[256];
+    int i = 0, temp_index = 0, arr_index = 0;
+
+    //array of strings
+    char** parsed_path = (char**)malloc(sizeof(char*) * 256);
+
+    while (argument[i] != '\0') {
+        if (argument[i] == '/') {
+
+            char* string = (char*)malloc(i);
+            strcpy(string, temp);
+            strcpy(parsed_path[arr_index], string);
+            arr_index++;
+
+        } else {
+            temp[temp_index] = argument[i];
+            temp_index++;
+        }
+        i++;
+    }
+
+    return parsed_path;
+}
 
 
 

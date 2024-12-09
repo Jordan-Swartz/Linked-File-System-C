@@ -49,8 +49,8 @@ cmake_ninja_workdir = /home/jordan/CLionProjects/C_Projects/LinkedFS/cmake-build
 
 build cmake_object_order_depends_target_LinkedFS: phony || .
 
-build CMakeFiles/LinkedFS.dir/src/file_operation.c.o: C_COMPILER__LinkedFS_unscanned_Debug /home/jordan/CLionProjects/C_Projects/LinkedFS/src/file_operation.c || cmake_object_order_depends_target_LinkedFS
-  DEP_FILE = CMakeFiles/LinkedFS.dir/src/file_operation.c.o.d
+build CMakeFiles/LinkedFS.dir/src/ui.c.o: C_COMPILER__LinkedFS_unscanned_Debug /home/jordan/CLionProjects/C_Projects/LinkedFS/src/ui.c || cmake_object_order_depends_target_LinkedFS
+  DEP_FILE = CMakeFiles/LinkedFS.dir/src/ui.c.o.d
   FLAGS = -g -std=gnu99 -fdiagnostics-color=always
   INCLUDES = -I/home/jordan/CLionProjects/C_Projects/LinkedFS/include
   OBJECT_DIR = CMakeFiles/LinkedFS.dir
@@ -67,8 +67,8 @@ build CMakeFiles/LinkedFS.dir/src/file_system.c.o: C_COMPILER__LinkedFS_unscanne
   TARGET_COMPILE_PDB = CMakeFiles/LinkedFS.dir/
   TARGET_PDB = LinkedFS.pdb
 
-build CMakeFiles/LinkedFS.dir/src/memory_management.c.o: C_COMPILER__LinkedFS_unscanned_Debug /home/jordan/CLionProjects/C_Projects/LinkedFS/src/memory_management.c || cmake_object_order_depends_target_LinkedFS
-  DEP_FILE = CMakeFiles/LinkedFS.dir/src/memory_management.c.o.d
+build CMakeFiles/LinkedFS.dir/src/file_operation.c.o: C_COMPILER__LinkedFS_unscanned_Debug /home/jordan/CLionProjects/C_Projects/LinkedFS/src/file_operation.c || cmake_object_order_depends_target_LinkedFS
+  DEP_FILE = CMakeFiles/LinkedFS.dir/src/file_operation.c.o.d
   FLAGS = -g -std=gnu99 -fdiagnostics-color=always
   INCLUDES = -I/home/jordan/CLionProjects/C_Projects/LinkedFS/include
   OBJECT_DIR = CMakeFiles/LinkedFS.dir
@@ -76,8 +76,8 @@ build CMakeFiles/LinkedFS.dir/src/memory_management.c.o: C_COMPILER__LinkedFS_un
   TARGET_COMPILE_PDB = CMakeFiles/LinkedFS.dir/
   TARGET_PDB = LinkedFS.pdb
 
-build CMakeFiles/LinkedFS.dir/src/ui.c.o: C_COMPILER__LinkedFS_unscanned_Debug /home/jordan/CLionProjects/C_Projects/LinkedFS/src/ui.c || cmake_object_order_depends_target_LinkedFS
-  DEP_FILE = CMakeFiles/LinkedFS.dir/src/ui.c.o.d
+build CMakeFiles/LinkedFS.dir/src/memory_management.c.o: C_COMPILER__LinkedFS_unscanned_Debug /home/jordan/CLionProjects/C_Projects/LinkedFS/src/memory_management.c || cmake_object_order_depends_target_LinkedFS
+  DEP_FILE = CMakeFiles/LinkedFS.dir/src/memory_management.c.o.d
   FLAGS = -g -std=gnu99 -fdiagnostics-color=always
   INCLUDES = -I/home/jordan/CLionProjects/C_Projects/LinkedFS/include
   OBJECT_DIR = CMakeFiles/LinkedFS.dir
@@ -93,7 +93,7 @@ build CMakeFiles/LinkedFS.dir/src/ui.c.o: C_COMPILER__LinkedFS_unscanned_Debug /
 #############################################
 # Link the executable LinkedFS
 
-build LinkedFS: C_EXECUTABLE_LINKER__LinkedFS_Debug CMakeFiles/LinkedFS.dir/src/file_operation.c.o CMakeFiles/LinkedFS.dir/src/file_system.c.o CMakeFiles/LinkedFS.dir/src/memory_management.c.o CMakeFiles/LinkedFS.dir/src/ui.c.o
+build LinkedFS: C_EXECUTABLE_LINKER__LinkedFS_Debug CMakeFiles/LinkedFS.dir/src/ui.c.o CMakeFiles/LinkedFS.dir/src/file_system.c.o CMakeFiles/LinkedFS.dir/src/file_operation.c.o CMakeFiles/LinkedFS.dir/src/memory_management.c.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/LinkedFS.dir
   POST_BUILD = :

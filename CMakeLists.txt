@@ -7,6 +7,12 @@ set(CMAKE_C_STANDARD 99)
 include_directories(include)
 
 #source files
-file(GLOB SOURCES "src/*.c")
+#file(GLOB SOURCES "src/*.c")
+set(SOURCES
+        src/ui.c
+        src/file_system.c
+        src/file_operation.c
+        src/memory_management.c
+)
 
 add_executable(LinkedFS ${SOURCES})
