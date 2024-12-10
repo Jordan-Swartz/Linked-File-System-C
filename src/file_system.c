@@ -189,7 +189,7 @@ int change_directory_forward(FSNode** current, char* change_to_name) {
 
     //return if no node found or match is a file error
     if (change_to_node == NULL) {
-        printf("No match found\n");
+        // printf("No match found\n");
         return Error;
     }
     else if (change_to_node->type == File) {
