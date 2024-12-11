@@ -43,12 +43,13 @@ extern const char* PermissionsNames[];
 //functions
 void system_setup(FileSystem* system);
 void root_setup();
-void create_node();
+int create_node();
 void delete_node();
 void display_current_path();
 void display_directory_nodes();
 int change_directory_forward();
 void change_directory_backward();
 void set_current();
+char** parse_path();
 
 #endif //FILE_SYSTEM_H

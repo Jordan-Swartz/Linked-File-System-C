@@ -57,7 +57,7 @@ void root_setup(const FileSystem* system, FSNode* root) {
 /**
  *
  */
-void create_node(const FileSystem* system, FSNode* current, const char* name,
+int create_node(const FileSystem* system, FSNode* current, const char* name,
                  const int type) {
     //create node
     FSNode* new_node = (FSNode*)malloc(sizeof(FSNode));
@@ -75,9 +75,9 @@ void create_node(const FileSystem* system, FSNode* current, const char* name,
     //add to front of current->child_head list if empty
     if (current->child_head == NULL) {
         current->child_head = new_node;
-        printf("New node %s added.\n", name);
+        // printf("New node %s added.\n", name);
         current->size++;
-        return;
+        return Success;
     }
 
     //traverse head's children for alphabetical insert
@@ -101,13 +101,13 @@ void create_node(const FileSystem* system, FSNode* current, const char* name,
 
             //link iter previous to new node
             iter->previous = new_node;
-            printf("New node %s added.\n", name);
-            return;
+            // printf("New node %s added.\n", name);
+            return Success;
 
         } else if (strcmp(iter->name, new_node->name) == 0) {
-            printf("Error: A node with this name already exists.\n");
+            // printf("Error: A node with this name already exists.\n");
             free(new_node);
-            return;
+            return Error;
         }
 
         //traverse until last node
@@ -122,8 +122,8 @@ void create_node(const FileSystem* system, FSNode* current, const char* name,
     iter->next = new_node;
     new_node->previous = iter;
     current->size++;
-    printf("New node %s added.\n", name);
-
+    // printf("New node %s added.\n", name);
+    return Success;
 }
 
 /**
@@ -211,7 +211,49 @@ void set_current(FSNode** current, FSNode* change_to_node) {
     (*current) = change_to_node;
 }
 
+//return array of parsed strings
+char** parse_path(const char* argument) {
+    char temp[256];
+    int i = 0, temp_index = 0, arr_index = 0;
 
+    //array of strings
+    char** parsed_path = (char**)malloc(sizeof(char*) * 256);
+
+    while (argument[i] != '\0') {
+        if (argument[i] == '/') {
+            //add null char
+            temp[temp_index] = '\0';
+
+            //allocate memory for and copy temp to substring
+            char* substring = (char*)malloc(temp_index + 1);
+            strcpy(substring, temp);
+
+            //add substring to array, reset buffer index, and clear buffer
+            parsed_path[arr_index] = substring;
+            arr_index++;
+            temp_index = 0;
+            memset(temp, 0, sizeof(temp));
+        } else {
+            //add next char to buffer
+            temp[temp_index] = argument[i];
+            temp_index++;
+        }
+        i++;
+    }
+
+    //handle final substring if needed
+    if (temp_index > 0) {
+        temp[temp_index] = '\0';
+        char* substring = (char*)malloc(temp_index + 1);
+        strcpy(substring, temp);
+        parsed_path[arr_index] = substring;
+        arr_index++;
+    }
+
+    //null terminate array
+    parsed_path[arr_index] = NULL;
+    return parsed_path;
+}
 
 
 

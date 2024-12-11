@@ -86,23 +86,35 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process make directory
     if (strcmp(command, "mkdir") == 0) {
-    //FIXME
-
-
-
-    //handle case if arg has ' / '
-
-
-
-
-        if (argument != NULL) {
-            create_node(system, (*current), argument, Directory);
-            return Success;
-
-        } else {
+        if (argument == NULL) {
             printf("Error: '%s' missing argument\n", command);
             return Error;
         }
+
+        //create nested directories per input 'mkdir d1/d2/d3'
+        char** parsed_path = parse_path(argument);
+        FSNode* original_current = (*current);
+        int i = 0, result = Success;
+
+        while (parsed_path[i] != NULL && result == Success) {
+            //attempt to create directory
+            result = create_node(system, (*current), parsed_path[i], Directory);
+
+            if (result == Error) {
+                printf("Error: A node with this name already exists.\n");
+                free_path(parsed_path);
+                return Error;
+            } else if (parsed_path[i+1] != NULL) {
+                //change to new directory
+                change_directory_forward((*current), parsed_path[i]);
+            }
+            i++;
+        }
+
+        //free parsed path and revert current back to original
+        (*current) = original_current;
+        free_path(parsed_path);
+        return Success;
     }
 
     //process make file
@@ -191,11 +203,6 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process display directory contents
     else if (strcmp(command, "ls") == 0)  {
-
-        //FIXME
-        //ensure current is only temp changed for ls and then goes back to irignal
-
-
         //check for argument errors
         if (argument2 != NULL) {
             printf("Error: '%s' too many arguments\n", command);
@@ -208,6 +215,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
         } else {
             //process ls after directory change
+            FSNode* original_current = (*current);
             char** parsed_path = parse_path(argument);
             int i = 0, change_result = -1;;
 
@@ -221,9 +229,10 @@ int process_input_command(const FileSystem* system, FSNode** current) {
                 i++;
             }
 
-            //display directory contents after successful change
+            //display directory contents and then revert current back to original directory
             display_directory_nodes(system, (*current));
             free_path(parsed_path);
+            (*current) = original_current;
         }
         return Success;
     }
@@ -262,49 +271,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
     }
 }
 
-//return array of parsed strings
-char** parse_path(const char* argument) {
-    char temp[256];
-    int i = 0, temp_index = 0, arr_index = 0;
 
-    //array of strings
-    char** parsed_path = (char**)malloc(sizeof(char*) * 256);
-
-    while (argument[i] != '\0') {
-        if (argument[i] == '/') {
-            //add null char
-            temp[temp_index] = '\0';
-
-            //allocate memory for and copy temp to substring
-            char* substring = (char*)malloc(temp_index + 1);
-            strcpy(substring, temp);
-
-            //add substring to array, reset buffer index, and clear buffer
-            parsed_path[arr_index] = substring;
-            arr_index++;
-            temp_index = 0;
-            memset(temp, 0, sizeof(temp));
-        } else {
-            //add next char to buffer
-            temp[temp_index] = argument[i];
-            temp_index++;
-        }
-        i++;
-    }
-
-    //handle final substring if needed
-    if (temp_index > 0) {
-        temp[temp_index] = '\0';
-        char* substring = (char*)malloc(temp_index + 1);
-        strcpy(substring, temp);
-        parsed_path[arr_index] = substring;
-        arr_index++;
-    }
-
-    //null terminate array
-    parsed_path[arr_index] = NULL;
-    return parsed_path;
-}
 
 
 
