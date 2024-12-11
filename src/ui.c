@@ -106,7 +106,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
                 return Error;
             } else if (parsed_path[i+1] != NULL) {
                 //change to new directory
-                change_directory_forward((*current), parsed_path[i]);
+                change_directory_forward(current, parsed_path[i]);
             }
             i++;
         }
