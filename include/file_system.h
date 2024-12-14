@@ -19,7 +19,7 @@ typedef enum { Read, Read_Write, Read_Write_Execute } Permissions;
 
 //file node
 struct FSNode {
-    char name[100];
+    char name[150];
     char owner[100];
     NodeType type;
     Permissions permissions;

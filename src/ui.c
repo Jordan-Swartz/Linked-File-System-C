@@ -93,12 +93,12 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
         //create nested directories per input 'mkdir d1/d2/d3'
         char** parsed_path = parse_path(argument);
-        FSNode* original_current = (*current);
+        FSNode* current_copy = (*current);
         int i = 0, result = Success;
 
         while (parsed_path[i] != NULL && result == Success) {
             //attempt to create directory
-            result = create_node(system, (*current), parsed_path[i], Directory);
+            result = create_node(system, current_copy, parsed_path[i], Directory);
 
             if (result == Error) {
                 printf("Error: A node with this name already exists.\n");
@@ -106,13 +106,12 @@ int process_input_command(const FileSystem* system, FSNode** current) {
                 return Error;
             } else if (parsed_path[i+1] != NULL) {
                 //change to new directory
-                change_directory_forward(current, parsed_path[i]);
+                change_directory_forward(&current_copy, parsed_path[i]);
             }
             i++;
         }
 
         //free parsed path and revert current back to original
-        (*current) = original_current;
         free_path(parsed_path);
         return Success;
     }
@@ -214,12 +213,12 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
         } else {
             //process ls after directory change
-            FSNode* original_current = (*current);
+            FSNode* current_copy = (*current);
             char** parsed_path = parse_path(argument);
             int i = 0, change_result = -1;;
 
             while (parsed_path[i] != NULL) {
-                change_result = change_directory_forward(current, parsed_path[i]);
+                change_result = change_directory_forward(&current_copy, parsed_path[i]);
                 if (change_result != Success) {
                     printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path[i]);
                     free_path(parsed_path);
@@ -229,9 +228,8 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             }
 
             //display directory contents and then revert current back to original directory
-            display_directory_nodes(system, (*current));
+            display_directory_nodes(system, current_copy);
             free_path(parsed_path);
-            (*current) = original_current;
         }
         return Success;
     }
@@ -255,20 +253,13 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
-
-
-        //FIXME
-
-
-
-
         //traverse to second-to-last node in parsed path
-        FSNode* original_current = (*current);
+        FSNode* current_copy = (*current);
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = -1;;
 
         while (parsed_path[i + 1] != NULL) {
-            change_result = change_directory_forward(current, parsed_path[i]);
+            change_result = change_directory_forward(&current_copy, parsed_path[i]);
             if (change_result != Success) {
                 printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path[i]);
                 free_path(parsed_path);
@@ -278,17 +269,17 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         }
 
         //search for node to rename in current directory
-        FSNode* rename_node = find_node(current, parsed_path[i]);
+        FSNode* rename_node = find_node(current_copy, parsed_path[i]);
         if (rename_node == NULL) {
             printf("Error: cannot rename '%s' -> No such file or directory.\n", parsed_path[i]);
             free_path(parsed_path);
             return Error;
         } else {
+            //rename node
             strcpy(rename_node->name, argument2);
         }
 
         free_path(parsed_path);
-        (*current) = original_current;
         return Success;
     }
 
