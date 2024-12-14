@@ -76,8 +76,8 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     /////collect input
     char input_str[1024];
-    fgets(input_str, sizeof(input_str), stdin);      //get entire line
-    input_str[strcspn(input_str, "\n")] = 0;    //remove newline char
+    fgets(input_str, sizeof(input_str), stdin);     //get entire line
+    input_str[strcspn(input_str, "\n")] = 0;        //remove newline char
 
     //parse command and arg
     char* command = strtok(input_str, " ");
@@ -119,7 +119,6 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process make file
     else if (strcmp(command, "touch") == 0) {
-        //FIXME
         if (argument != NULL) {
             create_node(system, (*current), argument, File);
             return Success;
@@ -250,8 +249,101 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process rename file or directory
     else if (strcmp(command, "rn") == 0) {
+        //check for argument errors
+        if (argument == NULL || argument2 == NULL) {
+            printf("Error: '%s' missing argument\n", command);
+            return Error;
+        }
+
+
+
+        //FIXME
+
+
+
+
+        //traverse to second-to-last node in parsed path
+        FSNode* original_current = (*current);
+        char** parsed_path = parse_path(argument);
+        int i = 0, change_result = -1;;
+
+        while (parsed_path[i + 1] != NULL) {
+            change_result = change_directory_forward(current, parsed_path[i]);
+            if (change_result != Success) {
+                printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path[i]);
+                free_path(parsed_path);
+                return Error;
+            }
+            i++;
+        }
+
+        //search for node to rename in current directory
+        FSNode* rename_node = find_node(current, parsed_path[i]);
+        if (rename_node == NULL) {
+            printf("Error: cannot rename '%s' -> No such file or directory.\n", parsed_path[i]);
+            free_path(parsed_path);
+            return Error;
+        } else {
+            strcpy(rename_node->name, argument2);
+        }
+
+        free_path(parsed_path);
+        (*current) = original_current;
+        return Success;
+    }
+
+    //process changing permissons for file
+    else if (strcmp(command, "chmod") == 0) {
         if (argument != NULL || argument2 != NULL) {
             //TODO finish method
+
+        } else {
+            printf("Error: '%s' missing argument\n", command);
+            return Error;
+        }
+    }
+
+    //process copying file or directory into a new destination
+    else if (strcmp(command, "cp") == 0) {
+        if (argument != NULL || argument2 != NULL) {
+            //TODO finish method
+            //recursive algorithm that recreates all the contents
+
+        } else {
+            printf("Error: '%s' missing argument\n", command);
+            return Error;
+        }
+    }
+
+    //process finding file or directory in current directory
+    else if (strcmp(command, "find") == 0) {
+        if (argument != NULL || argument2 != NULL) {
+            //TODO finish method
+            //recursive algorithm that recreates all the contents
+
+        } else {
+            printf("Error: '%s' missing argument\n", command);
+            return Error;
+        }
+    }
+
+    //process displaying command history for the current session
+    else if (strcmp(command, "history") == 0) {
+        if (argument != NULL || argument2 != NULL) {
+            //TODO finish method
+            //recursive algorithm that recreates all the contents
+
+        } else {
+            printf("Error: '%s' missing argument\n", command);
+            return Error;
+        }
+    }
+
+    //process cat
+    else if (strcmp(command, "cat") == 0) {
+        if (argument != NULL || argument2 != NULL) {
+            //TODO finish method
+            //recursive algorithm that recreates all the contents
 
         } else {
             printf("Error: '%s' missing argument\n", command);

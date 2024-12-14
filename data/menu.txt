@@ -1,17 +1,17 @@
 System Commands:
-mkdir <directory_name>      - makes a directory in the current directory
-touch <file_name>           - creates a file in the current directory
-rm <file_name/directory>    - deletes a file or directory
-pwd                         - shows the current path
-cd ~                        - moves to the root directory
-cd <path/to/directory>      - moves to the specified directory path
-cd ..                       - moves to the parent directory
-ls <path/to/directory>      - lists all contents of the current directory in detailed format
-mv <source> <destination>   - moves a file or directory to a new location
-rn <old_name> <new_name>    - renames a file or directory
-chmod <permissions> <file>  - changes permissions for a file (e.g., "chmod 755 myfile")
-cp <source> <destination>   - copies a file or directory to a new location
-find <name>                 - searches for a given file or directory name in the current directory
-history                     - displays the command history for the session
-cat <file_name>             - displays the contents of a file
-exit                        - exits the system
+mkdir <directory_name>                        - makes a directory in the current directory
+touch <file_name>                             - creates a file in the current directory
+rm <file_name/directory>                      - deletes a file or directory
+pwd                                           - shows the current path
+cd ~                                          - moves to the root directory
+cd <path/to/directory>                        - moves to the specified directory path
+cd ..                                         - moves to the parent directory
+ls <path/to/directory>                        - lists all contents of the current directory in detailed format
+mv <source> <destination>                     - moves a file or directory to a new location
+rn <path/to/old_name>  <path/to/new_name>     - renames a file or directory
+chmod <permissions> <file>                    - changes permissions for a file (e.g., "chmod 755 myfile")
+cp <source> <destination>                     - copies a file or directory to a new location
+find <name>                                   - searches for a given file or directory name in the current directory
+history                                       - displays the command history for the session
+cat <file_name>                               - displays the contents of a file
+exit                                          - exits the system
