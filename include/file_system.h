@@ -51,6 +51,7 @@ int change_directory_forward();
 void change_directory_backward();
 void set_current();
 char** parse_path();
+int insert_node();
 FSNode* find_node();
 
 #endif //FILE_SYSTEM_H

@@ -42,7 +42,7 @@ int main(int argc, char* argv) {
 
     //clear buffer before processing input
     int ch;
-    while ((ch = getchar()) != '\n' && ch != Error);
+    while ((ch = getchar()) != '\n' && ch != Error)
     display_menu();
 
     //process input
@@ -242,12 +242,13 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
-        FSNode* current_copy = (*current);
+        //traverse to second-to-last parsed path to find source node
+        FSNode* source_node = (*current);
         char** parsed_path_source = parse_path(argument);
         int i = 0, change_result = -1;
 
         while (parsed_path_source[i+1] != NULL) {
-            change_result = change_directory_forward(&current_copy, parsed_path_source[i]);
+            change_result = change_directory_forward(&source_node, parsed_path_source[i]);
             if (change_result != Success) {
                 printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path_source[i]);
                 free_path(parsed_path_source);
@@ -256,7 +257,26 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             i++;
         }
 
+        //traverse to second-to-last parsed path to find destination node
+        FSNode* destination_node = system->root;
         char** parsed_path_destination = parse_path(argument2);
+        i = 0, change_result = -1;
+
+        while (parsed_path_destination[i+1] != NULL) {
+            change_result = change_directory_forward(&destination_node, parsed_path_source[i]);
+            if (change_result != Success) {
+                printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path_source[i]);
+                free_path(parsed_path_destination);
+                return Error;
+            }
+            i++;
+        }
+
+        //TODO
+
+        free_path(parsed_path_source);
+        free_path(parsed_path_destination);
+        return Success;
     }
 
     //process rename file or directory

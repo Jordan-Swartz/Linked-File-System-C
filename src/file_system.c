@@ -58,7 +58,7 @@ void root_setup(const FileSystem* system, FSNode* root) {
  *
  */
 int create_node(const FileSystem* system, FSNode* current, const char* name,
-                 const int type) {
+                 NodeType type) {
     //create node
     FSNode* new_node = (FSNode*)malloc(sizeof(FSNode));
 
@@ -72,58 +72,14 @@ int create_node(const FileSystem* system, FSNode* current, const char* name,
     new_node->previous = NULL;
     new_node->parent = current;
 
-    //add to front of current->child_head list if empty
-    if (current->child_head == NULL) {
-        current->child_head = new_node;
-        // printf("New node %s added.\n", name);
-        current->size++;
+    //insert node alphabetically
+    if (insert_node(current, new_node) == Error) {
+        printf("Error: A node with this name already exists.\n");
+        free(new_node);
+        return Error;
+    } else {
         return Success;
     }
-
-    //traverse head's children for alphabetical insert
-    FSNode* iter = current->child_head;
-
-    while (iter != NULL) {
-        //if iter comes after new_node alphabetically
-        if (strcmp(iter->name, new_node->name) > 0) {
-
-            //link new node after previous and before iter
-            new_node->next = iter;
-            new_node->previous = iter->previous;;
-
-            //insert in front of current head (iter)
-            if (iter->previous == NULL) {
-                current->child_head = new_node;
-            } else {
-                //insert between previous and current
-                iter->previous->next = new_node;
-            }
-
-            //link iter previous to new node
-            iter->previous = new_node;
-            // printf("New node %s added.\n", name);
-            return Success;
-
-        } else if (strcmp(iter->name, new_node->name) == 0) {
-            // printf("Error: A node with this name already exists.\n");
-            free(new_node);
-            return Error;
-        }
-
-        //traverse until last node
-        if (iter->next == NULL) {
-            break;
-        } else {
-            iter = iter->next;
-        }
-    }
-
-    //insert at end
-    iter->next = new_node;
-    new_node->previous = iter;
-    current->size++;
-    // printf("New node %s added.\n", name);
-    return Success;
 }
 
 /**
@@ -136,7 +92,7 @@ void delete_node() {
 /**
  * pwd move to file_system
  */
-void display_current_path(const FileSystem* system, const FSNode* current) {
+void display_current_path(const FileSystem* system, FSNode* current) {
     char path[1024] = "$";
     char temp[100] = "";
     FSNode* iter = current;
@@ -255,8 +211,58 @@ char** parse_path(const char* argument) {
     return parsed_path;
 }
 
-void insert_node() {
+//insert node alphabetically
+int insert_node(FSNode* current, FSNode* node) {
+    //increment size (rollback on failure)
+    current->size++;
 
+    //add to front of current->child_head list if empty
+    if (current->child_head == NULL) {
+        current->child_head = node;
+        return Success;
+    }
+
+    //traverse head's children for alphabetical insert
+    FSNode* iter = current->child_head;
+
+    while (iter != NULL) {
+        //if iter comes after new_node alphabetically
+        if (strcmp(iter->name, node->name) > 0) {
+            //link new node after previous and before iter
+            node->next = iter;
+            node->previous = iter->previous;;
+
+            //insert in front of current head (iter)
+            if (iter->previous == NULL) {
+                current->child_head = node;
+            } else {
+                //insert between previous and current
+                iter->previous->next = node;
+            }
+
+            //link iter previous to new node
+            iter->previous = node;
+            return Success;
+
+        } else if (strcmp(iter->name, node->name) == 0) {
+            //node name already exists
+            current->size--;
+            return Error;
+        }
+
+        //traverse until last node
+        if (iter->next == NULL) {
+            break;
+        } else {
+            iter = iter->next;
+        }
+    }
+
+    //insert at end
+    iter->next = node;
+    node->previous = iter;
+    current->size++;
+    return Success;
 }
 
 //returns pointer to desired node if found, NULL no node is found
