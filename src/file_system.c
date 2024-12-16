@@ -255,6 +255,10 @@ char** parse_path(const char* argument) {
     return parsed_path;
 }
 
+void insert_node() {
+
+}
+
 //returns pointer to desired node if found, NULL no node is found
 FSNode* find_node(FSNode* current, char* change_to_name) {
     FSNode* iter = current->child_head;

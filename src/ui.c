@@ -236,13 +236,27 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process move file or directory
     else if (strcmp(command, "mv") == 0) {
-        if (argument != NULL || argument2 != NULL) {
-            //TODO finish method
-
-        } else {
+        //check for argument errors
+        if (argument == NULL || argument2 == NULL) {
             printf("Error: '%s' missing argument\n", command);
             return Error;
         }
+
+        FSNode* current_copy = (*current);
+        char** parsed_path_source = parse_path(argument);
+        int i = 0, change_result = -1;
+
+        while (parsed_path_source[i+1] != NULL) {
+            change_result = change_directory_forward(&current_copy, parsed_path_source[i]);
+            if (change_result != Success) {
+                printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path_source[i]);
+                free_path(parsed_path_source);
+                return Error;
+            }
+            i++;
+        }
+
+        char** parsed_path_destination = parse_path(argument2);
     }
 
     //process rename file or directory
@@ -256,7 +270,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         //traverse to second-to-last node in parsed path
         FSNode* current_copy = (*current);
         char** parsed_path = parse_path(argument);
-        int i = 0, change_result = -1;;
+        int i = 0, change_result = -1;
 
         while (parsed_path[i + 1] != NULL) {
             change_result = change_directory_forward(&current_copy, parsed_path[i]);
