@@ -166,33 +166,55 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Success;
         }
 
-        //process change to previous '..'
-        if (strcmp(argument, "..") == 0) {
-            if (strcmp((*current)->name, system->root->name) == 0) {
-                printf("Error: Already at the root directory.\n");
-                return Error;
-            }
-            change_directory_backward(current);
-            return Success;
-        }
+        // //FIXME -- finish completed logic for ls, mv, rn, etc
+
+        // //process change to previous '..'
+        // if (strcmp(argument, "..") == 0) {
+        //     if (strcmp((*current)->name, system->root->name) == 0) {
+        //         printf("Error: Already at the root directory.\n");
+        //         return Error;
+        //     }
+        //     change_directory_backward(current);
+        //     return Success;
+        // }
 
         //parse argument
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = -1;
 
+        // printf("current: %s\n", (*current)->name);
+        // printf("Path: ");
+        // while (parsed_path[i] != NULL) {
+        //     printf("%s, ", parsed_path[i]);
+        //     i++;
+        // }
+
         while (parsed_path[i] != NULL) {
-            change_result = change_directory_forward(current, parsed_path[i]);
-            if (change_result == Error_File) {
-                printf("Error: '%s' is not a directory.\n", parsed_path[i]);
-                free_path(parsed_path);
-                return Error;
-            } else if (change_result == Error) {
-                printf("Error: '%s' -> No such file or directory\n", parsed_path[i]);
-                free_path(parsed_path);
-                return Error;
+            //process backwards change
+            if (strcmp(parsed_path[i], "..") == 0) {
+                if (strcmp((*current)->name, system->root->name) == 0) {
+                    printf("Error: Already at the root directory.\n");
+                    return Error;
+                }
+                change_directory_backward(current);
+
             } else {
-                i++;
+                //process forward change
+                change_result = change_directory_forward(current, parsed_path[i]);
+
+                if (change_result == Error_File) {
+                    printf("Error: '%s' is not a directory.\n", parsed_path[i]);
+                    free_path(parsed_path);
+                    return Error;
+
+                } else if (change_result == Error) {
+                    printf("Error: '%s' -> No such file or directory\n", parsed_path[i]);
+                    free_path(parsed_path);
+                    return Error;
+
+                }
             }
+            i++;
         }
         //free path array
         free_path(parsed_path);
@@ -387,6 +409,17 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         } else {
             printf("Error: '%s' missing argument\n", command);
             return Error;
+        }
+    }
+
+    //process cat
+    else if (strcmp(command, "p") == 0) {
+        char** parsed_path = parse_path(argument);
+        int i = 0;
+        printf("Path: ");
+        while (parsed_path[i] != NULL) {
+            printf("%s, ", parsed_path[i]);
+            i++;
         }
     }
 
