@@ -257,6 +257,20 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             i++;
         }
 
+
+
+        //TODO
+        /**
+         * Refactor Parse Arg method to look for '../' This command indicates
+         * moving back up into a directory for complex path mixing
+         *
+         */
+
+
+
+
+
+
         //traverse to second-to-last parsed path to find destination node
         FSNode* destination_node = system->root;
         char** parsed_path_destination = parse_path(argument2);

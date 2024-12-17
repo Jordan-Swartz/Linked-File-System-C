@@ -7,7 +7,8 @@ cd ~                                          - moves to the root directory
 cd <path/to/directory>                        - moves to the specified directory path
 cd ..                                         - moves to the parent directory
 ls <path/to/directory>                        - lists all contents of the current directory in detailed format
-mv <path/to/source> <path/to/destination>     - moves a file or directory to a new location
+mv <path/to/source> <abs_path/to/destination> - moves a file or directory backwards to a new location
+mv <path/to/source> <rel_path/to/destination> - moves a file or directory forwards to a new location
 rn <path/to/old_name>  <new_name>             - renames a file or directory
 chmod <permissions> <file>                    - changes permissions for a file (e.g., "chmod 755 myfile")
 cp <source> <destination>                     - copies a file or directory to a new location
