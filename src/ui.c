@@ -91,6 +91,9 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
+        //FIXME
+        //support ../ implementation
+
         //create nested directories per input 'mkdir d1/d2/d3'
         char** parsed_path = parse_path(argument);
         FSNode* current_copy = (*current);
@@ -133,6 +136,9 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         if (argument != NULL) {
             //TODO finish method
 
+            //FIXME
+            //support ../ implementation
+
         } else {
             printf("Error: '%s' missing argument\n", command);
             return Error;
@@ -166,28 +172,9 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Success;
         }
 
-        // //FIXME -- finish completed logic for ls, mv, rn, etc
-
-        // //process change to previous '..'
-        // if (strcmp(argument, "..") == 0) {
-        //     if (strcmp((*current)->name, system->root->name) == 0) {
-        //         printf("Error: Already at the root directory.\n");
-        //         return Error;
-        //     }
-        //     change_directory_backward(current);
-        //     return Success;
-        // }
-
-        //parse argument
+        //parse argument path
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = -1;
-
-        // printf("current: %s\n", (*current)->name);
-        // printf("Path: ");
-        // while (parsed_path[i] != NULL) {
-        //     printf("%s, ", parsed_path[i]);
-        //     i++;
-        // }
 
         while (parsed_path[i] != NULL) {
             //process backwards change
@@ -211,9 +198,9 @@ int process_input_command(const FileSystem* system, FSNode** current) {
                     printf("Error: '%s' -> No such file or directory\n", parsed_path[i]);
                     free_path(parsed_path);
                     return Error;
-
                 }
             }
+            //move to next string
             i++;
         }
         //free path array
@@ -227,32 +214,45 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         if (argument2 != NULL) {
             printf("Error: '%s' too many arguments\n", command);
             return Error;
+        }
 
-        } else if (argument == NULL) {
-            //process ls by itself
+        //process ls by itself
+        if (argument == NULL) {
             display_directory_nodes(system, (*current));
             return Success;
+        }
 
-        } else {
-            //process ls after directory change
-            FSNode* current_copy = (*current);
-            char** parsed_path = parse_path(argument);
-            int i = 0, change_result = -1;;
+        //process ls after directory change
+        FSNode* current_copy = (*current);
+        char** parsed_path = parse_path(argument);
+        int i = 0, change_result = -1;;
 
-            while (parsed_path[i] != NULL) {
+        while (parsed_path[i] != NULL) {
+            //process backwards change
+            if (strcmp(parsed_path[i], "..") == 0) {
+                if (strcmp(current_copy->name, system->root->name) == 0) {
+                    printf("Error: Already at the root directory.\n");
+                    return Error;
+                }
+                change_directory_backward(&current_copy);
+
+            } else {
+                //process forward change
                 change_result = change_directory_forward(&current_copy, parsed_path[i]);
+
                 if (change_result != Success) {
                     printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path[i]);
                     free_path(parsed_path);
                     return Error;
                 }
-                i++;
             }
-
-            //display directory contents and then revert current back to original directory
-            display_directory_nodes(system, current_copy);
-            free_path(parsed_path);
+            //move to next string
+            i++;
         }
+
+        //display directory contents and free path array
+        display_directory_nodes(system, current_copy);
+        free_path(parsed_path);
         return Success;
     }
 
@@ -323,18 +323,37 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
+        //reject renaming '..', '.'
+        if (strcmp(argument2, "..") == 0 || strcmp(argument2, ".") == 0) {
+            printf("Error: Cannot rename '%s'.\n", argument2);
+            return Error;
+        }
+
         //traverse to second-to-last node in parsed path
         FSNode* current_copy = (*current);
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = -1;
 
         while (parsed_path[i + 1] != NULL) {
-            change_result = change_directory_forward(&current_copy, parsed_path[i]);
-            if (change_result != Success) {
-                printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path[i]);
-                free_path(parsed_path);
-                return Error;
+            //process backwards change
+            if (strcmp(parsed_path[i], "..") == 0) {
+                if (strcmp(current_copy->name, system->root->name) == 0) {
+                    printf("Error: Already at the root directory.\n");
+                    return Error;
+                }
+                change_directory_backward(&current_copy);
+
+            } else {
+                //process forward change
+                change_result = change_directory_forward(&current_copy, parsed_path[i]);
+
+                if (change_result != Success) {
+                    printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path[i]);
+                    free_path(parsed_path);
+                    return Error;
+                }
             }
+            //move to next string
             i++;
         }
 
@@ -344,11 +363,10 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             printf("Error: cannot rename '%s' -> No such file or directory.\n", parsed_path[i]);
             free_path(parsed_path);
             return Error;
-        } else {
-            //rename node
-            strcpy(rename_node->name, argument2);
         }
 
+        //rename node and free path array
+        strcpy(rename_node->name, argument2);
         free_path(parsed_path);
         return Success;
     }
@@ -412,7 +430,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         }
     }
 
-    //process cat
+    //PROCESS TEST
     else if (strcmp(command, "p") == 0) {
         char** parsed_path = parse_path(argument);
         int i = 0;
