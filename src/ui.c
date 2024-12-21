@@ -91,27 +91,34 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
-        //FIXME
-        //support ../ implementation
-
         //create nested directories per input 'mkdir d1/d2/d3'
-        char** parsed_path = parse_path(argument);
         FSNode* current_copy = (*current);
+        char** parsed_path = parse_path(argument);
         int i = 0, result = Success;
 
         while (parsed_path[i] != NULL && result == Success) {
-            //attempt to create directory
-            result = create_node(system, current_copy, parsed_path[i], Directory);
+            //process backwards change
+            if (strcmp(parsed_path[i], "..") == 0) {
+                if (strcmp(current_copy->name, system->root->name) == 0) {
+                    printf("Error: Already at the root directory.\n");
+                    return Error;
+                }
+                change_directory_backward(&current_copy);
 
-            if (result == Error) {
-                printf("Error: A node with this name already exists.\n");
-                free_path(parsed_path);
-                return Error;
-            } else if (parsed_path[i+1] != NULL) {
-                //change to new directory
-                change_directory_forward(&current_copy, parsed_path[i]);
+            } else {
+                //process forward change and attempt to create directory
+                result = create_node(system, current_copy, parsed_path[i], Directory);
+
+                if (result == Error) {
+                    printf("Error: A node with this name already exists.\n");
+                    free_path(parsed_path);
+                    return Error;
+                } else if (parsed_path[i+1] != NULL) {
+                    //change to new directory
+                    change_directory_forward(&current_copy, parsed_path[i]);
+                }
+                i++;
             }
-            i++;
         }
 
         //free parsed path and revert current back to original
