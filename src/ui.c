@@ -91,25 +91,33 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
-        //create nested directories per input 'mkdir d1/d2/d3'
-        FSNode* current_copy = (*current);
+        //determine relative or abs path to create nested directories
+        FSNode* current_copy = NULL;
         char** parsed_path = parse_path(argument);
-        int i = 0, result = Success;
+        int i = 0, change_result = Success;
 
-        while (parsed_path[i] != NULL && result == Success) {
+        if (argument[0] == '/') {
+            current_copy = system->root;
+            i++;
+        } else {
+            current_copy = (*current);
+        }
+
+        while (parsed_path[i] != NULL && change_result == Success) {
             //process backwards change
             if (strcmp(parsed_path[i], "..") == 0) {
                 if (strcmp(current_copy->name, system->root->name) == 0) {
                     printf("Error: Already at the root directory.\n");
+                    free_path(parsed_path);
                     return Error;
                 }
                 change_directory_backward(&current_copy);
 
             } else {
                 //process forward change and attempt to create directory
-                result = create_node(system, current_copy, parsed_path[i], Directory);
+                change_result = create_node(system, current_copy, parsed_path[i], Directory);
 
-                if (result == Error) {
+                if (change_result == Error) {
                     printf("Error: A node with this name already exists.\n");
                     free_path(parsed_path);
                     return Error;
@@ -117,11 +125,12 @@ int process_input_command(const FileSystem* system, FSNode** current) {
                     //change to new directory
                     change_directory_forward(&current_copy, parsed_path[i]);
                 }
+                //move to next string
                 i++;
             }
         }
 
-        //free parsed path and revert current back to original
+        //free parsed path
         free_path(parsed_path);
         return Success;
     }
@@ -159,7 +168,6 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         return Success;
     }
 
-
     //process changing directory
     else if (strcmp(command, "cd") == 0) {
         //check for argument errors
@@ -173,28 +181,35 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
         //process change to root '~'
         if (argument[0] == '~') {
-            while (strcmp((*current)->name, system->root->name) != 0) {
-                change_directory_backward(current);
-            }
+            (*current) = system->root;
             return Success;
         }
 
-        //parse argument path
+        //determine relative or abs path
+        FSNode* current_copy = NULL;
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = -1;
+
+        if (argument[0] == '/') {
+            current_copy = system->root;
+            i++;
+        } else {
+            current_copy = (*current);
+        }
 
         while (parsed_path[i] != NULL) {
             //process backwards change
             if (strcmp(parsed_path[i], "..") == 0) {
-                if (strcmp((*current)->name, system->root->name) == 0) {
+                if (strcmp(current_copy->name, system->root->name) == 0) {
                     printf("Error: Already at the root directory.\n");
+                    free_path(parsed_path);
                     return Error;
                 }
-                change_directory_backward(current);
+                change_directory_backward(&current_copy);
 
             } else {
                 //process forward change
-                change_result = change_directory_forward(current, parsed_path[i]);
+                change_result = change_directory_forward(&current_copy, parsed_path[i]);
 
                 if (change_result == Error_File) {
                     printf("Error: '%s' is not a directory.\n", parsed_path[i]);
@@ -211,6 +226,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             i++;
         }
         //free path array
+        (*current) = current_copy;
         free_path(parsed_path);
         return Success;
     }
@@ -229,16 +245,24 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Success;
         }
 
-        //process ls after directory change
-        FSNode* current_copy = (*current);
+        //determine relative or abs path to process ls after directory change
+        FSNode* current_copy = NULL;
         char** parsed_path = parse_path(argument);
-        int i = 0, change_result = -1;;
+        int i = 0, change_result = -1;
+
+        if (argument[0] == '/') {
+            current_copy = system->root;
+            i++;
+        } else {
+            current_copy = (*current);
+        }
 
         while (parsed_path[i] != NULL) {
             //process backwards change
             if (strcmp(parsed_path[i], "..") == 0) {
                 if (strcmp(current_copy->name, system->root->name) == 0) {
                     printf("Error: Already at the root directory.\n");
+                    free_path(parsed_path);
                     return Error;
                 }
                 change_directory_backward(&current_copy);
@@ -271,18 +295,47 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
-        //traverse to second-to-last parsed path to find source node
+        //traverse to second-to-last string in parsed path to find source node
+
+        //FIXME - relative path
+
+        // //determine relative or abs path
+        // FSNode* current_copy = NULL;
+        // char** parsed_path = parse_path(argument);
+        // int i = 0, change_result = -1;
+        //
+        // if (argument[0] == '/') {
+        //     current_copy = system->root;
+        //     i++;
+        // } else {
+        //     current_copy = (*current);
+        // }
+
         FSNode* source_node = (*current);
         char** parsed_path_source = parse_path(argument);
         int i = 0, change_result = -1;
 
         while (parsed_path_source[i+1] != NULL) {
-            change_result = change_directory_forward(&source_node, parsed_path_source[i]);
-            if (change_result != Success) {
-                printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path_source[i]);
-                free_path(parsed_path_source);
-                return Error;
+            //process backwards change
+            if (strcmp(parsed_path_source[i], "..") == 0) {
+                if (strcmp(source_node->name, system->root->name) == 0) {
+                    printf("Error: Already at the root directory.\n");
+                    free_path(parsed_path_source);
+                    return Error;
+                }
+                change_directory_backward(&source_node);
+
+            } else {
+                //process forward change
+                change_result = change_directory_forward(&source_node, parsed_path_source[i]);
+
+                if (change_result != Success) {
+                    printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path_source[i]);
+                    free_path(parsed_path_source);
+                    return Error;
+                }
             }
+            //move to next string
             i++;
         }
 
@@ -336,16 +389,24 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
-        //traverse to second-to-last node in parsed path
-        FSNode* current_copy = (*current);
+        //determine relative or abs path
+        FSNode* current_copy = NULL;
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = -1;
+
+        if (argument[0] == '/') {
+            current_copy = system->root;
+            i++;
+        } else {
+            current_copy = (*current);
+        }
 
         while (parsed_path[i + 1] != NULL) {
             //process backwards change
             if (strcmp(parsed_path[i], "..") == 0) {
                 if (strcmp(current_copy->name, system->root->name) == 0) {
                     printf("Error: Already at the root directory.\n");
+                    free_path(parsed_path);
                     return Error;
                 }
                 change_directory_backward(&current_copy);

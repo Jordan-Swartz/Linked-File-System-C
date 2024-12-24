@@ -175,6 +175,11 @@ char** parse_path(const char* argument) {
     //array of strings
     char** parsed_path = (char**)malloc(sizeof(char*) * 256);
 
+    //skip first char if abs path
+    if (argument[0] == '/') {
+        i++;
+    }
+
     while (argument[i] != '\0') {
         if (argument[i] == '/') {
             //add null char
