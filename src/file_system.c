@@ -77,9 +77,8 @@ int create_node(const FileSystem* system, FSNode* current, const char* name,
         printf("Error: A node with this name already exists.\n");
         free(new_node);
         return Error;
-    } else {
-        return Success;
     }
+    return Success;
 }
 
 /**
@@ -235,7 +234,7 @@ int insert_node(FSNode* current, FSNode* node) {
         if (strcmp(iter->name, node->name) > 0) {
             //link new node after previous and before iter
             node->next = iter;
-            node->previous = iter->previous;;
+            node->previous = iter->previous;
 
             //insert in front of current head (iter)
             if (iter->previous == NULL) {
@@ -266,7 +265,6 @@ int insert_node(FSNode* current, FSNode* node) {
     //insert at end
     iter->next = node;
     node->previous = iter;
-    current->size++;
     return Success;
 }
 

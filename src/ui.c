@@ -91,11 +91,12 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
-        //determine relative or abs path to create nested directories
+        //handle creation of nested directories
         FSNode* current_copy = NULL;
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = Success;
 
+        //relative or abs path
         if (argument[0] == '/') {
             current_copy = system->root;
             i++;
@@ -185,11 +186,12 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Success;
         }
 
-        //determine relative or abs path
+        //parse path
         FSNode* current_copy = NULL;
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = -1;
 
+        //relative or abs path
         if (argument[0] == '/') {
             current_copy = system->root;
             i++;
@@ -225,7 +227,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             //move to next string
             i++;
         }
-        //free path array
+        //free path array and update current
         (*current) = current_copy;
         free_path(parsed_path);
         return Success;
@@ -245,11 +247,12 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Success;
         }
 
-        //determine relative or abs path to process ls after directory change
+        //process ls after directory change
         FSNode* current_copy = NULL;
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = -1;
 
+        //relative or abs path
         if (argument[0] == '/') {
             current_copy = system->root;
             i++;
@@ -295,25 +298,18 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
-        //traverse to second-to-last string in parsed path to find source node
-
-        //FIXME - relative path
-
-        // //determine relative or abs path
-        // FSNode* current_copy = NULL;
-        // char** parsed_path = parse_path(argument);
-        // int i = 0, change_result = -1;
-        //
-        // if (argument[0] == '/') {
-        //     current_copy = system->root;
-        //     i++;
-        // } else {
-        //     current_copy = (*current);
-        // }
-
-        FSNode* source_node = (*current);
+        //traverse to second-to-last parsed path to find source node
+        FSNode* source_node = NULL;
         char** parsed_path_source = parse_path(argument);
         int i = 0, change_result = -1;
+
+        //relative or abs path
+        if (argument[0] == '/') {
+            source_node = system->root;
+            i++;
+        } else {
+            source_node = (*current);
+        }
 
         while (parsed_path_source[i+1] != NULL) {
             //process backwards change
@@ -339,37 +335,81 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             i++;
         }
 
-
-
-        //TODO
-        /**
-         * Refactor Parse Arg method to look for '../' This command indicates
-         * moving back up into a directory for complex path mixing
-         *
-         */
-
-
-
-
-
+        //search for node to move in source directory
+        FSNode* target_node = find_node(source_node, parsed_path_source[i]);
+        if (target_node == NULL) {
+            printf("Error: cannot rename '%s' -> No such file or directory.\n", parsed_path_source[i]);
+            free_path(parsed_path_source);
+            return Error;
+        }
 
         //traverse to second-to-last parsed path to find destination node
-        FSNode* destination_node = system->root;
+        FSNode* destination_node = NULL;
         char** parsed_path_destination = parse_path(argument2);
         i = 0, change_result = -1;
 
+        //relative or abs path
+        if (argument2[0] == '/') {
+            destination_node = system->root;
+            i++;
+        } else {
+            destination_node = (*current);
+        }
+
         while (parsed_path_destination[i+1] != NULL) {
-            change_result = change_directory_forward(&destination_node, parsed_path_source[i]);
-            if (change_result != Success) {
-                printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path_source[i]);
-                free_path(parsed_path_destination);
-                return Error;
+            //process backwards change
+            if (strcmp(parsed_path_destination[i], "..") == 0) {
+                if (strcmp(destination_node->name, system->root->name) == 0) {
+                    printf("Error: Already at the root directory.\n");
+                    free_path(parsed_path_destination);
+                    return Error;
+                }
+                change_directory_backward(&destination_node);
+
+            } else {
+                //process forward change
+                change_result = change_directory_forward(&destination_node, parsed_path_destination[i]);
+
+                if (change_result != Success) {
+                    printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path_destination[i]);
+                    free_path(parsed_path_destination);
+                    return Error;
+                }
             }
+            //move to next string
             i++;
         }
 
-        //TODO
+        //ensure destination node is valid (no node with existing name)
+        if (find_node(destination_node, parsed_path_destination[i]) != NULL) {
+            printf("Error: cannot move '%s' -> A node with this name already exists in the destination directory.\n",
+                target_node->name);
+            free_path(parsed_path_source);
+            free_path(parsed_path_destination);
+            return Error;
+        }
 
+        //remove source node from current directory
+        if (target_node == source_node->child_head) {
+            source_node->child_head = target_node->next;
+        }
+
+        //if target is not head
+        if (target_node->previous != NULL) {
+            target_node->previous->next = target_node->next;
+        }
+
+        //if target is not last
+        if (target_node->next != NULL) {
+            target_node->next->previous = target_node->previous;
+        }
+
+        target_node->previous = NULL;
+        target_node->next = NULL;
+        source_node->size--;
+
+        //move source node into destination node
+        insert_node(destination_node, target_node);
         free_path(parsed_path_source);
         free_path(parsed_path_destination);
         return Success;
@@ -389,11 +429,12 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
-        //determine relative or abs path
+        //parse second-to-last for rename source
         FSNode* current_copy = NULL;
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = -1;
 
+        //relative or abs path
         if (argument[0] == '/') {
             current_copy = system->root;
             i++;
