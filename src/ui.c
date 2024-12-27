@@ -338,7 +338,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         //search for node to move in source directory
         FSNode* target_node = find_node(source_node, parsed_path_source[i]);
         if (target_node == NULL) {
-            printf("Error: cannot rename '%s' -> No such file or directory.\n", parsed_path_source[i]);
+            printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path_source[i]);
             free_path(parsed_path_source);
             return Error;
         }
@@ -356,7 +356,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             destination_node = (*current);
         }
 
-        while (parsed_path_destination[i+1] != NULL) {
+        while (parsed_path_destination[i] != NULL) {
             //process backwards change
             if (strcmp(parsed_path_destination[i], "..") == 0) {
                 if (strcmp(destination_node->name, system->root->name) == 0) {
@@ -380,8 +380,18 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             i++;
         }
 
+        //ensure destination is not the source
+        if (target_node == destination_node) {
+            printf("Error: cannot move '%s' -> Destination is the same as the source.\n", target_node->name);
+            free_path(parsed_path_source);
+            free_path(parsed_path_destination);
+            return Error;
+        }
+
+        //FIXME node cannot go to child: Error: cannot move 'd' -> Destination is a subdirectory of the source
+
         //ensure destination node is valid (no node with existing name)
-        if (find_node(destination_node, parsed_path_destination[i]) != NULL) {
+        if (find_node(destination_node, target_node->name) != NULL) {
             printf("Error: cannot move '%s' -> A node with this name already exists in the destination directory.\n",
                 target_node->name);
             free_path(parsed_path_source);
