@@ -268,6 +268,18 @@ int insert_node(FSNode* current, FSNode* node) {
     return Success;
 }
 
+//checks if destination node is a child of the source
+int is_subdirectory(FSNode* source, FSNode* destination) {
+    FSNode* current = destination;
+    while (current != NULL) {
+        if (current == source) {
+            return Error;
+        }
+        current = current->parent;
+    }
+    return Success;
+}
+
 //returns pointer to desired node if found, NULL no node is found
 FSNode* find_node(FSNode* current, char* change_to_name) {
     FSNode* iter = current->child_head;
