@@ -470,6 +470,11 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         //relative or abs path
         if (argument[0] == '/') {
             current_copy = system->root;
+
+            //FIXME check if we need to remove i++ or add it back???
+
+
+
             i++;
         } else {
             current_copy = (*current);
