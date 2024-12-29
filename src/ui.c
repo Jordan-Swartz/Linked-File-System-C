@@ -164,7 +164,12 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process display current path
     else if (strcmp(command, "pwd") == 0) {
-        display_current_path(system, current);
+
+
+        //FIXME SEG FAULT
+
+
+        display_current_path(system, (*current));
         printf("\n");
         return Success;
     }
@@ -306,10 +311,11 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         //relative or abs path
         if (argument[0] == '/') {
             source_node_parent = system->root;
-            i++;
+            //i++;
         } else {
             source_node_parent = (*current);
         }
+        //printf("test: '%s'", parsed_path_source[i]);
 
         //FIXME SEG fault
         //ensure source is not root directory
@@ -359,49 +365,52 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         //relative or abs path
         if (argument2[0] == '/') {
             destination_node = system->root;
-            i++;
+            //i++;
         } else {
             destination_node = (*current);
         }
 
-        while (parsed_path_destination[i] != NULL) {
-            //process backwards change
-            if (strcmp(parsed_path_destination[i], "..") == 0) {
-                if (strcmp(destination_node->name, system->root->name) == 0) {
-                    printf("Error: Already at the root directory.\n");
-                    free_path(parsed_path_destination);
-                    return Error;
-                }
-                change_directory_backward(&destination_node);
+        //if destination is not root, then parse path and verify destination
+        if (argument2[1] != '\0') {
+            while (parsed_path_destination[i] != NULL) {
+                //process backwards change
+                if (strcmp(parsed_path_destination[i], "..") == 0) {
+                    if (strcmp(destination_node->name, system->root->name) == 0) {
+                        printf("Error: Already at the root directory.\n");
+                        free_path(parsed_path_destination);
+                        return Error;
+                    }
+                    change_directory_backward(&destination_node);
 
-            } else {
-                //process forward change
-                change_result = change_directory_forward(&destination_node, parsed_path_destination[i]);
+                } else {
+                    //process forward change
+                    change_result = change_directory_forward(&destination_node, parsed_path_destination[i]);
 
-                if (change_result != Success) {
-                    printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path_destination[i]);
-                    free_path(parsed_path_destination);
-                    return Error;
+                    if (change_result != Success) {
+                        printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path_destination[i]);
+                        free_path(parsed_path_destination);
+                        return Error;
+                    }
                 }
+                //move to next string
+                i++;
             }
-            //move to next string
-            i++;
-        }
 
-        //ensure destination is not the source node
-        if (source_node == destination_node) {
-            printf("Error: cannot move '%s' -> Destination is the same as the source.\n", source_node->name);
-            free_path(parsed_path_source);
-            free_path(parsed_path_destination);
-            return Error;
-        }
+            //ensure destination is not the source node
+            if (source_node == destination_node) {
+                printf("Error: cannot move '%s' -> Destination is the same as the source.\n", source_node->name);
+                free_path(parsed_path_source);
+                free_path(parsed_path_destination);
+                return Error;
+            }
 
-        //ensure destination is not a child of the source node
-        if (is_subdirectory(source_node, destination_node) != Success) {
-            printf("Error: cannot move '%s' -> Destination is a subdirectory the source.\n", source_node->name);
-            free_path(parsed_path_source);
-            free_path(parsed_path_destination);
-            return Error;
+            //ensure destination is not a child of the source node
+            if (is_subdirectory(source_node, destination_node) != Success) {
+                printf("Error: cannot move '%s' -> Destination is a subdirectory the source.\n", source_node->name);
+                free_path(parsed_path_source);
+                free_path(parsed_path_destination);
+                return Error;
+            }
         }
 
         //ensure destination node is valid (no node with existing name)

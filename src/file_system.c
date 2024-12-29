@@ -26,10 +26,10 @@ const char* PermissionsNames[] = {"R____", "R_W__", "R_W_E"};
  */
 void system_setup(FileSystem* system) {
     //set up system
-    printf("Enter system name: ");
+    printf("Enter system username: ");
     scanf("%s", system->hostname);
     strcpy(system->host_signature, system->hostname);
-    strcat(system->host_signature, "@JDS:");
+    strcat(system->host_signature, "@JDS");
 
     //allocate memory for root node and initialize
     system->root = (FSNode*)malloc(sizeof(FSNode));
@@ -94,6 +94,15 @@ void delete_node() {
 void display_current_path(const FileSystem* system, FSNode* current) {
     char path[1024] = "$";
     char temp[100] = "";
+
+    //FIXME fix root/home pwd path
+
+    //if in root directory (home)
+    if (current == system->root) {
+        printf("%s:~$ ", system->host_signature);
+        return;
+    }
+
     FSNode* iter = current;
 
     //create path starting from current and traversing up to the root
@@ -111,6 +120,7 @@ void display_current_path(const FileSystem* system, FSNode* current) {
     printf("%s ", path);
     fflush(stdout);
 }
+
 
 /**
  * ls -la move to file_system
@@ -168,7 +178,7 @@ void set_current(FSNode** current, FSNode* change_to_node) {
 
 //return array of parsed strings
 char** parse_path(const char* argument) {
-    char temp[256];
+    char temp[256] = {0};
     int i = 0, temp_index = 0, arr_index = 0;
 
     //array of strings
@@ -207,10 +217,12 @@ char** parse_path(const char* argument) {
         char* substring = (char*)malloc(temp_index + 1);
         strcpy(substring, temp);
         parsed_path[arr_index] = substring;
+        //printf("string %s\n", substring);
         arr_index++;
     }
 
     //null terminate array
+    //printf("index %d\n", arr_index);
     parsed_path[arr_index] = NULL;
     return parsed_path;
 }
