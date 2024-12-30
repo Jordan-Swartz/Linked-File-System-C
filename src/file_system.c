@@ -27,8 +27,8 @@ const char* PermissionsNames[] = {"R____", "R_W__", "R_W_E"};
 void system_setup(FileSystem* system) {
     //set up system
     printf("Enter system username: ");
-    scanf("%s", system->hostname);
-    strcpy(system->host_signature, system->hostname);
+    scanf("%s", system->username);
+    strcpy(system->host_signature, system->username);
     strcat(system->host_signature, "@JDS");
 
     //allocate memory for root node and initialize
@@ -43,7 +43,7 @@ void root_setup(const FileSystem* system, FSNode* root) {
     //set up root
     printf("Enter root name: ");
     scanf("%s", root->name);
-    strcpy(root->owner, system->hostname);
+    strcpy(root->owner, system->username);
     root->type = Directory;
     root->permissions = Read_Write;
     root->size = 0;
@@ -64,7 +64,7 @@ int create_node(const FileSystem* system, FSNode* current, const char* name,
 
     //populate attributes
     strcpy(new_node->name, name);
-    strcpy(new_node->owner, system->hostname);
+    strcpy(new_node->owner, system->username);
     new_node->type = type;
     new_node->permissions = Read_Write;
     new_node->child_head = NULL;
@@ -97,6 +97,8 @@ void display_current_path(const FileSystem* system, FSNode* current) {
 
     //FIXME fix root/home pwd path
 
+    //FIXME add ~ / functionality for root to cd, mkdir, etc
+
     //if in root directory (home)
     if (current == system->root) {
         printf("%s:~$ ", system->host_signature);
@@ -106,7 +108,7 @@ void display_current_path(const FileSystem* system, FSNode* current) {
     FSNode* iter = current;
 
     //create path starting from current and traversing up to the root
-    while (iter != NULL) {
+    while (iter != system->root) {
         sprintf(temp,"/%s%s", iter->name, path);
         strcpy(path, temp);
         iter = iter->parent;
@@ -133,7 +135,7 @@ void display_directory_nodes(const FileSystem* system, const FSNode* current) {
 
     while (iter != NULL) {
         printf("%s_%s %d %s %s\n", NodeTypeNames[iter->type], PermissionsNames[iter->permissions],
-            iter->size, system->hostname, iter->name);
+            iter->size, system->username, iter->name);
         iter = iter->next;
     }
 }

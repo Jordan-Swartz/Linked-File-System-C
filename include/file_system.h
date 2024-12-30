@@ -31,7 +31,7 @@ struct FSNode {
 };
 
 struct FileSystem {
-    char hostname[100];
+    char username[100];
     char host_signature[100];
     FSNode* root;
 };
