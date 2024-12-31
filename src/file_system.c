@@ -115,7 +115,7 @@ void display_current_path(const FileSystem* system, FSNode* current) {
     }
 
     //append system name to front of path
-    sprintf(temp, "%s~%s", system->host_signature, path);
+    sprintf(temp, "%s:~%s", system->host_signature, path);
     strcpy(path, temp);
 
     //display path

@@ -164,13 +164,18 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process display current path
     else if (strcmp(command, "pwd") == 0) {
+        FSNode* iter = (*current);
+        char path[1024] = "";
+        char temp[100];
 
+        //create path
+        while (iter != NULL) {
+            sprintf(temp, "/%s%s", iter->name, path);
+            strcpy(path, temp);
+            iter = iter->parent;
+        }
 
-        //FIXME SEG FAULT
-
-
-        display_current_path(system, (*current));
-        printf("\n");
+        printf("%s\n", path);
         return Success;
     }
 
