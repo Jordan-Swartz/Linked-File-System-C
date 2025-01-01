@@ -96,6 +96,9 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = Success;
 
+
+        //FIXME
+
         //relative or abs path
         if (argument[0] == '/') {
             current_copy = system->root;
@@ -108,7 +111,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             //process backwards change
             if (strcmp(parsed_path[i], "..") == 0) {
                 if (strcmp(current_copy->name, system->root->name) == 0) {
-                    printf("Error: Already at the root directory.\n");
+                    printf("Error: Cannot move past the root directory.\n");
                     free_path(parsed_path);
                     return Error;
                 }
@@ -190,8 +193,8 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
-        //process change to root '~'
-        if (argument[0] == '~') {
+        //process change to root '~' or '/'
+        if (strcmp(argument, "~") == 0 || strcmp(argument, "/") == 0) {
             (*current) = system->root;
             return Success;
         }
@@ -204,7 +207,6 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         //relative or abs path
         if (argument[0] == '/') {
             current_copy = system->root;
-            i++;
         } else {
             current_copy = (*current);
         }
@@ -213,7 +215,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             //process backwards change
             if (strcmp(parsed_path[i], "..") == 0) {
                 if (strcmp(current_copy->name, system->root->name) == 0) {
-                    printf("Error: Already at the root directory.\n");
+                    printf("Error: Cannot move past the root directory.\n");
                     free_path(parsed_path);
                     return Error;
                 }
@@ -257,6 +259,12 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Success;
         }
 
+        //process ls for root '~' or '/'
+        if (strcmp(argument, "~") == 0 || strcmp(argument, "/") == 0) {
+             display_directory_nodes(system, system->root);
+            return Success;
+        }
+
         //process ls after directory change
         FSNode* current_copy = NULL;
         char** parsed_path = parse_path(argument);
@@ -265,7 +273,6 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         //relative or abs path
         if (argument[0] == '/') {
             current_copy = system->root;
-            i++;
         } else {
             current_copy = (*current);
         }
@@ -274,7 +281,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             //process backwards change
             if (strcmp(parsed_path[i], "..") == 0) {
                 if (strcmp(current_copy->name, system->root->name) == 0) {
-                    printf("Error: Already at the root directory.\n");
+                    printf("Error: Cannot move past the root directory.\n");
                     free_path(parsed_path);
                     return Error;
                 }
@@ -285,7 +292,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
                 change_result = change_directory_forward(&current_copy, parsed_path[i]);
 
                 if (change_result != Success) {
-                    printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path[i]);
+                    printf("Error: Cannot access '%s' -> No such file or directory.\n", parsed_path[i]);
                     free_path(parsed_path);
                     return Error;
                 }
@@ -308,6 +315,12 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
+        //ensure desired source is not root directory
+        if (strcmp(argument, "~") == 0 || strcmp(argument, "/") == 0) {
+            printf("Error: Cannot move the root directory.\n");
+            return Error;
+        }
+
         //traverse to second-to-last parsed path to find parent of source node
         FSNode* source_node_parent  = NULL;
         char** parsed_path_source = parse_path(argument);
@@ -316,25 +329,15 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         //relative or abs path
         if (argument[0] == '/') {
             source_node_parent = system->root;
-            //i++;
         } else {
             source_node_parent = (*current);
-        }
-        //printf("test: '%s'", parsed_path_source[i]);
-
-        //FIXME SEG fault
-        //ensure source is not root directory
-        if (strcmp(parsed_path_source[i], system->root->name) == 0) {
-            printf("Error: cannot move the root directory.\n");
-            free_path(parsed_path_source);
-            return Error;
         }
 
         while (parsed_path_source[i+1] != NULL) {
             //process backwards change
             if (strcmp(parsed_path_source[i], "..") == 0) {
                 if (strcmp(source_node_parent->name, system->root->name) == 0) {
-                    printf("Error: Already at the root directory.\n");
+                    printf("Error: Cannot move past the root directory.\n");
                     free_path(parsed_path_source);
                     return Error;
                 }
@@ -345,7 +348,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
                 change_result = change_directory_forward(&source_node_parent, parsed_path_source[i]);
 
                 if (change_result != Success) {
-                    printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path_source[i]);
+                    printf("Error: Cannot access '%s' -> No such file or directory.\n", parsed_path_source[i]);
                     free_path(parsed_path_source);
                     return Error;
                 }
@@ -357,7 +360,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         //search for node to move within source_node_parent directory
         FSNode* source_node = find_node(source_node_parent, parsed_path_source[i]);
         if (source_node == NULL) {
-            printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path_source[i]);
+            printf("Error: Cannot access '%s' -> No such file or directory.\n", parsed_path_source[i]);
             free_path(parsed_path_source);
             return Error;
         }
@@ -375,13 +378,13 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             destination_node = (*current);
         }
 
-        //if destination is not root, then parse path and verify destination
-        if (argument2[1] != '\0') {
+        //if destination is not root then parse path and verify destination
+        if (strcmp(argument2, "~") != 0 && strcmp(argument2, "/") != 0) {
             while (parsed_path_destination[i] != NULL) {
                 //process backwards change
                 if (strcmp(parsed_path_destination[i], "..") == 0) {
                     if (strcmp(destination_node->name, system->root->name) == 0) {
-                        printf("Error: Already at the root directory.\n");
+                        printf("Error: Cannot move past the root directory.\n");
                         free_path(parsed_path_destination);
                         return Error;
                     }
@@ -392,7 +395,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
                     change_result = change_directory_forward(&destination_node, parsed_path_destination[i]);
 
                     if (change_result != Success) {
-                        printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path_destination[i]);
+                        printf("Error: Cannot access '%s' -> No such file or directory.\n", parsed_path_destination[i]);
                         free_path(parsed_path_destination);
                         return Error;
                     }
@@ -403,7 +406,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
             //ensure destination is not the source node
             if (source_node == destination_node) {
-                printf("Error: cannot move '%s' -> Destination is the same as the source.\n", source_node->name);
+                printf("Error: Cannot move '%s' -> Destination is the same as the source.\n", source_node->name);
                 free_path(parsed_path_source);
                 free_path(parsed_path_destination);
                 return Error;
@@ -411,7 +414,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
             //ensure destination is not a child of the source node
             if (is_subdirectory(source_node, destination_node) != Success) {
-                printf("Error: cannot move '%s' -> Destination is a subdirectory the source.\n", source_node->name);
+                printf("Error: Cannot move '%s' -> Destination is a subdirectory the source.\n", source_node->name);
                 free_path(parsed_path_source);
                 free_path(parsed_path_destination);
                 return Error;
@@ -420,7 +423,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
         //ensure destination node is valid (no node with existing name)
         if (find_node(destination_node, source_node->name) != NULL) {
-            printf("Error: cannot move '%s' -> A node with this name already exists in the destination directory.\n",
+            printf("Error: Cannot move '%s' -> A node with this name already exists in the destination directory.\n",
                 source_node->name);
             free_path(parsed_path_source);
             free_path(parsed_path_destination);
@@ -469,52 +472,52 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
         //parse second-to-last for rename source
         FSNode* current_copy = NULL;
+        FSNode* rename_node = NULL;
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = -1;
 
         //relative or abs path
         if (argument[0] == '/') {
             current_copy = system->root;
-
-            //FIXME check if we need to remove i++ or add it back???
-
-
-
-            i++;
         } else {
             current_copy = (*current);
         }
 
-        while (parsed_path[i + 1] != NULL) {
-            //process backwards change
-            if (strcmp(parsed_path[i], "..") == 0) {
-                if (strcmp(current_copy->name, system->root->name) == 0) {
-                    printf("Error: Already at the root directory.\n");
-                    free_path(parsed_path);
-                    return Error;
-                }
-                change_directory_backward(&current_copy);
+        //if rename node is not root then parse path to find desired node
+        if (strcmp(argument, "~") != 0 && strcmp(argument, "/") != 0) {
+            while (parsed_path[i + 1] != NULL) {
+                //process backwards change
+                if (strcmp(parsed_path[i], "..") == 0) {
+                    if (strcmp(current_copy->name, system->root->name) == 0) {
+                        printf("Error: Cannot move past the root directory.\n");
+                        free_path(parsed_path);
+                        return Error;
+                    }
+                    change_directory_backward(&current_copy);
 
-            } else {
-                //process forward change
-                change_result = change_directory_forward(&current_copy, parsed_path[i]);
+                } else {
+                    //process forward change
+                    change_result = change_directory_forward(&current_copy, parsed_path[i]);
 
-                if (change_result != Success) {
-                    printf("Error: cannot access '%s' -> No such file or directory.\n", parsed_path[i]);
-                    free_path(parsed_path);
-                    return Error;
+                    if (change_result != Success) {
+                        printf("Error: Cannot access '%s' -> No such file or directory.\n", parsed_path[i]);
+                        free_path(parsed_path);
+                        return Error;
+                    }
                 }
+                //move to next string
+                i++;
             }
-            //move to next string
-            i++;
-        }
 
-        //search for node to rename in current directory
-        FSNode* rename_node = find_node(current_copy, parsed_path[i]);
-        if (rename_node == NULL) {
-            printf("Error: cannot rename '%s' -> No such file or directory.\n", parsed_path[i]);
-            free_path(parsed_path);
-            return Error;
+            //search for node to rename in current directory
+            rename_node = find_node(current_copy, parsed_path[i]);
+            if (rename_node == NULL) {
+                printf("Error: Cannot rename '%s' -> No such file or directory.\n", parsed_path[i]);
+                free_path(parsed_path);
+                return Error;
+            }
+        } else {
+            rename_node = system->root;
         }
 
         //rename node and free path array
@@ -523,7 +526,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         return Success;
     }
 
-    //process changing permissons for file
+    //process changing permissions for file
     else if (strcmp(command, "chmod") == 0) {
         if (argument != NULL || argument2 != NULL) {
             //TODO finish method

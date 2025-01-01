@@ -95,10 +95,6 @@ void display_current_path(const FileSystem* system, FSNode* current) {
     char path[1024] = "$";
     char temp[100] = "";
 
-    //FIXME fix root/home pwd path
-
-    //FIXME add ~ / functionality for root to cd, mkdir, etc
-
     //if in root directory (home)
     if (current == system->root) {
         printf("%s:~$ ", system->host_signature);
