@@ -451,6 +451,10 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
         //move source node into destination node
         insert_node(destination_node, source_node);
+
+        //update parent
+        source_node->parent = destination_node;
+
         free_path(parsed_path_source);
         free_path(parsed_path_destination);
         return Success;
@@ -593,6 +597,15 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         while (parsed_path[i] != NULL) {
             printf("%s, ", parsed_path[i]);
             i++;
+        }
+    }
+
+    //PROCESS TEST Parent
+    else if (strcmp(command, "p2") == 0) {
+        FSNode* iter = (*current)->child_head;
+        while (iter != NULL) {
+            printf("current: %s parent: %s\n", iter->name, iter->parent->name);
+            iter = iter->next;
         }
     }
 
