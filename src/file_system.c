@@ -74,7 +74,6 @@ int create_node(const FileSystem* system, FSNode* current, const char* name,
 
     //insert node alphabetically
     if (insert_node(current, new_node) == Error) {
-        printf("Error: A node with this name already exists.\n");
         free(new_node);
         return Error;
     }
@@ -188,19 +187,22 @@ char** parse_path(const char* argument) {
     }
 
     while (argument[i] != '\0') {
+    //process if slash is reached and buffer isn't empty
         if (argument[i] == '/') {
-            //add null char
-            temp[temp_index] = '\0';
+            if (temp_index > 0) {
+                //add null char
+                temp[temp_index] = '\0';
 
-            //allocate memory for and copy temp to substring
-            char* substring = (char*)malloc(temp_index + 1);
-            strcpy(substring, temp);
+                //allocate memory for and copy temp to substring
+                char* substring = (char*)malloc(temp_index + 1);
+                strcpy(substring, temp);
 
-            //add substring to array, reset buffer index, and clear buffer
-            parsed_path[arr_index] = substring;
-            arr_index++;
-            temp_index = 0;
-            memset(temp, 0, sizeof(temp));
+                //add substring to array, reset buffer index, and clear buffer
+                parsed_path[arr_index] = substring;
+                arr_index++;
+                temp_index = 0;
+                memset(temp, 0, sizeof(temp));
+            }
         } else {
             //add next char to buffer
             temp[temp_index] = argument[i];

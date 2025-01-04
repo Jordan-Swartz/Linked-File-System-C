@@ -76,7 +76,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     /////collect input
     char input_str[1024];
-    fgets(input_str, sizeof(input_str), stdin);     //get entire line
+    fgets(input_str, sizeof(input_str), stdin);           //get entire line
     input_str[strcspn(input_str, "\n")] = 0;        //remove newline char
 
     //parse command and arg
@@ -86,28 +86,48 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process make directory
     if (strcmp(command, "mkdir") == 0) {
-        if (argument == NULL) {
+        //check for argument errors
+        if (argument2 != NULL) {
+            printf("Error: '%s' too many arguments\n", command);
+            return Error;
+        } else if (argument == NULL) {
             printf("Error: '%s' missing argument\n", command);
+            return Error;
+        }
+
+        //ensure mkdir arg is not root directory
+        if (strcmp(argument, "~") == 0 || strcmp(argument, "/") == 0) {
+            printf("Error: Root directory already exists.\n");
             return Error;
         }
 
         //handle creation of nested directories
         FSNode* current_copy = NULL;
         char** parsed_path = parse_path(argument);
-        int i = 0, change_result = Success;
+        int i = 0, change_result = -1;
 
-
-        //FIXME
+        //ensure path is not null
+        if (parsed_path[0] == NULL) {
+            printf("Error: Invalid or empty path.\n");
+            free_path(parsed_path);
+            return Error;
+        }
 
         //relative or abs path
         if (argument[0] == '/') {
             current_copy = system->root;
-            i++;
         } else {
             current_copy = (*current);
         }
 
-        while (parsed_path[i] != NULL && change_result == Success) {
+        while (parsed_path[i] != NULL) {
+            //reject creating '.'
+            if (strcmp(parsed_path[i], ".") == 0) {
+                printf("Error: Cannot create directory named '%s'.\n", parsed_path[i]);
+                free_path(parsed_path);
+                return Error;
+            }
+
             //process backwards change
             if (strcmp(parsed_path[i], "..") == 0) {
                 if (strcmp(current_copy->name, system->root->name) == 0) {
@@ -122,16 +142,16 @@ int process_input_command(const FileSystem* system, FSNode** current) {
                 change_result = create_node(system, current_copy, parsed_path[i], Directory);
 
                 if (change_result == Error) {
-                    printf("Error: A node with this name already exists.\n");
+                    printf("Error: '%s' A node with this name already exists.\n", parsed_path[i]);
                     free_path(parsed_path);
                     return Error;
                 } else if (parsed_path[i+1] != NULL) {
                     //change to new directory
                     change_directory_forward(&current_copy, parsed_path[i]);
                 }
-                //move to next string
-                i++;
             }
+            //move to next string
+            i++;
         }
 
         //free parsed path
@@ -141,14 +161,25 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process make file
     else if (strcmp(command, "touch") == 0) {
-        if (argument != NULL) {
-            create_node(system, (*current), argument, File);
-            return Success;
-
-        } else {
+        //check for argument errors
+        if (argument2 != NULL) {
+            printf("Error: '%s' too many arguments\n", command);
+            return Error;
+        } else if (argument == NULL) {
             printf("Error: '%s' missing argument\n", command);
             return Error;
         }
+
+        //ensure touch arg is not an invalid name
+        if (strcmp(argument, "~") == 0 || strcmp(argument, "/") == 0
+            || strcmp(argument, ".") == 0 || strcmp(argument, "..") == 0) {
+            printf("Error: Cannot create file named '%s'.\n", argument);
+            return Error;
+        }
+
+        //make file node
+        create_node(system, (*current), argument, File);
+        return Success;
     }
 
     //process delete file or directory
@@ -203,6 +234,13 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         FSNode* current_copy = NULL;
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = -1;
+
+        //ensure path is not null
+        if (parsed_path[0] == NULL) {
+            printf("Error: Invalid or empty path.\n");
+            free_path(parsed_path);
+            return Error;
+        }
 
         //relative or abs path
         if (argument[0] == '/') {
@@ -270,6 +308,13 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = -1;
 
+        //ensure path is not null
+        if (parsed_path[0] == NULL) {
+            printf("Error: Invalid or empty path.\n");
+            free_path(parsed_path);
+            return Error;
+        }
+
         //relative or abs path
         if (argument[0] == '/') {
             current_copy = system->root;
@@ -326,6 +371,13 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         char** parsed_path_source = parse_path(argument);
         int i = 0, change_result = -1;
 
+        //ensure path is not null
+        if (parsed_path_source[0] == NULL) {
+            printf("Error: Invalid or empty path.\n");
+            free_path(parsed_path_source);
+            return Error;
+        }
+
         //relative or abs path
         if (argument[0] == '/') {
             source_node_parent = system->root;
@@ -369,6 +421,13 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         FSNode* destination_node = NULL;
         char** parsed_path_destination = parse_path(argument2);
         i = 0, change_result = -1;
+
+        //ensure path is not null
+        if (parsed_path_destination[0] == NULL) {
+            printf("Error: Invalid or empty path.\n");
+            free_path(parsed_path_destination);
+            return Error;
+        }
 
         //relative or abs path
         if (argument2[0] == '/') {
@@ -479,6 +538,13 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         FSNode* rename_node = NULL;
         char** parsed_path = parse_path(argument);
         int i = 0, change_result = -1;
+
+        //ensure path is not null
+        if (parsed_path[0] == NULL) {
+            printf("Error: Invalid or empty path.\n");
+            free_path(parsed_path);
+            return Error;
+        }
 
         //relative or abs path
         if (argument[0] == '/') {
