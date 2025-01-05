@@ -57,8 +57,13 @@ void root_setup(const FileSystem* system, FSNode* root) {
 /**
  *
  */
-int create_node(const FileSystem* system, FSNode* current, const char* name,
-                 NodeType type) {
+int create_node(
+    const FileSystem* system,
+    FSNode* current,
+    const char* name,
+    NodeType type
+    )
+{
     //create node
     FSNode* new_node = (FSNode*)malloc(sizeof(FSNode));
 
