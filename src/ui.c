@@ -95,11 +95,11 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
-        //ensure mkdir arg is not root directory
-        if (strcmp(argument, "~") == 0 || strcmp(argument, "/") == 0) {
-            printf("Error: Root directory already exists.\n");
-            return Error;
-        }
+        // //ensure mkdir arg is not root directory
+        // if (strcmp(argument, "~") == 0 || strcmp(argument, "/") == 0) {
+        //     printf("Error: Root directory already exists.\n");
+        //     return Error;
+        // }
 
         //handle creation of nested directories
         FSNode* current_copy = NULL;
@@ -121,8 +121,9 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         }
 
         while (parsed_path[i] != NULL) {
-            //reject creating '.'
-            if (strcmp(parsed_path[i], ".") == 0) {
+            //reject invalid naming
+            if (strcmp(parsed_path[i], ".") == 0 || strcmp(parsed_path[i], "~") == 0
+                || strcmp(parsed_path[i], "/") == 0) {
                 printf("Error: Cannot create directory named '%s'.\n", parsed_path[i]);
                 free_path(parsed_path);
                 return Error;
@@ -169,6 +170,8 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             printf("Error: '%s' missing argument\n", command);
             return Error;
         }
+
+        //FIXME Support abs/rel paths
 
         //ensure touch arg is not an invalid name
         if (strcmp(argument, "~") == 0 || strcmp(argument, "/") == 0
@@ -527,12 +530,6 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             return Error;
         }
 
-        //reject renaming '..', '.'
-        if (strcmp(argument2, "..") == 0 || strcmp(argument2, ".") == 0) {
-            printf("Error: Cannot rename '%s'.\n", argument2);
-            return Error;
-        }
-
         //parse second-to-last for rename source
         FSNode* current_copy = NULL;
         FSNode* rename_node = NULL;
@@ -590,8 +587,27 @@ int process_input_command(const FileSystem* system, FSNode** current) {
             rename_node = system->root;
         }
 
-        //rename node and free path array
-        strcpy(rename_node->name, argument2);
+        //parse argument2 for safety and rename based on first index
+        char** parsed_path_rename = parse_path(argument2);
+        if (parsed_path_rename[0] == NULL) {
+            printf("Error: Invalid or empty renaming path.\n");
+            free_path(parsed_path);
+            free_path(parsed_path_rename);
+            return Error;
+        }
+
+        //reject invalid naming
+        if (strcmp(parsed_path_rename[0], ".") == 0 || strcmp(parsed_path_rename[0], "..") == 0
+            || strcmp(parsed_path_rename[0], "/") == 0 || strcmp(parsed_path_rename[0], "~") == 0) {
+            printf("Error: Cannot rename directory named '%s'.\n", parsed_path_rename[0]);
+            free_path(parsed_path_rename);
+            free_path(parsed_path);
+            return Error;
+            }
+
+        //rename node and free path
+        strcpy(rename_node->name, parsed_path_rename[0]);
+        free_path(parsed_path_rename);
         free_path(parsed_path);
         return Success;
     }
@@ -655,6 +671,12 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         }
     }
 
+    //process displaying menu
+    else if (strcmp(command, "menu") == 0) {
+        display_menu();
+        return Success;
+    }
+
     //PROCESS TEST
     else if (strcmp(command, "p") == 0) {
         char** parsed_path = parse_path(argument);
@@ -677,6 +699,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process exit system
     else if (strcmp(command, "exit") == 0)  {
+        printf("Exiting System...\n");
         return Exit;
     }
 
