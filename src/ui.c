@@ -137,142 +137,12 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process changing directory
     else if (strcmp(command, "cd") == 0) {
-        // //check for argument errors
-        // if (argument2 != NULL) {
-        //     printf("Error: '%s' too many arguments\n", command);
-        //     return Error;
-        // } else if (argument == NULL) {
-        //     printf("Error: '%s' missing argument\n", command);
-        //     return Error;
-        // }
-        //
-        // //process change to root '~' or '/'
-        // if (strcmp(argument, "~") == 0 || strcmp(argument, "/") == 0) {
-        //     (*current) = system->root;
-        //     return Success;
-        // }
-        //
-        // //parse path
-        // FSNode* current_copy = NULL;
-        // char** parsed_path = parse_path(argument);
-        // int i = 0, change_result = -1;
-        //
-        // //ensure path is not null
-        // if (parsed_path[0] == NULL) {
-        //     printf("Error: Invalid or empty path.\n");
-        //     free_path(parsed_path);
-        //     return Error;
-        // }
-        //
-        // //relative or abs path
-        // if (argument[0] == '/') {
-        //     current_copy = system->root;
-        // } else {
-        //     current_copy = (*current);
-        // }
-        //
-        // while (parsed_path[i] != NULL) {
-        //     //process backwards change
-        //     if (strcmp(parsed_path[i], "..") == 0) {
-        //         if (strcmp(current_copy->name, system->root->name) == 0) {
-        //             printf("Error: Cannot move past the root directory.\n");
-        //             free_path(parsed_path);
-        //             return Error;
-        //         }
-        //         change_directory_backward(&current_copy);
-        //
-        //     } else {
-        //         //process forward change
-        //         change_result = change_directory_forward(&current_copy, parsed_path[i]);
-        //
-        //         if (change_result == Error_File) {
-        //             printf("Error: '%s' is not a directory.\n", parsed_path[i]);
-        //             free_path(parsed_path);
-        //             return Error;
-        //
-        //         } else if (change_result == Error) {
-        //             printf("Error: '%s' -> No such file or directory\n", parsed_path[i]);
-        //             free_path(parsed_path);
-        //             return Error;
-        //         }
-        //     }
-        //     //move to next string
-        //     i++;
-        // }
-        // //free path array and update current
-        // (*current) = current_copy;
-        // free_path(parsed_path);
-        // return Success;
         process_cd(system, command, argument, argument2, current);
     }
 
     //process display directory contents
     else if (strcmp(command, "ls") == 0)  {
-        //check for argument errors
-        if (argument2 != NULL) {
-            printf("Error: '%s' too many arguments\n", command);
-            return Error;
-        }
-
-        //process ls by itself
-        if (argument == NULL) {
-            display_directory_nodes(system, (*current));
-            return Success;
-        }
-
-        //process ls for root '~' or '/'
-        if (strcmp(argument, "~") == 0 || strcmp(argument, "/") == 0) {
-             display_directory_nodes(system, system->root);
-            return Success;
-        }
-
-        //process ls after directory change
-        FSNode* current_copy = NULL;
-        char** parsed_path = parse_path(argument);
-        int i = 0, change_result = -1;
-
-        //ensure path is not null
-        if (parsed_path[0] == NULL) {
-            printf("Error: Invalid or empty path.\n");
-            free_path(parsed_path);
-            return Error;
-        }
-
-        //relative or abs path
-        if (argument[0] == '/') {
-            current_copy = system->root;
-        } else {
-            current_copy = (*current);
-        }
-
-        while (parsed_path[i] != NULL) {
-            //process backwards change
-            if (strcmp(parsed_path[i], "..") == 0) {
-                if (strcmp(current_copy->name, system->root->name) == 0) {
-                    printf("Error: Cannot move past the root directory.\n");
-                    free_path(parsed_path);
-                    return Error;
-                }
-                change_directory_backward(&current_copy);
-
-            } else {
-                //process forward change
-                change_result = change_directory_forward(&current_copy, parsed_path[i]);
-
-                if (change_result != Success) {
-                    printf("Error: Cannot access '%s' -> No such file or directory.\n", parsed_path[i]);
-                    free_path(parsed_path);
-                    return Error;
-                }
-            }
-            //move to next string
-            i++;
-        }
-
-        //display directory contents and free path array
-        display_directory_nodes(system, current_copy);
-        free_path(parsed_path);
-        return Success;
+        process_ls(system, command, argument, argument2, (*current));
     }
 
     //process move file or directory
@@ -658,7 +528,7 @@ int process_parsed_path(
     const FileSystem* system,
     const char* path,
     FSNode* start_node,
-    FSNode** target_node,
+    FSNode** return_node,
     const int stop_at_second_last,
     const int enable_create_node
     )
@@ -691,7 +561,7 @@ int process_parsed_path(
         //reject invalid naming (mkdir and rn)
         if (strcmp(parsed_path[i], ".") == 0 || strcmp(parsed_path[i], "~") == 0
             || strcmp(parsed_path[i], "/") == 0) {
-            printf("Error: Cannot create directory named '%s'.\n", parsed_path[i]);
+            printf("Error: Cannot create or access directory named '%s'.\n", parsed_path[i]);
             free_path(parsed_path);
             return Error;
         }
@@ -735,8 +605,8 @@ int process_parsed_path(
     }
 
     //set target node to last traversed address
-    if (target_node != NULL) {
-        (*target_node) = current;
+    if (return_node != NULL) {
+        (*return_node) = current;
     }
     free_path(parsed_path);
     return Success;
@@ -756,7 +626,7 @@ void process_mkdir(
     }
 
     //handle creation of nested directories
-    process_parsed_path(system, arg1, current, NULL, FULL_TRAVERSAL, ENABLE_CREATE);
+    process_parsed_path(system, arg1, current, IGNORE_RESULT, FULL_TRAVERSAL, ENABLE_CREATE);
 }
 
 void process_touch() {
@@ -805,6 +675,69 @@ void process_cd(
     process_parsed_path(system, arg1, (*current), current, FULL_TRAVERSAL, DISABLE_CREATE);
 }
 
+void process_ls(
+    const FileSystem* system,
+    const char* command,
+    const char* arg1,
+    const char* arg2,
+    FSNode* current
+    )
+{
+    //check for argument errors
+    if (validate_args(command, "arg1", arg2) == Error) {
+        return;
+    }
+
+    //process ls by itself
+    if (arg1 == NULL) {
+        display_directory_nodes(system, current);
+        return;
+    }
+
+    //process ls for root '~' or '/'
+    if (strcmp(arg1, "~") == 0 || strcmp(arg1, "/") == 0) {
+        display_directory_nodes(system, system->root);
+        return;
+    }
+
+    //handle traversal of directories before ls
+    FSNode* return_node = current;
+    if (process_parsed_path(system, arg1, current, &return_node, FULL_TRAVERSAL, DISABLE_CREATE) != Error) {
+        display_directory_nodes(system, return_node);
+    }
+}
+
+void process_mv(
+    const FileSystem* system,
+    const char* command,
+    const char* arg1,
+    const char* arg2,
+    FSNode* current
+    )
+{
+    //check for argument errors
+    if (validate_args(command, "arg1", arg2) == Error) {
+        return;
+    }
+
+    //process ls by itself
+    if (arg1 == NULL) {
+        display_directory_nodes(system, current);
+        return;
+    }
+
+    //process ls for root '~' or '/'
+    if (strcmp(arg1, "~") == 0 || strcmp(arg1, "/") == 0) {
+        display_directory_nodes(system, system->root);
+        return;
+    }
+
+    //handle traversal of directories before ls
+    FSNode* return_node = current;
+    if (process_parsed_path(system, arg1, current, &return_node, FULL_TRAVERSAL, DISABLE_CREATE) != Error) {
+        display_directory_nodes(system, return_node);
+    }
+}
 
 
 

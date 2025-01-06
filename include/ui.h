@@ -16,6 +16,10 @@
 #define ENABLE_CREATE 1
 #define DISABLE_CREATE 0
 
+//node return option
+#define IGNORE_RESULT NULL
+
+
 //return status
 typedef enum { Success, Error, Error_File, Exit } InputReturn;
 
@@ -29,6 +33,9 @@ void process_touch();
 void process_rm();
 void process_pwd();
 void process_cd();
+void process_ls();
+void process_mv();
+void process_rn();
 
 
 
