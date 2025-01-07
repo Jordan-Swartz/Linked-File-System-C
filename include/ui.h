@@ -16,6 +16,14 @@
 #define ENABLE_CREATE 1
 #define DISABLE_CREATE 0
 
+//node naming options
+#define ENABLE_NAME 1
+#define DISABLE_NAME 0
+
+//arg condition options
+#define SINGLE_ARG 1
+#define DOUBLE_ARG 0
+
 //node return option
 #define IGNORE_RESULT NULL
 

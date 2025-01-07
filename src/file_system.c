@@ -187,8 +187,15 @@ char** parse_path(const char* argument) {
     char** parsed_path = (char**)malloc(sizeof(char*) * 256);
 
     //skip first char if abs path
-    if (argument[i] == '/') {
-        i++;
+    if (argument[0] == '/') {
+        while (argument[i] == '/') {
+            i++;
+        }
+        if (argument[i] == '\0') {
+            parsed_path[arr_index++] = strdup("/");
+            parsed_path[arr_index] = NULL;
+            return parsed_path;
+        }
     }
 
     while (argument[i] != '\0') {
@@ -212,20 +219,14 @@ char** parse_path(const char* argument) {
             //skip redundant slashes inbetween parsed args
             while (argument[i] == '/') {
                 i++;
-
-                //FIXME
-                /*
-                 * handle multiple /// and if return index == 0 and no other char after
-                 * last slash then return parsed path as single '/'. then process this
-                 * based on method.
-                 */
-
             }
             continue;
         }
+
         //add next char to buffer
         temp[temp_index] = argument[i];
-        temp_index++;i++;
+        temp_index++;
+        i++;
     }
 
     //handle final substring if needed
