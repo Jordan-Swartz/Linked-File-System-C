@@ -1,9 +1,10 @@
 System Commands:
-mkdir <directory_name>                        - makes a directory in the current directory
-touch <file_name>                             - creates a file in the current directory
+mkdir <directory_name/directory_name/..>      - makes a directory in the current directory (supports nested creation)
+touch <path/to/destination> <file_name>       - creates a file in the current directory
 rm <file_name/directory>                      - deletes a file or directory
 pwd                                           - shows the current path
 cd ~                                          - moves to the root directory
+cd /                                          - moves to the root directory
 cd <path/to/directory>                        - moves to the specified directory path
 cd ..                                         - moves to the parent directory
 ls <path/to/directory>                        - lists all contents of the current directory in detailed format

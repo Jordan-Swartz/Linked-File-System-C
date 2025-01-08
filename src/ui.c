@@ -88,30 +88,12 @@ int process_input_command(const FileSystem* system, FSNode** current) {
     //process make directory
     if (strcmp(command, "mkdir") == 0) {
         process_mkdir(system, command, argument, argument2, (*current));
+        return Success;
     }
 
     //process make file
     else if (strcmp(command, "touch") == 0) {
-        //check for argument errors
-        if (argument2 != NULL) {
-            printf("Error: '%s' too many arguments\n", command);
-            return Error;
-        } else if (argument == NULL) {
-            printf("Error: '%s' missing argument\n", command);
-            return Error;
-        }
-
-        //FIXME Support abs/rel paths
-
-        //ensure touch arg is not an invalid name
-        if (strcmp(argument, "~") == 0 || strcmp(argument, "/") == 0
-            || strcmp(argument, ".") == 0 || strcmp(argument, "..") == 0) {
-            printf("Error: Cannot create file named '%s'.\n", argument);
-            return Error;
-        }
-
-        //make file node
-        create_node(system, (*current), argument, File);
+        process_touch(system, command, argument, argument2, (*current));
         return Success;
     }
 
@@ -138,16 +120,19 @@ int process_input_command(const FileSystem* system, FSNode** current) {
     //process changing directory
     else if (strcmp(command, "cd") == 0) {
         process_cd(system, command, argument, argument2, current);
+        return Success;
     }
 
     //process display directory contents
     else if (strcmp(command, "ls") == 0)  {
         process_ls(system, command, argument, argument2, (*current));
+        return Success;
     }
 
     //process move file or directory
     else if (strcmp(command, "mv") == 0) {
         process_mv(system, command, argument, argument2, (*current));
+        return Success;
     }
 
     //process rename file or directory
@@ -401,11 +386,11 @@ int process_parsed_path(
             break;
         }
 
-        //reject invalid naming (mkdir and rn)
+        //reject invalid naming (mkdir, touch and rn)
         if (enable_name_node == ENABLE_NAME) {
             if (strcmp(parsed_path[i], ".") == 0 || strcmp(parsed_path[i], "~") == 0
-                || strcmp(parsed_path[i], "/") == 0) {
-                printf("Error: Cannot create or access directory named '%s'.\n", parsed_path[i]);
+                || strcmp(parsed_path[i], "/") == 0 || strcmp(parsed_path[i], "..") == 0) {
+                printf("Error: Cannot create or access node named '%s'.\n", parsed_path[i]);
                 free_path(parsed_path);
                 return Error;
                 }
@@ -445,7 +430,7 @@ int process_parsed_path(
             change_result = change_directory_forward(&current, parsed_path[i]);
 
             if (change_result != Success) {
-                printf("Error: Cannot access '%s' -> No such file or directory.\n", parsed_path[i]);
+                printf("Error: Cannot access file or directory '%s'.\n", parsed_path[i]);
                 free_path(parsed_path);
                 return Error;
             }
@@ -486,8 +471,38 @@ void process_mkdir(
         FULL_TRAVERSAL, ENABLE_CREATE, ENABLE_NAME);
 }
 
-void process_touch() {
-    //TODO
+void process_touch(
+    const FileSystem* system,
+    const char* command,
+    const char* arg1,
+    const char* arg2,
+    FSNode* current
+    )
+{
+    //check for argument errors
+    if (validate_args(command, arg1, arg2, DOUBLE_ARG) == Error) {
+        return;
+    }
+
+    //traverse arg1 path to find destination for file creation
+    FSNode* destination = current;
+    if (process_parsed_path(system, arg1, current, &destination, NULL,
+        FULL_TRAVERSAL, DISABLE_CREATE, DISABLE_NAME) == Error)
+    {
+        return;
+    }
+
+    //ensure touch arg is not an invalid name
+    if (strcmp(arg2, "~") == 0 || strcmp(arg2, "/") == 0
+        || strcmp(arg2, ".") == 0 || strcmp(arg2, "..") == 0) {
+        printf("Error: Cannot create file named '%s'.\n", arg2);
+        return;
+    }
+
+    //make file node
+    if (create_node(system, destination, arg2, File) == Error) {
+        printf("Error: '%s' A node with this name already exists.\n", arg2);
+    }
 }
 
 void process_rm() {
@@ -657,12 +672,31 @@ void process_rn(
     FSNode* current
     )
 {
+    //TODO
     //check for argument errors
-    if (validate_args(command, "arg1", arg2, SINGLE_ARG) == Error) {
+    if (validate_args(command, arg1, arg2, DOUBLE_ARG) == Error) {
         return;
     }
 
-    //TODO
+    //traverse arg1 path to find destination for file creation
+    FSNode* destination = current;
+    if (process_parsed_path(system, arg1, current, &destination, NULL,
+        FULL_TRAVERSAL, DISABLE_CREATE, DISABLE_NAME) == Error)
+    {
+        return;
+    }
+
+    //ensure touch arg is not an invalid name
+    if (strcmp(arg2, "~") == 0 || strcmp(arg2, "/") == 0
+        || strcmp(arg2, ".") == 0 || strcmp(arg2, "..") == 0) {
+        printf("Error: Cannot create file named '%s'.\n", arg2);
+        return;
+    }
+
+    //make file node
+    if (create_node(system, destination, arg2, File) == Error) {
+        printf("Error: '%s' A node with this name already exists.\n", arg2);
+    }
 }
 
 void process_chmod(
