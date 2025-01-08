@@ -137,91 +137,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process rename file or directory
     else if (strcmp(command, "rn") == 0) {
-        //check for argument errors
-        if (argument == NULL || argument2 == NULL) {
-            printf("Error: '%s' missing argument\n", command);
-            return Error;
-        }
-
-        //parse second-to-last for rename source
-        FSNode* current_copy = NULL;
-        FSNode* rename_node = NULL;
-        char** parsed_path = parse_path(argument);
-        int i = 0, change_result = -1;
-
-        //ensure path is not null
-        if (parsed_path[0] == NULL) {
-            printf("Error: Invalid or empty path.\n");
-            free_path(parsed_path);
-            return Error;
-        }
-
-        //relative or abs path
-        if (argument[0] == '/') {
-            current_copy = system->root;
-        } else {
-            current_copy = (*current);
-        }
-
-        //if rename node is not root then parse path to find desired node
-        if (strcmp(argument, "~") != 0 && strcmp(argument, "/") != 0) {
-            while (parsed_path[i + 1] != NULL) {
-                //process backwards change
-                if (strcmp(parsed_path[i], "..") == 0) {
-                    if (strcmp(current_copy->name, system->root->name) == 0) {
-                        printf("Error: Cannot move past the root directory.\n");
-                        free_path(parsed_path);
-                        return Error;
-                    }
-                    change_directory_backward(&current_copy);
-
-                } else {
-                    //process forward change
-                    change_result = change_directory_forward(&current_copy, parsed_path[i]);
-
-                    if (change_result != Success) {
-                        printf("Error: Cannot access '%s' -> No such file or directory.\n", parsed_path[i]);
-                        free_path(parsed_path);
-                        return Error;
-                    }
-                }
-                //move to next string
-                i++;
-            }
-
-            //search for node to rename in current directory
-            rename_node = find_node(current_copy, parsed_path[i]);
-            if (rename_node == NULL) {
-                printf("Error: Cannot rename '%s' -> No such file or directory.\n", parsed_path[i]);
-                free_path(parsed_path);
-                return Error;
-            }
-        } else {
-            rename_node = system->root;
-        }
-
-        //parse argument2 for safety and rename based on first index
-        char** parsed_path_rename = parse_path(argument2);
-        if (parsed_path_rename[0] == NULL) {
-            printf("Error: Invalid or empty renaming path.\n");
-            free_path(parsed_path);
-            free_path(parsed_path_rename);
-            return Error;
-        }
-
-        //reject invalid naming
-        if (strcmp(parsed_path_rename[0], ".") == 0 || strcmp(parsed_path_rename[0], "..") == 0
-            || strcmp(parsed_path_rename[0], "/") == 0 || strcmp(parsed_path_rename[0], "~") == 0) {
-            printf("Error: Cannot rename directory named '%s'.\n", parsed_path_rename[0]);
-            free_path(parsed_path_rename);
-            free_path(parsed_path);
-            return Error;
-            }
-
-        //rename node and free path
-        strcpy(rename_node->name, parsed_path_rename[0]);
-        free_path(parsed_path_rename);
-        free_path(parsed_path);
+        process_rn(system, command, argument, argument2, (*current));
         return Success;
     }
 
@@ -386,7 +302,7 @@ int process_parsed_path(
             break;
         }
 
-        //reject invalid naming (mkdir, touch and rn)
+        //reject invalid naming (mkdir and touch)
         if (enable_name_node == ENABLE_NAME) {
             if (strcmp(parsed_path[i], ".") == 0 || strcmp(parsed_path[i], "~") == 0
                 || strcmp(parsed_path[i], "/") == 0 || strcmp(parsed_path[i], "..") == 0) {
@@ -409,6 +325,9 @@ int process_parsed_path(
         //process root change
         else if (strcmp(parsed_path[i], "/") == 0 || strcmp(parsed_path[i], "~") == 0) {
             current = system->root;
+            if (return_name != NULL) {
+                (*return_name) = strdup(parsed_path[i]);
+            }
             break;
         }
         //process forward change
@@ -506,6 +425,20 @@ void process_touch(
 }
 
 void process_rm() {
+    // recuriuvs delete
+
+    //validate args
+    //provide continue warning
+    //validate path and that selected directory exists
+    /**
+     * start at target and for each child node if its a directory call delete on it
+     * if its a file delete it
+     * after target is empty delete target
+     * update parent directory
+     */
+}
+
+void recursive_delete() {
 
 }
 
@@ -595,6 +528,7 @@ void process_mv(
     if (process_parsed_path(system, arg1, current, &source_node_parent, &return_name_source,
         STOP_AT_LAST, DISABLE_CREATE, DISABLE_NAME) == Error)
     {
+        free(return_name_source);
         return;
     }
 
@@ -672,31 +606,58 @@ void process_rn(
     FSNode* current
     )
 {
-    //TODO
     //check for argument errors
     if (validate_args(command, arg1, arg2, DOUBLE_ARG) == Error) {
         return;
     }
 
-    //traverse arg1 path to find destination for file creation
-    FSNode* destination = current;
-    if (process_parsed_path(system, arg1, current, &destination, NULL,
-        FULL_TRAVERSAL, DISABLE_CREATE, DISABLE_NAME) == Error)
+    //traverse to last node to find parent of rename node
+    FSNode* rename_node_parent = current;
+    char* return_name_source = "";
+    if (process_parsed_path(system, arg1, current, &rename_node_parent, &return_name_source,
+    STOP_AT_LAST, DISABLE_CREATE, DISABLE_NAME) == Error)
     {
+        free(return_name_source);
         return;
     }
 
-    //ensure touch arg is not an invalid name
-    if (strcmp(arg2, "~") == 0 || strcmp(arg2, "/") == 0
-        || strcmp(arg2, ".") == 0 || strcmp(arg2, "..") == 0) {
-        printf("Error: Cannot create file named '%s'.\n", arg2);
+    //find rename node in parent
+    FSNode* rename_node;
+    if (rename_node_parent == system->root && strcmp(return_name_source, "~") == 0
+        || strcmp(return_name_source, "/") == 0)
+    {
+        rename_node = system->root;
+    } else {
+        rename_node = find_node(rename_node_parent, return_name_source);
+        if (rename_node == NULL) {
+            printf("Error: Cannot rename '%s' -> No such file or directory.\n", return_name_source);
+            free(return_name_source);
+            return;
+        }
+    }
+
+    //parse arg2 for naming safety and rename based on first index
+    char** parsed_path_rename = parse_path(arg2);
+    if (parsed_path_rename[0] == NULL) {
+        printf("Error: Invalid or empty renaming path.\n");
+        free(return_name_source);
+        free_path(parsed_path_rename);
         return;
     }
 
-    //make file node
-    if (create_node(system, destination, arg2, File) == Error) {
-        printf("Error: '%s' A node with this name already exists.\n", arg2);
+    //reject invalid naming
+    if (strcmp(parsed_path_rename[0], ".") == 0 || strcmp(parsed_path_rename[0], "..") == 0
+        || strcmp(parsed_path_rename[0], "/") == 0 || strcmp(parsed_path_rename[0], "~") == 0) {
+        printf("Error: Cannot rename directory named '%s'.\n", parsed_path_rename[0]);
+        free(return_name_source);
+        free_path(parsed_path_rename);
+        return;
     }
+
+    //rename node and free memory
+    strcpy(rename_node->name, parsed_path_rename[0]);
+    free(return_name_source);
+    free_path(parsed_path_rename);
 }
 
 void process_chmod(

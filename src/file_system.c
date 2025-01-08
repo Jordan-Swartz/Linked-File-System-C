@@ -309,11 +309,11 @@ int is_subdirectory(FSNode* source, FSNode* destination) {
 }
 
 //returns pointer to desired node if found, NULL no node is found
-FSNode* find_node(FSNode* current, char* change_to_name) {
+FSNode* find_node(FSNode* current, char* name) {
     FSNode* iter = current->child_head;
 
     while (iter != NULL) {
-        if (strcmp(iter->name, change_to_name) == 0) {
+        if (strcmp(iter->name, name) == 0) {
             return iter;
         } else {
             iter = iter->next;
