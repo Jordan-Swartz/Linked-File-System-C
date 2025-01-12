@@ -99,16 +99,8 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process delete file or directory
     else if (strcmp(command, "rm") == 0) {
-        if (argument != NULL) {
-            //TODO finish method
-
-            //FIXME
-            //support ../ implementation
-
-        } else {
-            printf("Error: '%s' missing argument\n", command);
-            return Error;
-        }
+         process_rm(system, command, argument, argument2, (*current));
+        return Success;
     }
 
     //process display current path
@@ -424,22 +416,111 @@ void process_touch(
     }
 }
 
-void process_rm() {
-    // recuriuvs delete
+void process_rm(
+    const FileSystem* system,
+    const char* command,
+    const char* arg1,
+    const char* arg2,
+    FSNode* current
+    )
+{
+    //check for argument errors
+    if (validate_args(command, arg1, arg2, SINGLE_ARG) == Error) {
+        return;
+    }
 
-    //validate args
-    //provide continue warning
-    //validate path and that selected directory exists
+    //traverse to last node to find parent of source node
+    FSNode* deletion_directory = current;
+    char* return_name = "";
+    if (process_parsed_path(system, arg1, current, &deletion_directory, &return_name,
+        STOP_AT_LAST, DISABLE_CREATE, DISABLE_NAME) == Error)
+    {
+        free(return_name);
+        return;
+    }
+
+    //ensure deletion is not root
+    if (deletion_directory == system->root) {
+        printf("Error: Cannot delete the root directory.\n");
+        free(return_name);
+        return;
+    }
+
+    //continuation warning
+    printf("Are you sure you would like to continue with deleting directory '%s'? "
+           "Doing so will delete all of its contents. Insert [y/n] to continue.\n", return_name);
+
+    while (1) {
+        char input = getchar();
+        while (getchar() != '\n');
+
+        if (input == 'y') {
+            break;
+        } else if (input == 'n') {
+            printf("Cancelling deletion process.\n");
+            return;
+        } else {
+            printf("Invalid input. Insert [y/n] to continue.\n");
+        }
+    }
+
+
+    if (deletion_directory->parent->child_head == deletion_directory) {
+        deletion_directory->parent->child_head = deletion_directory->next;
+    }
+    if (deletion_directory->previous != NULL) {
+        deletion_directory->previous->next = deletion_directory->next;
+    }
+    if (deletion_directory->next != NULL) {
+        deletion_directory->next->previous = deletion_directory->previous;
+    }
+
+    //FIXME
     /**
-     * start at target and for each child node if its a directory call delete on it
-     * if its a file delete it
-     * after target is empty delete target
-     * update parent directory
+    *j@JDS:~$ mkdir a/b/c
+        j@JDS:~$ rm a/b
+        Are you sure you would like to continue with deleting directory 'b'? Doing so will delete all of its contents. Insert [y/n] to continue.
+        y
+        j@JDS:~$ ls
+        size: 1
+        j@JDS:~$ ls a
+        Error: Cannot access file or directory 'a'.
+        j@JDS:~$ mkdir a
+        j@JDS:~$ ls
+        size: 2
+        D_R_W__ 1 j a
+        j@JDS:~$ rm a
+        Error: Cannot delete the root directory.
+        j@JDS:~$
      */
+
+
+    //delete directory contents
+    recursive_delete(deletion_directory);
+    free(return_name);
 }
 
-void recursive_delete() {
+void recursive_delete(FSNode* current) {
+    FSNode* iter = current->child_head;
 
+    //while directory has nodes
+    while (iter != NULL) {
+        FSNode* next = iter->next;
+
+        //if node is file delete file and move to next node
+        if (iter->type == File) {
+            free(iter);
+        }
+        //if node is directory move into it to delete its contents
+        else if (iter->type == Directory) {
+            recursive_delete(iter);
+        }
+        //move to next node
+        iter = next;
+    }
+
+    //no nodes remaining, delete current directory
+    free(current);
 }
 
 void process_pwd(FSNode* current) {
