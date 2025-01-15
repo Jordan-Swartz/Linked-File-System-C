@@ -99,7 +99,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process delete file or directory
     else if (strcmp(command, "rm") == 0) {
-         process_rm(system, command, argument, argument2, (*current));
+         process_rm(system, command, argument, argument2, current);
         return Success;
     }
 
@@ -421,7 +421,7 @@ void process_rm(
     const char* command,
     const char* arg1,
     const char* arg2,
-    FSNode* current
+    FSNode** current
     )
 {
     //check for argument errors
@@ -430,25 +430,22 @@ void process_rm(
     }
 
     //traverse to last node to find parent of source node
-    FSNode* deletion_directory = current;
-    char* return_name = "";
-    if (process_parsed_path(system, arg1, current, &deletion_directory, &return_name,
-        STOP_AT_LAST, DISABLE_CREATE, DISABLE_NAME) == Error)
+    FSNode* deletion_directory = (*current);
+    if (process_parsed_path(system, arg1, (*current), &deletion_directory, NULL,
+        FULL_TRAVERSAL, DISABLE_CREATE, DISABLE_NAME) == Error)
     {
-        free(return_name);
         return;
     }
 
     //ensure deletion is not root
     if (deletion_directory == system->root) {
         printf("Error: Cannot delete the root directory.\n");
-        free(return_name);
         return;
     }
 
     //continuation warning
     printf("Are you sure you would like to continue with deleting directory '%s'? "
-           "Doing so will delete all of its contents. Insert [y/n] to continue.\n", return_name);
+           "Doing so will delete all of its contents. Insert [y/n] to continue.\n", deletion_directory->name);
 
     while (1) {
         char input = getchar();
@@ -464,40 +461,29 @@ void process_rm(
         }
     }
 
-
+    //update parent head if it is the removal directory
     if (deletion_directory->parent->child_head == deletion_directory) {
         deletion_directory->parent->child_head = deletion_directory->next;
     }
+    //update removal directory's previous if not the head
     if (deletion_directory->previous != NULL) {
         deletion_directory->previous->next = deletion_directory->next;
     }
+    //update removal directory's next if not the tail
     if (deletion_directory->next != NULL) {
         deletion_directory->next->previous = deletion_directory->previous;
     }
 
-    //FIXME
-    /**
-    *j@JDS:~$ mkdir a/b/c
-        j@JDS:~$ rm a/b
-        Are you sure you would like to continue with deleting directory 'b'? Doing so will delete all of its contents. Insert [y/n] to continue.
-        y
-        j@JDS:~$ ls
-        size: 1
-        j@JDS:~$ ls a
-        Error: Cannot access file or directory 'a'.
-        j@JDS:~$ mkdir a
-        j@JDS:~$ ls
-        size: 2
-        D_R_W__ 1 j a
-        j@JDS:~$ rm a
-        Error: Cannot delete the root directory.
-        j@JDS:~$
-     */
+    //fall back to root if current directory is the removal directory
+    if (deletion_directory == (*current)) {
+        printf("Warning: You are in the directory being deleted. Moving to the parent directory before processing deletion.\n");
+        (*current) = deletion_directory->parent;
+    }
 
 
-    //delete directory contents
+    //decrement parent size and delete directory contents recursively
+    deletion_directory->parent->size--;
     recursive_delete(deletion_directory);
-    free(return_name);
 }
 
 void recursive_delete(FSNode* current) {
