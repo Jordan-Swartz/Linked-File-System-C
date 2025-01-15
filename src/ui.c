@@ -429,7 +429,7 @@ void process_rm(
         return;
     }
 
-    //traverse to last node to find parent of source node
+    //traverse to find deletion directory
     FSNode* deletion_directory = (*current);
     if (process_parsed_path(system, arg1, (*current), &deletion_directory, NULL,
         FULL_TRAVERSAL, DISABLE_CREATE, DISABLE_NAME) == Error)
@@ -474,12 +474,11 @@ void process_rm(
         deletion_directory->next->previous = deletion_directory->previous;
     }
 
-    //fall back to root if current directory is the removal directory
+    //fall back to parent if current directory is the removal directory
     if (deletion_directory == (*current)) {
         printf("Warning: You are in the directory being deleted. Moving to the parent directory before processing deletion.\n");
         (*current) = deletion_directory->parent;
     }
-
 
     //decrement parent size and delete directory contents recursively
     deletion_directory->parent->size--;
@@ -751,9 +750,77 @@ void process_cp(
     )
 {
     //check for argument errors
-    if (validate_args(command, "arg1", arg2, SINGLE_ARG) == Error) {
+    if (validate_args(command, arg1, arg2, DOUBLE_ARG) == Error) {
         return;
     }
+
+    //traverse to find copy node
+    FSNode* copy_node = current;
+    if (process_parsed_path(system, arg1, current, &copy_node, NULL,
+        FULL_TRAVERSAL, DISABLE_CREATE, DISABLE_NAME) == Error)
+    {
+        return;
+    }
+
+    //ensure copy node is not root
+    if (copy_node == system->root) {
+        printf("Error: Cannot copy the root directory.\n");
+        return;
+    }
+
+    //traverse to find destination node
+    FSNode* destination_node = current;
+    if (process_parsed_path(system, arg2, current, &destination_node, NULL,
+        FULL_TRAVERSAL, DISABLE_CREATE, DISABLE_NAME) == Error)
+    {
+        return;
+    }
+
+    //ensure destination node is not the copy node
+    if (copy_node == destination_node) {
+        printf("Error: Cannot copy '%s' -> Destination is the same as the source.\n", copy_node->name);
+        return;
+    }
+
+    //ensure destination node is not a child of the copy node
+    if (is_subdirectory(copy_node, destination_node) != Success) {
+        printf("Error: Cannot copy '%s' -> Destination is a subdirectory the source.\n", copy_node->name);
+        return;
+    }
+
+    //ensure destination node is valid (no node with existing name)
+    if (find_node(destination_node, copy_node->name) != NULL) {
+        printf("Error: Cannot copy '%s' -> A node with this name already exists in the destination directory.\n", copy_node->name);
+        return;
+    }
+
+    //if node is file byitself handle without recursion
+
+    //continuation warning if directory
+    if (copy_node->type == Directory) {
+        printf("Are you sure you would like to continue with copying directory '%s'? "
+               "Doing so will copy all of its contents. Insert [y/n] to continue.\n", copy_node->name);
+
+        while (1) {
+            char input = getchar();
+            while (getchar() != '\n');
+
+            if (input == 'y') {
+                break;
+            } else if (input == 'n') {
+                printf("Cancelling copying process.\n");
+                return;
+            } else {
+                printf("Invalid input. Insert [y/n] to continue.\n");
+            }
+        }
+    }
+
+    recursive_copy(copy_node, destination_node);
+}
+
+void recursive_copy(FSNode* current) {
+    //TODO
 }
 
 
