@@ -57,8 +57,8 @@ void root_setup(const FileSystem* system, FSNode* root) {
 /**
  *
  */
-int create_node(
-    const FileSystem* system,
+FSNode* create_node(
+    const char* system_username,
     FSNode* current,
     const char* name,
     NodeType type
@@ -69,7 +69,7 @@ int create_node(
 
     //populate attributes
     strcpy(new_node->name, name);
-    strcpy(new_node->owner, system->username);
+    strcpy(new_node->owner, system_username);
     new_node->type = type;
     new_node->permissions = Read_Write;
     new_node->child_head = NULL;
@@ -77,12 +77,8 @@ int create_node(
     new_node->previous = NULL;
     new_node->parent = current;
 
-    //insert node alphabetically
-    if (insert_node(current, new_node) == Error) {
-        free(new_node);
-        return Error;
-    }
-    return Success;
+    //return pointer to new node
+    return new_node;
 }
 
 /**

@@ -43,7 +43,7 @@ extern const char* PermissionsNames[];
 //functions
 void system_setup(FileSystem* system);
 void root_setup();
-int create_node(const FileSystem* system, FSNode* current, const char* name, NodeType type);
+FSNode* create_node(const char* system_username, FSNode* current, const char* name, NodeType type);
 void delete_node();
 void display_current_path();
 void display_directory_nodes();

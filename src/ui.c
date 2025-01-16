@@ -327,9 +327,11 @@ int process_parsed_path(
             //handle node creation (mkdir)
             if (enable_create_node == ENABLE_CREATE) {
                 //create node
-                change_result = create_node(system, current, parsed_path[i], Directory);
-                if (change_result != Success) {
+                FSNode* new_node = create_node(system->username, current, parsed_path[i], Directory);
+                //insert node alphabetically
+                if (insert_node(current, new_node) != Success) {
                     printf("Error: '%s' A node with this name already exists.\n", parsed_path[i]);
+                    free(new_node);
                     free_path(parsed_path);
                     return Error;
                 } else if (parsed_path[i+1] == NULL) {
@@ -411,8 +413,11 @@ void process_touch(
     }
 
     //make file node
-    if (create_node(system, destination, arg2, File) == Error) {
+    FSNode* new_node = create_node(system->username, destination, arg2, File);
+    //insert node alphabetically
+    if (insert_node(current, new_node) != Success) {
         printf("Error: '%s' A node with this name already exists.\n", arg2);
+        free(new_node);
     }
 }
 
@@ -819,8 +824,22 @@ void process_cp(
     recursive_copy(copy_node, destination_node);
 }
 
-void recursive_copy(FSNode* current) {
-    //TODO
+void recursive_copy(FSNode* current, FSNode* destination) {
+    //create copy of current and insert it in destination
+    // FSNode* copy_node = create_node()
+
+    FSNode* iter = current->child_head;
+
+    while (iter != NULL) {
+        //
+        if (iter->type == File) {
+
+        }
+        //
+        else if (iter->type == Directory) {
+
+        }
+    }
 }
 
 
