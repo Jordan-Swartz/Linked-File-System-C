@@ -39,7 +39,6 @@ int process_parsed_path();
 void process_mkdir();
 void process_touch();
 void process_rm();
-void recursive_delete();
 void process_pwd();
 void process_cd();
 void process_ls();
@@ -47,7 +46,7 @@ void process_mv();
 void process_rn();
 void process_chmod();
 void process_cp();
-void recursive_copy();
+
 
 
 

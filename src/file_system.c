@@ -66,6 +66,10 @@ FSNode* create_node(
 {
     //create node
     FSNode* new_node = (FSNode*)malloc(sizeof(FSNode));
+    if (new_node == NULL) {
+        printf("Error: Memory allocation failed.\n");
+        return NULL;
+    }
 
     //populate attributes
     strcpy(new_node->name, name);
@@ -84,8 +88,78 @@ FSNode* create_node(
 /**
  *
  */
-void delete_node() {
+FSNode* create_copy_node(FSNode* current, FSNode* destination) {
+    //create node
+    FSNode* new_node = (FSNode*)malloc(sizeof(FSNode));
+    if (new_node == NULL) {
+        printf("Error: Memory allocation failed.\n");
+        return NULL;
+    }
 
+    //populate attributes
+    strcpy(new_node->name, current->name);
+    strcpy(new_node->owner, current->owner);
+    new_node->type = current->type;
+    new_node->permissions = current->permissions;
+    new_node->child_head = NULL;
+    new_node->next = NULL;
+    new_node->previous = NULL;
+    new_node->parent = destination;
+
+    //return pointer to new node
+    return new_node;
+}
+
+/**
+ *
+ */
+void recursive_delete(FSNode* current) {
+    FSNode* iter = current->child_head;
+
+    //while directory has nodes
+    while (iter != NULL) {
+        FSNode* next = iter->next;
+
+        //if node is file delete file and move to next node
+        if (iter->type == File) {
+            free(iter);
+        }
+        //if node is directory move into it to delete its contents
+        else if (iter->type == Directory) {
+            recursive_delete(iter);
+        }
+        //move to next node
+        iter = next;
+    }
+
+    //no nodes remaining, delete current directory
+    free(current);
+}
+
+/**
+*
+*/
+void recursive_copy(FSNode* current, FSNode* destination) {
+    //create copy of current node
+    FSNode* copy_node = create_copy_node(current, destination);
+    if (copy_node == NULL) {
+        printf("Error: Failed to copy node '%s'.\n", current->name);
+        return;
+    }
+    //insert copy_node into destination
+    insert_node(destination, copy_node);
+
+    //if copy_node is a file return
+    if (copy_node->type == File) {
+        return;
+    }
+
+    //if copy_node is a directory, copy its children
+    FSNode* iter = current->child_head;
+    while (iter != NULL) {
+        recursive_copy(iter, copy_node);
+        iter = iter->next;
+    }
 }
 
 /**
@@ -240,13 +314,13 @@ char** parse_path(const char* argument) {
 }
 
 //insert node alphabetically
-int insert_node(FSNode* current, FSNode* node) {
+int insert_node(FSNode* current, FSNode* insert_node) {
     //increment size (rollback on failure)
     current->size++;
 
     //add to front of current->child_head list if empty
     if (current->child_head == NULL) {
-        current->child_head = node;
+        current->child_head = insert_node;
         return Success;
     }
 
@@ -255,24 +329,24 @@ int insert_node(FSNode* current, FSNode* node) {
 
     while (iter != NULL) {
         //if iter comes after new_node alphabetically
-        if (strcmp(iter->name, node->name) > 0) {
+        if (strcmp(iter->name, insert_node->name) > 0) {
             //link new node after previous and before iter
-            node->next = iter;
-            node->previous = iter->previous;
+            insert_node->next = iter;
+            insert_node->previous = iter->previous;
 
             //insert in front of current head (iter)
             if (iter->previous == NULL) {
-                current->child_head = node;
+                current->child_head = insert_node;
             } else {
                 //insert between previous and current
-                iter->previous->next = node;
+                iter->previous->next = insert_node;
             }
 
             //link iter previous to new node
-            iter->previous = node;
+            iter->previous = insert_node;
             return Success;
 
-        } else if (strcmp(iter->name, node->name) == 0) {
+        } else if (strcmp(iter->name, insert_node->name) == 0) {
             //node name already exists
             current->size--;
             return Error;
@@ -287,8 +361,8 @@ int insert_node(FSNode* current, FSNode* node) {
     }
 
     //insert at end
-    iter->next = node;
-    node->previous = iter;
+    iter->next = insert_node;
+    insert_node->previous = iter;
     return Success;
 }
 

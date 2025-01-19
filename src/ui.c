@@ -146,14 +146,8 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process copying file or directory into a new destination
     else if (strcmp(command, "cp") == 0) {
-        if (argument != NULL || argument2 != NULL) {
-            //TODO finish method
-            //recursive algorithm that recreates all the contents
-
-        } else {
-            printf("Error: '%s' missing argument\n", command);
-            return Error;
-        }
+        process_cp(system, command, argument, argument2, (*current));
+        return Success;
     }
 
     //process finding file or directory in current directory
@@ -490,29 +484,6 @@ void process_rm(
     recursive_delete(deletion_directory);
 }
 
-void recursive_delete(FSNode* current) {
-    FSNode* iter = current->child_head;
-
-    //while directory has nodes
-    while (iter != NULL) {
-        FSNode* next = iter->next;
-
-        //if node is file delete file and move to next node
-        if (iter->type == File) {
-            free(iter);
-        }
-        //if node is directory move into it to delete its contents
-        else if (iter->type == Directory) {
-            recursive_delete(iter);
-        }
-        //move to next node
-        iter = next;
-    }
-
-    //no nodes remaining, delete current directory
-    free(current);
-}
-
 void process_pwd(FSNode* current) {
     FSNode* iter = current;
     char path[1024] = "";
@@ -799,8 +770,6 @@ void process_cp(
         return;
     }
 
-    //if node is file byitself handle without recursion
-
     //continuation warning if directory
     if (copy_node->type == Directory) {
         printf("Are you sure you would like to continue with copying directory '%s'? "
@@ -821,26 +790,11 @@ void process_cp(
         }
     }
 
+    //copy node contents recursively
     recursive_copy(copy_node, destination_node);
 }
 
-void recursive_copy(FSNode* current, FSNode* destination) {
-    //create copy of current and insert it in destination
-    // FSNode* copy_node = create_node()
 
-    FSNode* iter = current->child_head;
-
-    while (iter != NULL) {
-        //
-        if (iter->type == File) {
-
-        }
-        //
-        else if (iter->type == Directory) {
-
-        }
-    }
-}
 
 
 
