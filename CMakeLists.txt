@@ -13,6 +13,7 @@ set(SOURCES
         src/file_system.c
         src/file_operation.c
         src/memory_management.c
+        src/stack.c
 )
 
 add_executable(LinkedFS ${SOURCES})

@@ -163,34 +163,63 @@ void recursive_copy(FSNode* current, FSNode* destination) {
 }
 
 /**
+*
+*/
+char** dfs_search(FSNode* start, char* name) {
+    //create stack and return array of strings
+    Stack stack;
+    init_stack(&stack);
+    char** return_array = (char**)malloc(sizeof(char*) * 256);
+    int arr_index = 0;
+
+    //enqueue start node
+    push(&stack,start);
+
+    while (is_empty(&stack) != 1) {
+        //pop top node from stack
+        FSNode* current = pop(&stack);
+
+        //if node match, build path to match
+        if (strcmp(current->name, name) == 0) {
+            return_array[arr_index] = build_path(current, start);
+            arr_index++;
+        }
+
+        //traverse children and add to stack
+        FSNode* iter = current->child_head;
+        while (iter != NULL) {
+            push(&stack, iter);
+            iter = iter->next;
+        }
+    }
+
+    return_array[arr_index] = NULL;
+    return return_array;
+}
+
+/**
  * pwd move to file_system
  */
 void display_current_path(const FileSystem* system, FSNode* current) {
-    char path[1024] = "$";
-    char temp[100] = "";
-
     //if in root directory (home)
     if (current == system->root) {
         printf("%s:~$ ", system->host_signature);
         return;
     }
 
-    FSNode* iter = current;
-
-    //create path starting from current and traversing up to the root
-    while (iter != system->root) {
-        sprintf(temp,"/%s%s", iter->name, path);
-        strcpy(path, temp);
-        iter = iter->parent;
-    }
+    //build path and calculate required memory for string
+    char* path = build_path(current, system->root->child_head);
+    size_t size = strlen(system->host_signature) + strlen(path) + strlen(":~$") + 1;
+    char* string = (char*)malloc(size);
 
     //append system name to front of path
-    sprintf(temp, "%s:~%s", system->host_signature, path);
-    strcpy(path, temp);
+    sprintf(string, "%s:~$%s", system->host_signature, path);
 
-    //display path
-    printf("%s ", path);
+    //display string
+    printf("%s ", string);
     fflush(stdout);
+    free(path);
+    free(string);
 }
 
 
@@ -311,6 +340,22 @@ char** parse_path(const char* argument) {
     //null terminate array
     parsed_path[arr_index] = NULL;
     return parsed_path;
+}
+
+char* build_path(FSNode* start, FSNode* end) {
+    FSNode* iter = start;
+    char* path = (char*)malloc(sizeof(char) * 1024);
+    path[0] = '\0'; //initialize path with empty string
+
+    //create path
+    while (iter != end->parent && iter != NULL) {
+        char temp[100];
+        sprintf(temp, "/%s%s", iter->name, path);
+        strcpy(path, temp);
+        iter = iter->parent;
+    }
+
+    return path;
 }
 
 //insert node alphabetically

@@ -46,6 +46,7 @@ void process_mv();
 void process_rn();
 void process_chmod();
 void process_cp();
+void process_find();
 
 
 

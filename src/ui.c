@@ -105,7 +105,7 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process display current path
     else if (strcmp(command, "pwd") == 0) {
-        process_pwd((*current));
+        process_pwd((*current), system->root);
         return Success;
     }
 
@@ -152,14 +152,8 @@ int process_input_command(const FileSystem* system, FSNode** current) {
 
     //process finding file or directory in current directory
     else if (strcmp(command, "find") == 0) {
-        if (argument != NULL || argument2 != NULL) {
-            //TODO finish method
-            //recursive algorithm that recreates all the contents
-
-        } else {
-            printf("Error: '%s' missing argument\n", command);
-            return Error;
-        }
+        process_find(system, command, argument, argument2, (*current));
+        return Success;
     }
 
     //process displaying command history for the current session
@@ -409,7 +403,7 @@ void process_touch(
     //make file node
     FSNode* new_node = create_node(system->username, destination, arg2, File);
     //insert node alphabetically
-    if (insert_node(current, new_node) != Success) {
+    if (insert_node(destination, new_node) != Success) {
         printf("Error: '%s' A node with this name already exists.\n", arg2);
         free(new_node);
     }
@@ -484,19 +478,10 @@ void process_rm(
     recursive_delete(deletion_directory);
 }
 
-void process_pwd(FSNode* current) {
-    FSNode* iter = current;
-    char path[1024] = "";
-
-    //create path
-    while (iter != NULL) {
-        char temp[100];
-        sprintf(temp, "/%s%s", iter->name, path);
-        strcpy(path, temp);
-        iter = iter->parent;
-    }
-
+void process_pwd(FSNode* current, FSNode* root) {
+    char* path = build_path(current, root);
     printf("%s\n", path);
+    free(path);
 }
 
 void process_cd(
@@ -789,12 +774,47 @@ void process_cp(
             }
         }
     }
-
     //copy node contents recursively
     recursive_copy(copy_node, destination_node);
 }
 
+void process_find(
+    const FileSystem* system,
+    const char* command,
+    const char* arg1,
+    const char* arg2,
+    FSNode* current
+    ) {
+    //check for argument errors
+    if (validate_args(command, arg1, arg2, DOUBLE_ARG) == Error) {
+        return;
+    }
 
+    //traverse to find start node
+    FSNode* start_node = current;
+    if (process_parsed_path(system, arg1, current, &start_node, NULL,
+        FULL_TRAVERSAL, DISABLE_CREATE, DISABLE_NAME) == Error)
+    {
+        return;
+    }
+
+    //search for find node type and return array of paths to find node
+    char** paths_to_find_node = dfs_search(start_node, arg2);
+    if (paths_to_find_node[0] == NULL) {
+        printf("Error: Cannot find any paths to '%s'\n", arg2);
+        free_path(paths_to_find_node);
+        return;
+    }
+
+    //print list of paths to find node
+    int i = 0;
+    printf("Paths to '%s':\n", arg2);
+    while (paths_to_find_node[i] != NULL) {
+        printf("%s\n", paths_to_find_node[i]);
+        i++;
+    }
+    free_path(paths_to_find_node);
+}
 
 
 

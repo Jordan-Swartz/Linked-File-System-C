@@ -5,9 +5,8 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "file_system.h"
-
 /*Type Definitions*/
+typedef struct FSNode FSNode;
 typedef struct Stack Stack;
 
 struct Stack {

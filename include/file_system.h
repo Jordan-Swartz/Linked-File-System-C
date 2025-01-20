@@ -5,6 +5,7 @@
 #ifndef FILE_SYSTEM_H
 #define FILE_SYSTEM_H
 
+#include "stack.h"
 /*Data Structures*/
 
 /*Type Definitions*/
@@ -47,12 +48,14 @@ FSNode* create_node(const char* system_username, FSNode* current, const char* na
 FSNode* create_copy_node();
 void recursive_delete();
 void recursive_copy();
+char** dfs_search();
 void display_current_path();
 void display_directory_nodes();
 int change_directory_forward();
 void change_directory_backward();
 void set_current();
 char** parse_path();
+char* build_path();
 int insert_node();
 int is_subdirectory();
 FSNode* find_node();
