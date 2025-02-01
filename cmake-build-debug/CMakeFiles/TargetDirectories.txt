@@ -1,3 +1,0 @@
-/home/jordan/CLionProjects/C_Projects/LinkedFS/cmake-build-debug/CMakeFiles/LinkedFS.dir
-/home/jordan/CLionProjects/C_Projects/LinkedFS/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/jordan/CLionProjects/C_Projects/LinkedFS/cmake-build-debug/CMakeFiles/rebuild_cache.dir
