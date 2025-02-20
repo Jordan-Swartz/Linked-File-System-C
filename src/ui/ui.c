@@ -11,51 +11,10 @@
 
 //header files
 #include "ui.h"
-
-#include <stdbool.h>
 #include <stdlib.h>
-
 #include "file_system.h"
 #include "file_operation.h"
 
-
-int main(int argc, char* argv) {
-    //load menu
-    load_menu();
-
-    //create and initialize system
-    FileSystem system;
-
-    // if (argc == 2) {
-    //     char* existing_system = (char*)argv[1];
-    //     system_load(&system, existing_system);
-    // } else {
-    //     printf("Error: missing file for system\n");
-    //     return Error;
-    // }
-
-    //TEST
-    char* existing_system = "../data/test.txt";
-    system_load(&system, existing_system);
-
-    //set current to system root
-    FSNode* current = system.root;
-
-    //clear buffer before processing input
-    int ch;
-    while ((ch = getchar()) != '\n' && ch != Error)
-    display_menu();
-
-    //process input
-    do {
-        //display_menu();
-    } while (process_input_command(&system, &current) != Exit);
-
-    //save system state, free memory and end program
-    system_save(&system);
-    free_menu();
-    return 0;
-}
 
 /**
  *
