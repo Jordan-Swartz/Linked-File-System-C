@@ -13,9 +13,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../../include/file_system.h"
-
-#include <../../include/ui.h>
+#include "file_system.h"
+#include "ui.h"
 
 /*Global Variables*/
 const char* NodeTypeNames[] = {"D", "F"};

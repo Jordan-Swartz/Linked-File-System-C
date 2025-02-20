@@ -12,7 +12,7 @@
  */
 
 #include <stdlib.h>
-#include "../../include/memory_management.h"
+#include "memory_management.h"
 
 //free array of strings
 void free_path(char** path) {

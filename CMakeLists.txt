@@ -14,7 +14,7 @@ set(SOURCES
         src/util/file_system.c
         src/util/file_operation.c
         src/util/memory_management.c
-        src/stack.c
+        src/util/stack.c
         lib/cJSON/cJSON.c
 )
 
