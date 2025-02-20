@@ -1,7 +1,3 @@
-//
-// Created by jordan on 10/26/24.
-//
-
 #ifndef UI_H
 #define UI_H
 
@@ -34,7 +30,7 @@ typedef enum { Success, Error, Error_File, Exit } InputReturn;
 void display_menu();
 int process_input_command_2();
 int process_input_command(const FileSystem* system, FSNode** current);
-int validate_args();
+int validate_args(const char* command, const char* arg1, const char* arg2, const int arg_condition);
 int process_parsed_path();
 void process_mkdir();
 void process_touch();

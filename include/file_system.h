@@ -1,24 +1,16 @@
-//
-// Created by jordan on 10/26/24.
-//
-
 #ifndef FILE_SYSTEM_H
 #define FILE_SYSTEM_H
 
 #include "stack.h"
-/*Data Structures*/
 
+/*Data Structures*/
 /*Type Definitions*/
 typedef struct FSNode FSNode;
 typedef struct FileSystem FileSystem;
+typedef enum { Directory, File } NodeType;                          //node type
+typedef enum { Read, Read_Write, Read_Write_Execute } Permissions;  //permissions
 
-//node type
-typedef enum { Directory, File } NodeType;
-
-//permissions
-typedef enum { Read, Read_Write, Read_Write_Execute } Permissions;
-
-//file node
+/*File Node*/
 struct FSNode {
     char name[150];
     char owner[100];
@@ -31,6 +23,7 @@ struct FSNode {
     FSNode* parent;
 };
 
+/*File System*/
 struct FileSystem {
     char username[100];
     char host_signature[100];
@@ -41,7 +34,7 @@ struct FileSystem {
 extern const char* NodeTypeNames[];
 extern const char* PermissionsNames[];
 
-//functions
+/*Function Declarations*/
 void system_setup(FileSystem* system);
 void root_setup();
 FSNode* create_node(const char* system_username, FSNode* current, const char* name, NodeType type);
