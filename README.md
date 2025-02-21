@@ -1,36 +1,96 @@
-File and Directory Representation as Nodes
-Each file can be a node in the tree, containing information such as:
-File name.
-File size.
-File contents (which could be stored as blocks, simulating disk memory).
-File metadata (permissions, timestamps, etc.).
-Each directory is also a node, but it will contain pointers (or references) to other nodes (either files or subdirectories). This forms a tree structure, with directories acting as internal nodes and files as leaf nodes.
-2. Tree Structure for Directory Hierarchy
-   The root node represents the top-level directory (e.g., / or root).
-   Each directory node can have multiple child nodes, representing either files or subdirectories.
-   For example, if you have a directory /home/user/docs/, it would have a tree structure where:
-   The /home directory node points to the user directory node.
-   The user directory node points to the docs directory node.
-   The docs directory node points to the actual file nodes inside it.
-3. Core Operations
-   Here’s how the core file system operations could be mapped to the tree structure:
+# Linked-File-System-C Project
+A lightweight file system implementation in C with basic file operations, directory management, serialization, and unit testing integration. 
 
-1. Create File
-   You’ll create a new node representing the file, and insert it as a child of the current directory node.
-   If the file already exists, you might either overwrite it or return an error depending on your implementation.
-2. Delete File
-   Find the node representing the file, remove it from the parent directory node, and free any associated memory (such as file blocks).
-3. Open and Close Files
-   Open File: Mark the file as open (set a flag or use a file descriptor) and allow read/write operations.
-   Close File: Remove the open flag or file descriptor. Ensure any buffered data is saved before closing.
-4. Move Files
-   Moving a file involves removing the file node from one directory and inserting it into another directory node, preserving its contents.
-5. Read/Write to Files
-   Read: Fetch the file contents stored in the file node and return it.
-   Write: Modify or append data to the file contents, which might require allocating new memory (or blocks) to store the new data.
-4. Node Relationships
-   Each file node will have pointers to its parent (the directory it belongs to) and, optionally, metadata about the file (e.g., size, permissions).
-   Each directory node will have pointers to both its parent directory and its child nodes (which can be either files or subdirectories).
-5. Scheduler
-   The scheduler will read commands from a text file (or some input) and perform the required operations sequentially, interacting with the file system tree.
-   Commands like CREATE, DELETE, MOVE, OPEN, CLOSE, READ, and WRITE will map to functions that manipulate the tree structure and manage file metadata.
+---
+
+## 1: About the Project
+The Linked-File-System-C project is a file system implementation that supports traditional bash-like operations. These operations include, but are not limited to: file creation, deletion, duplication, navigation, and retrieval. It is designed for learning and practicing data structures, memory management, system-level programming, and algorithmic strategies.
+
+---
+
+## 2: Featured Concepts
+1. Recursive Algorithms
+   - Implemented for node deletion and duplication
+2. DFS Traversal
+   - Implemented for searching and retrieving nodes in the file system
+3. Directory Traversal and Path Resolution
+   - Implemented for custom path parsing for absolute and relative paths 
+4. Node Management and Relocation
+   - Implemented for moving, renaming, and inserting nodes within the tree hierarchy
+5. Memory Management
+   - Implemented to use dynamic memory allocation and deallocation for data handling
+6. JSON serialization
+   - Implemented to save and restore file system states
+7. Unit Testing
+   - Implemented for function validation
+      
+---
+
+## 3: Running the Project
+
+### Option 1: CMake
+1. Configure Project
+   - `cmake -B build`
+     
+2. Build Project
+   - `cmake --build build`
+     
+3. Run Program 
+   - `./LinkedFS`
+     
+4. Run Unit Tests
+   - `./test_ui`
+
+### Option 2: build.sh (No CMake Installation)
+1. Ensure Script is Executable
+   - `chmod +x build.sh `
+     
+2. Execute Script
+   - `./build.sh`
+     
+3. Run Program 
+   - `./LinkedFS`
+     
+4. Run Unit Tests
+   - `./test_ui`
+     
+---
+
+## 4: File System Commands:
+
+```
+mkdir <directory_name/directory_name/..>      - makes a directory in the current directory (supports nested creation)
+touch <path/to/destination> <file_name>       - creates a file in the destination directory
+rm <file_name/directory>                      - deletes a file or directory
+pwd                                           - shows the current path
+cd ~                                          - moves to the root directory (non-traversable)
+cd /                                          - moves to the root directory (traversable)
+cd <path/to/directory>                        - moves to the specified directory path
+cd ..                                         - moves to the parent directory
+ls <path/to/directory>                        - lists all contents of the current directory in detailed format
+mv <path/to/source> <path/to/destination>     - moves a file or directory (can be relative or abs path)
+rn <path/to/old_name>  <new_name>             - renames a file or directory
+chmod <permissions> <file>                    - changes permissions for a file (e.g., "chmod 755 myfile")
+cp <path/to/source> <path/to/destination>     - copies a file or directory to a new location
+find <path/to/start-directory> <target_name>  - searches for a given file or directory name based on start directory
+history                                       - displays the command history for the session
+exit                                          - exits the system
+menu                                          - displays the menu
+```
+📝 **Note:**  
+- The **root directory** is the top-level node in the system, and both `~` and `/` point to this node. Any commands involving absolute paths (`/some/path`) will start from the root. (`~`) is not traversable and will always refer to only the root.
+
+
+---
+
+## 5: Technologies Used
+1. C (99)
+   - core programming language
+2. CMake
+   - project build system
+3. Unity Testing
+   - unit testing
+4. GitHub Actions
+   - CI for automated builds
+  
+---
