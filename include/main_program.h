@@ -14,6 +14,7 @@
 #ifndef MAIN_PROGRAM_H
 #define MAIN_PROGRAM_H
 
+/*Function Declarations*/
 /**
  * Entry point for the file system program.
  * Initializes the file system, loads data from a JSON file if available,

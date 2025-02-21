@@ -1,7 +1,5 @@
 #include <stdio.h>		//I/O features
 #include <string.h>		//String lib
-
-//header files
 #include "ui.h"
 #include <stdlib.h>
 #include "file_system.h"
