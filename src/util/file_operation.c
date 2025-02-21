@@ -1,12 +1,3 @@
-/**
- * File manipulation and interaction:
- *
- * open/close file
- * read/write file
- * log results
- *
- *
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include "file_system.h"
@@ -15,10 +6,12 @@
 /*Global Variables*/
 char* menu_content = NULL;
 
-/**
- *
- */
-void system_load(FileSystem* system, const char* existing_system) {
+FSNode* json_to_fsnode(const cJSON* json_node, FSNode* parent) {
+    //TODO
+    return NULL;
+}
+
+void system_load_from_json(FileSystem* system, const char* existing_system) {
     //open system file to read
     FILE* file = fopen(existing_system, "r");
 
@@ -38,18 +31,17 @@ void system_load(FileSystem* system, const char* existing_system) {
     fclose(file);
 }
 
-/**
- *
- */
-void system_save(FileSystem* system) {
+cJSON* fsnode_to_json(const FSNode* node) {
+    //TODO
+    return NULL;
+}
+
+void system_save_to_json(FileSystem* system, const char* existing_system) {
     //open system file to write
     FILE* file = fopen("", "w");
     fclose(file);
 }
 
-/**
- *
- */
 void load_menu() {
     FILE* file = fopen("../data/menu.txt", "r");
 
@@ -78,9 +70,6 @@ void load_menu() {
     fclose(file);                                   //close file
 }
 
-/**
- *
- */
 void free_menu() {
     free(menu_content);
     menu_content = NULL;
