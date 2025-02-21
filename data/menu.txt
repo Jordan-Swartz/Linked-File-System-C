@@ -1,13 +1,13 @@
 System Commands:
-mkdir <directory_name/directory_name/..>      - makes a directory in the current directory (supports nested creation)
+mkdir <new_directory/new_directory/..>        - makes a directory in the current directory (supports nested creation)
 touch <path/to/destination> <file_name>       - creates a file in the destination directory
-rm <file_name/directory>                      - deletes a file or directory
+rm <path/to/destination>                      - deletes a file or directory
 pwd                                           - shows the current path
 cd ~                                          - moves to the root directory
 cd /                                          - moves to the root directory
-cd <path/to/directory>                        - moves to the specified directory path
+cd <path/to/destination>                      - moves to the specified directory path
 cd ..                                         - moves to the parent directory
-ls <path/to/directory>                        - lists all contents of the current directory in detailed format
+ls <path/to/directory> *or* ls                - lists all contents of the current directory in detailed format
 mv <path/to/source> <path/to/destination>     - moves a file or directory (can be relative or abs path)
 rn <path/to/old_name>  <new_name>             - renames a file or directory
 chmod <permissions> <file>                    - changes permissions for a file (e.g., "chmod 755 myfile")
