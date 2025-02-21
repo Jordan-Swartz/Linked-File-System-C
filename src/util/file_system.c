@@ -1,14 +1,3 @@
-/**
- * core file system operations:
- *
- * create/delete file
- * create/delete directory
- * move files between directories
- * traverse directory (cd, cd ..)
- *
- * contain nodes/tree struct
- */
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -20,9 +9,6 @@
 const char* NodeTypeNames[] = {"D", "F"};
 const char* PermissionsNames[] = {"R____", "R_W__", "R_W_E"};
 
-/**
- *
- */
 void system_setup(FileSystem* system) {
     //set up system
     printf("Enter system username: ");
@@ -35,9 +21,6 @@ void system_setup(FileSystem* system) {
     root_setup(system, system->root);
 }
 
-/**
- *
- */
 void root_setup(const FileSystem* system, FSNode* root) {
     //set up root
     printf("Enter root name: ");
@@ -53,9 +36,6 @@ void root_setup(const FileSystem* system, FSNode* root) {
     printf("Root directory %s initialized.\n", root->name);
 }
 
-/**
- *
- */
 FSNode* create_node(
     const char* system_username,
     FSNode* current,
@@ -84,9 +64,6 @@ FSNode* create_node(
     return new_node;
 }
 
-/**
- *
- */
 FSNode* create_copy_node(FSNode* current, FSNode* destination) {
     //create node
     FSNode* new_node = (FSNode*)malloc(sizeof(FSNode));
@@ -109,9 +86,6 @@ FSNode* create_copy_node(FSNode* current, FSNode* destination) {
     return new_node;
 }
 
-/**
- *
- */
 void recursive_delete(FSNode* current) {
     FSNode* iter = current->child_head;
 
@@ -135,9 +109,6 @@ void recursive_delete(FSNode* current) {
     free(current);
 }
 
-/**
-*
-*/
 void recursive_copy(FSNode* current, FSNode* destination) {
     //create copy of current node
     FSNode* copy_node = create_copy_node(current, destination);
@@ -161,9 +132,6 @@ void recursive_copy(FSNode* current, FSNode* destination) {
     }
 }
 
-/**
-*
-*/
 char** dfs_search(FSNode* start, char* name) {
     //create stack and return array of strings
     Stack stack;
@@ -196,9 +164,6 @@ char** dfs_search(FSNode* start, char* name) {
     return return_array;
 }
 
-/**
- * pwd move to file_system
- */
 void display_current_path(const FileSystem* system, FSNode* current) {
     //if in root directory (home)
     if (current == system->root) {
@@ -221,10 +186,6 @@ void display_current_path(const FileSystem* system, FSNode* current) {
     free(string);
 }
 
-
-/**
- * ls -la move to file_system
- */
 void display_directory_nodes(const FileSystem* system, const FSNode* current) {
     FSNode* iter = current->child_head;
 
@@ -276,7 +237,6 @@ void set_current(FSNode** current, FSNode* change_to_node) {
     (*current) = change_to_node;
 }
 
-//return array of parsed strings
 char** parse_path(const char* argument) {
     char temp[256] = {0};
     int i = 0, temp_index = 0, arr_index = 0;
@@ -357,7 +317,6 @@ char* build_path(FSNode* start, FSNode* end) {
     return path;
 }
 
-//insert node alphabetically
 int insert_node(FSNode* current, FSNode* insert_node) {
     //increment size (rollback on failure)
     current->size++;
@@ -422,7 +381,6 @@ int is_subdirectory(FSNode* source, FSNode* destination) {
     return Success;
 }
 
-//returns pointer to desired node if found, NULL no node is found
 FSNode* find_node(FSNode* current, char* name) {
     FSNode* iter = current->child_head;
 
