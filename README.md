@@ -35,10 +35,10 @@ The Linked-File-System-C project is a file system implementation that supports t
 2. Build Project
    - `cmake --build build`
      
-3. Run Program 
+3. Run Program (cd build)
    - `./LinkedFS`
      
-4. Run Unit Tests
+4. Run Unit Tests (cd build)
    - `./test_ui`
 
 ### Option 2: build.sh (No CMake Installation)
@@ -48,10 +48,10 @@ The Linked-File-System-C project is a file system implementation that supports t
 2. Execute Script
    - `./build.sh`
      
-3. Run Program 
+3. Run Program (cd build)
    - `./LinkedFS`
      
-4. Run Unit Tests
+4. Run Unit Tests (cd build)
    - `./test_ui`
      
 ---
