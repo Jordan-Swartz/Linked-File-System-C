@@ -90,7 +90,9 @@ menu                                          - displays the menu
    - project build system
 3. Unity Testing
    - unit testing
-4. GitHub Actions
+4. cJSON
+   - json serialization/deserialization
+5. GitHub Actions
    - CI for automated builds
   
 ---
