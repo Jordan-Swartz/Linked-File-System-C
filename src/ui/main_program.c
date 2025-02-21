@@ -1,7 +1,5 @@
 #include "main_program.h"
-
 #include <stdio.h>
-
 #include "file_system.h"
 #include "file_operation.h"
 #include "ui.h"
@@ -25,16 +23,15 @@ int main(int argc, char** argv) {
     FILE *file = fopen("/home/jordan/CLionProjects/Linked-File-System-C/data/test.txt", "r");
     if (file == NULL) {
         printf("Error: file not found\n");
-    } else {
-        // The file exists, so close it
-        printf("File opened\n");
-        fclose(file);
-
-        // Now pass the file path (string) to system_load
-        char* existing_system = "/home/jordan/CLionProjects/Linked-File-System-C/data/test.txt";
-        system_load(&system, existing_system);
-
+        return 1;
     }
+    // The file exists, so close it
+    printf("File opened\n");
+    fclose(file);
+
+    // Now pass the file path (string) to system_load
+    char* const existing_system = "/home/jordan/CLionProjects/Linked-File-System-C/data/test.txt";
+    system_load_from_json(&system, existing_system);
 
     //set current to system root
     FSNode* current = system.root;
@@ -50,7 +47,7 @@ int main(int argc, char** argv) {
     } while (process_input_command(&system, &current) != Exit);
 
     //save system state, free memory and end program
-    system_save(&system);
+    system_save_to_json(&system, existing_system);
     free_menu();
     return 0;
 }
