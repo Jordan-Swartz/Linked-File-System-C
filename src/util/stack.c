@@ -1,7 +1,3 @@
-//
-// Created by jordan on 1/19/25.
-//
-
 #include "stack.h"
 #include <stddef.h>
 
@@ -13,8 +9,12 @@ int is_empty(Stack* stack) {
     return stack->top == -1;
 }
 
-void push(Stack* stack, FSNode* node) {
+int push(Stack* stack, FSNode* node) {
+    if (stack->top >= STACK_MAX_SIZE - 1) {
+        return -1;  //overflow
+    }
     stack->nodes[++stack->top] = node;
+    return 1;
 }
 
 FSNode* pop(Stack* stack) {
