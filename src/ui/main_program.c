@@ -6,7 +6,7 @@
 #include "file_operation.h"
 #include "ui.h"
 
-int main(int argc, char* argv) {
+int main(int argc, char** argv) {
     //load menu
     load_menu();
 
