@@ -1,11 +1,3 @@
-/**
- * user interface:
- *
- * prompt for commands
- * display outputs
- *
- */
-
 #include <stdio.h>		//I/O features
 #include <string.h>		//String lib
 
@@ -15,10 +7,6 @@
 #include "file_system.h"
 #include "file_operation.h"
 
-
-/**
- *
- */
 void display_menu() {
     if (menu_content != NULL) {
         printf("\n%s\n", menu_content);
@@ -27,9 +15,6 @@ void display_menu() {
     }
 }
 
-/**
- *
- */
 int process_input_command(const FileSystem* system, FSNode** current) {
     //display current path
     display_current_path(system, (*current));
@@ -176,12 +161,6 @@ int process_input_command(const FileSystem* system, FSNode** current) {
         printf("Error: '%s' command not found\n", command);
         return Error;
     }
-}
-
-//REFACTOR
-
-int process_input_command_2() {
-    return 0;
 }
 
 int validate_args(const char* command, const char* arg1, const char* arg2, const int arg_condition) {
@@ -469,14 +448,14 @@ void process_ls(
     FSNode* current
     )
 {
-    //check for argument errors
-    if (validate_args(command, "arg1", arg2, SINGLE_ARG) == Error) {
-        return;
-    }
-
     //process ls by itself
     if (arg1 == NULL) {
         display_directory_nodes(system, current);
+        return;
+    }
+
+    //check for argument errors
+    if (validate_args(command, arg1, arg2, SINGLE_ARG) == Error) {
         return;
     }
 
@@ -767,7 +746,7 @@ void process_find(
 
     //print list of paths to find node
     int i = 0;
-    printf("Paths to '%s':\n", arg2);
+    printf("Paths to '%s' starting from %s:\n", arg2, start_node->name);
     while (paths_to_find_node[i] != NULL) {
         printf("%s\n", paths_to_find_node[i]);
         i++;
