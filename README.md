@@ -1,5 +1,5 @@
 # Linked-File-System-C Project
-A lightweight file system implementation in C with basic file operations, directory management, serialization, and unit testing integration. 
+A lightweight file system implementation in C with basic file operations, directory management, serialization/deserialization, and unit testing integration. 
 
 ---
 
@@ -19,7 +19,7 @@ The Linked-File-System-C project is a file system implementation that supports t
    - Implemented for moving, renaming, and inserting nodes within the tree hierarchy
 5. Memory Management
    - Implemented to use dynamic memory allocation and deallocation for data handling
-6. JSON serialization
+6. JSON serialization/deserialization
    - Implemented to save and restore file system states
 7. Unit Testing
    - Implemented for function validation
