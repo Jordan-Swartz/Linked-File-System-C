@@ -52,9 +52,10 @@ void display_menu();
  *
  * @param system Pointer to the file system.
  * @param current Pointer to the current directory.
+ * @param history_stack Stack that holds the session commands.
  * @return Status indicating success, error, or exit.
  */
-int process_input_command(const FileSystem* system, FSNode** current);
+int process_input_command(const FileSystem* system, FSNode** current, Stack* history_stack);
 
 /**
  * Validates the number of arguments provided for a command.
@@ -263,5 +264,20 @@ void process_find(const FileSystem* system,
                   const char* arg2,
                   FSNode* current
 );
+
+/**
+ * Displays the partial (last 5) or full command history of the session.
+ *
+ * @param history_stack
+ * @param command The history command.
+ * @param arg1 The flag for partial (-p) or full history (-f).
+ * @param arg2 Unused parameter.
+ */
+void process_history(Stack* history_stack,
+                    const char* command,
+                    const char* arg1,
+                    const char* arg2
+);
+
 
 #endif //UI_H

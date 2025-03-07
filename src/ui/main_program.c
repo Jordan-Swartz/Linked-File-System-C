@@ -11,6 +11,10 @@ int main(int argc, char** argv) {
     //create and initialize system
     FileSystem system;
 
+    //create current session's history stack
+    Stack history_stack;
+    init_stack(&history_stack);
+
     // if (argc == 2) {
     //     char* existing_system = (char*)argv[1];
     //     system_load(&system, existing_system);
@@ -44,7 +48,7 @@ int main(int argc, char** argv) {
     //process input
     do {
         //display_menu();
-    } while (process_input_command(&system, &current) != Exit);
+    } while (process_input_command(&system, &current, &history_stack) != Exit);
 
     //save system state, free memory and end program
     system_save_to_json(&system, existing_system);

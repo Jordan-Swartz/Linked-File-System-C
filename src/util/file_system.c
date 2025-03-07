@@ -139,11 +139,11 @@ char** dfs_search(FSNode* start, char* name) {
     int arr_index = 0;
 
     //enqueue start node
-    push(&stack,start);
+    push(&stack, (void*)start, STACK_NODE);
 
     while (is_empty(&stack) != 1) {
         //pop top node from stack
-        FSNode* current = pop(&stack);
+        FSNode* current = (FSNode*) pop(&stack);
 
         //if node match, build path to match
         if (strcmp(current->name, name) == 0) {
@@ -154,7 +154,7 @@ char** dfs_search(FSNode* start, char* name) {
         //traverse children and add to stack
         FSNode* iter = current->child_head;
         while (iter != NULL) {
-            push(&stack, iter);
+            push(&stack, (void*)iter, STACK_NODE);
             iter = iter->next;
         }
     }

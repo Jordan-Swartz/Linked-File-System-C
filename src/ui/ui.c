@@ -13,7 +13,7 @@ void display_menu() {
     }
 }
 
-int process_input_command(const FileSystem* system, FSNode** current) {
+int process_input_command(const FileSystem* system, FSNode** current, Stack* history_stack) {
     //display current path
     display_current_path(system, (*current));
 
@@ -27,138 +27,100 @@ int process_input_command(const FileSystem* system, FSNode** current) {
     char* argument = strtok(NULL, " ");
     char* argument2 = strtok(NULL, " ");
 
+    //add command to history stack
+    push(history_stack, (void*)command, STACK_STRING);
+
+    //default return status
+    int status = Success;
+
+    if (command == NULL) {
+        printf("Error: No command entered\n");
+        return Error;
+    }
+
     //process make directory
     if (strcmp(command, "mkdir") == 0) {
         process_mkdir(system, command, argument, argument2, (*current));
-        return Success;
     }
 
     //process make file
     else if (strcmp(command, "touch") == 0) {
         process_touch(system, command, argument, argument2, (*current));
-        return Success;
     }
 
     //process delete file or directory
     else if (strcmp(command, "rm") == 0) {
          process_rm(system, command, argument, argument2, current);
-        return Success;
     }
 
     //process display current path
     else if (strcmp(command, "pwd") == 0) {
         process_pwd((*current), system->root);
-        return Success;
     }
 
     //process changing directory
     else if (strcmp(command, "cd") == 0) {
         process_cd(system, command, argument, argument2, current);
-        return Success;
     }
 
     //process display directory contents
     else if (strcmp(command, "ls") == 0)  {
         process_ls(system, command, argument, argument2, (*current));
-        return Success;
     }
 
     //process move file or directory
     else if (strcmp(command, "mv") == 0) {
         process_mv(system, command, argument, argument2, (*current));
-        return Success;
     }
 
     //process rename file or directory
     else if (strcmp(command, "rn") == 0) {
         process_rn(system, command, argument, argument2, (*current));
-        return Success;
     }
 
     //process changing permissions for file
     else if (strcmp(command, "chmod") == 0) {
-        if (argument != NULL || argument2 != NULL) {
-            //TODO finish method
 
-        } else {
-            printf("Error: '%s' missing argument\n", command);
-            return Error;
-        }
     }
 
     //process copying file or directory into a new destination
     else if (strcmp(command, "cp") == 0) {
         process_cp(system, command, argument, argument2, (*current));
-        return Success;
     }
 
     //process finding file or directory in current directory
     else if (strcmp(command, "find") == 0) {
         process_find(system, command, argument, argument2, (*current));
-        return Success;
     }
 
     //process displaying command history for the current session
     else if (strcmp(command, "history") == 0) {
-        if (argument != NULL || argument2 != NULL) {
-            //TODO finish method
-            //recursive algorithm that recreates all the contents
-
-        } else {
-            printf("Error: '%s' missing argument\n", command);
-            return Error;
-        }
+        process_history(history_stack, command, argument, argument2);
     }
 
     //process cat
     else if (strcmp(command, "cat") == 0) {
-        if (argument != NULL || argument2 != NULL) {
-            //TODO finish method
-            //recursive algorithm that recreates all the contents
 
-        } else {
-            printf("Error: '%s' missing argument\n", command);
-            return Error;
-        }
     }
 
     //process displaying menu
     else if (strcmp(command, "menu") == 0) {
         display_menu();
-        return Success;
-    }
-
-    //PROCESS TEST
-    else if (strcmp(command, "p") == 0) {
-        char** parsed_path = parse_path(argument);
-        int i = 0;
-        printf("Path: ");
-        while (parsed_path[i] != NULL) {
-            printf("%s, ", parsed_path[i]);
-            i++;
-        }
-    }
-
-    //PROCESS TEST Parent
-    else if (strcmp(command, "p2") == 0) {
-        FSNode* iter = (*current)->child_head;
-        while (iter != NULL) {
-            printf("current: %s parent: %s\n", iter->name, iter->parent->name);
-            iter = iter->next;
-        }
     }
 
     //process exit system
     else if (strcmp(command, "exit") == 0)  {
         printf("Exiting System...\n");
-        return Exit;
+        status = Exit;
     }
 
     //process unknown command
     else {
         printf("Error: '%s' command not found\n", command);
-        return Error;
+        status = Error;
     }
+
+    return status;
 }
 
 int validate_args(const char* command, const char* arg1, const char* arg2, const int arg_condition) {
@@ -720,7 +682,8 @@ void process_find(
     const char* arg1,
     const char* arg2,
     FSNode* current
-    ) {
+    )
+{
     //check for argument errors
     if (validate_args(command, arg1, arg2, DOUBLE_ARG) == Error) {
         return;
@@ -750,6 +713,57 @@ void process_find(
         i++;
     }
     free_path(paths_to_find_node);
+}
+
+void process_history(
+    Stack* history_stack,
+    const char* command,
+    const char* arg1,
+    const char* arg2
+    )
+{
+    //check for argument errors
+    if (validate_args(command, arg1, arg2, SINGLE_ARG) == Error) {
+        return;
+    }
+
+    //validate arg flag
+    if (strcmp(arg1, "-p") != 0 || strcmp(arg1, "-f") != 0) {
+        return;
+    }
+
+    Stack temp, restore;
+    init_stack(&temp);
+    init_stack(&restore);
+    int count = 0;
+
+    //print session history
+    printf("Session Commands:\n");
+    while (is_empty(history_stack) != 1) {
+        if (count == 5 && (strcmp(arg1, "-p") == 0)) {
+            break;
+        } else {
+            char* item = (char*)pop(history_stack);
+            push(&temp, item, STACK_STRING);
+            printf("%s\n", item);
+            count++;
+        }
+    }
+
+    //move remaining elements to restore stack if (-p)
+    while (!is_empty(history_stack)) {
+        push(&restore, pop(history_stack), STACK_STRING);
+    }
+    //push back into history_stack in original order
+    while (!is_empty(&restore)) {
+        push(history_stack, pop(&restore), STACK_STRING);
+    }
+    while (!is_empty(&temp)) {
+        push(history_stack, pop(&temp), STACK_STRING);
+    }
+
+    //FIXME
+
 }
 
 
