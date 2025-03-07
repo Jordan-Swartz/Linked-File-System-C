@@ -53,5 +53,6 @@ int main(int argc, char** argv) {
     //save system state, free memory and end program
     system_save_to_json(&system, existing_system);
     free_menu();
+    free_stack(&history_stack);
     return 0;
 }

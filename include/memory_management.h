@@ -9,6 +9,7 @@
 
 #ifndef MEMORY_MANAGEMENT_H
 #define MEMORY_MANAGEMENT_H
+#include <stack.h>
 
 /*Function Declarations*/
 /**
@@ -17,5 +18,11 @@
  * @param path The array of strings.
  */
 void free_path(char** path);
+
+/**
+ * 
+ * @param stack 
+ */
+void free_stack(Stack* stack);
 
 #endif //MEMORY_MANAGEMENT_H
