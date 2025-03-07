@@ -18,21 +18,33 @@
 #define STACK_MAX_SIZE 1000
 
 /*Type Definitions*/
-typedef struct FSNode FSNode;
+typedef enum { STACK_NODE, STACK_STRING } StackItemType;
 typedef struct Stack Stack;
+typedef struct StackItem StackItem;
+
+/**
+ * @struct StackItem
+ * @brief Represents an item in the stack.
+ */
+struct StackItem {
+    StackItemType type;     //type of item
+    void* data;             //pointer to item
+};
+
 
 /**
  * @struct Stack
  * @brief Represents a stack.
  */
 struct Stack {
-    FSNode* nodes[STACK_MAX_SIZE];
+    StackItem items[STACK_MAX_SIZE];
     int top;
 };
 
+
 /*Function Declarations*/
 /**
- * Initializes a stack.
+ * Initializes a generic stack.
  *
  * @param stack Pointer to the stack.
  */
@@ -47,28 +59,29 @@ void init_stack(Stack* stack);
 int is_empty(Stack* stack);
 
 /**
- * Pushes an FSNode pointer onto the stack.
+ * Pushes an item pointer onto the stack.
  *
  * @param stack Pointer to the stack.
- * @param node Node to push onto the stack.
+ * @param item Item to push onto the stack.
+ * @param type The type of item being added (STACK_NODE or STACK_STRING)
  * @return Returns 1 if success, otherwise -1 for stack overflow.
  */
-int push(Stack* stack, FSNode* node);
+int push(Stack* stack, void* item, StackItemType type);
 
 /**
- * Pops an FSNode pointer from the stack.
+ * Pops an item pointer from the stack.
  *
  * @param stack
- * @return Pointer to the FSNode that was removed from the stack.
+ * @return Pointer to the item that was removed from the stack.
  */
-FSNode* pop(Stack* stack);
+void* pop(Stack* stack);
 
 /**
- * Peeks at the top FSNode of the stack without removing it.
+ * Peeks at the top item of the stack without removing it.
  *
  * @param stack
  * @return Pointer to the FSNode at the top of the stack.
  */
-FSNode* peek(Stack* stack);
+void* peek(Stack* stack);
 
 #endif

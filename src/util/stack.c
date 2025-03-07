@@ -9,20 +9,21 @@ int is_empty(Stack* stack) {
     return stack->top == -1;
 }
 
-int push(Stack* stack, FSNode* node) {
+int push(Stack* stack, void* item, StackItemType type) {
     if (stack->top >= STACK_MAX_SIZE - 1) {
         return -1;  //overflow
     }
-    stack->nodes[++stack->top] = node;
+    stack->items[++stack->top].type = type;
+    stack->items[++stack->top].data = item;
     return 1;
 }
 
-FSNode* pop(Stack* stack) {
+void* pop(Stack* stack) {
     if (is_empty(stack)) return NULL;
-    return stack->nodes[stack->top--];
+    return stack->items[stack->top--].data;
 }
 
-FSNode* peek(Stack* stack) {
+void* peek(Stack* stack) {
     if (is_empty(stack)) return NULL;
-    return stack->nodes[stack->top];
+    return stack->items[stack->top].data;
 }
