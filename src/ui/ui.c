@@ -28,7 +28,7 @@ int process_input_command(const FileSystem* system, FSNode** current, Stack* his
     char* argument2 = strtok(NULL, " ");
 
     //add command to history stack
-    push(history_stack, (void*)command, STACK_STRING);
+    push(history_stack, strdup(command), STACK_STRING);
 
     //default return status
     int status = Success;
@@ -728,42 +728,34 @@ void process_history(
     }
 
     //validate arg flag
-    if (strcmp(arg1, "-p") != 0 || strcmp(arg1, "-f") != 0) {
+    if (strcmp(arg1, "-p") != 0 && strcmp(arg1, "-f") != 0) {
         return;
     }
 
-    Stack temp, restore;
+    Stack temp;
     init_stack(&temp);
-    init_stack(&restore);
     int count = 0;
 
     //print session history
     printf("Session Commands:\n");
-    while (is_empty(history_stack) != 1) {
+    while (!is_empty(history_stack)) {
         if (count == 5 && (strcmp(arg1, "-p") == 0)) {
             break;
         } else {
-            char* item = (char*)pop(history_stack);
-            push(&temp, item, STACK_STRING);
-            printf("%s\n", item);
+            StackItem* item = (StackItem*)pop(history_stack);
+            push(&temp, item->data, item->type);
+            printf("\t%s\n", (char*)item->data);
             count++;
         }
     }
 
-    //move remaining elements to restore stack if (-p)
-    while (!is_empty(history_stack)) {
-        push(&restore, pop(history_stack), STACK_STRING);
-    }
-    //push back into history_stack in original order
-    while (!is_empty(&restore)) {
-        push(history_stack, pop(&restore), STACK_STRING);
-    }
+    //clean up stack memory?
+
+    //repopulate temp into history stack
     while (!is_empty(&temp)) {
-        push(history_stack, pop(&temp), STACK_STRING);
+        StackItem* item = (StackItem*)pop(&temp);
+        push(history_stack, item->data, item->type);
     }
-
-    //FIXME
-
 }
 
 
