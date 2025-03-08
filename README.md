@@ -73,7 +73,7 @@ rn <path/to/old_name>  <new_name>             - renames a file or directory
 chmod <permissions> <file>                    - changes permissions for a file (e.g., "chmod 755 myfile")
 cp <path/to/source> <path/to/destination>     - copies a file or directory to a new location
 find <path/to/start-directory> <target_name>  - searches for a given file or directory name based on start directory
-history                                       - displays the command history for the session
+history -flag                                 - displays the command history for the session (-p last 5, -f full)
 exit                                          - exits the system
 menu                                          - displays the menu
 ```
