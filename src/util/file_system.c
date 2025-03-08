@@ -237,6 +237,10 @@ void set_current(FSNode** current, FSNode* change_to_node) {
     (*current) = change_to_node;
 }
 
+void change_node_permissions(FSNode* node, Permissions permissions) {
+    node->permissions = permissions;
+}
+
 char** parse_path(const char* argument) {
     char temp[256] = {0};
     int i = 0, temp_index = 0, arr_index = 0;

@@ -70,12 +70,12 @@ cd ..                                         - moves to the parent directory
 ls <path/to/directory> *or* ls                - lists all contents of the current directory in detailed format
 mv <path/to/source> <path/to/destination>     - moves a file or directory (can be relative or abs path)
 rn <path/to/old_name>  <new_name>             - renames a file or directory
-chmod <permissions> <file>                    - changes permissions for a file (e.g., "chmod 755 myfile")
+chmod <path/to/file> <permissions>            - changes permissions ('R', 'RW', 'RWE') for a file (e.g., "chmod /a/b/myfile RWE")
 cp <path/to/source> <path/to/destination>     - copies a file or directory to a new location
 find <path/to/start-directory> <target_name>  - searches for a given file or directory name based on start directory
-history -flag                                 - displays the command history for the session (-p last 5, -f full)
-exit                                          - exits the system
+history -p *or* -f                            - displays the command history for the session (-p last 5, -f full)
 menu                                          - displays the menu
+exit                                          - exits the system
 ```
 📝 **Note:**  
 - The **root directory** is the top-level node in the system, and both `~` and `/` point to this node. Any commands involving absolute paths (`/some/path`) will start from the root. (`~`) is not traversable and will always refer to only the root.

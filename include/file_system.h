@@ -158,6 +158,14 @@ void change_directory_backward(FSNode** current);
 void set_current(FSNode** current, FSNode* change_to_node);
 
 /**
+ * Changes the permissions of a specified node.
+ *
+ * @param node The node that is being modified.
+ * @param permissions The permissions to modify with.
+ */
+void change_node_permissions(FSNode* node, Permissions permissions);
+
+/**
  * Parses a file path into individual directory names.
  *
  * @param argument Path to be parsed.

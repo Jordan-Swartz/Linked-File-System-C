@@ -80,7 +80,7 @@ int process_input_command(const FileSystem* system, FSNode** current, Stack* his
 
     //process changing permissions for file
     else if (strcmp(command, "chmod") == 0) {
-
+        process_chmod(system, command, argument, argument2, (*current));
     }
 
     //process copying file or directory into a new destination
@@ -96,11 +96,6 @@ int process_input_command(const FileSystem* system, FSNode** current, Stack* his
     //process displaying command history for the current session
     else if (strcmp(command, "history") == 0) {
         process_history(history_stack, command, argument, argument2);
-    }
-
-    //process cat
-    else if (strcmp(command, "cat") == 0) {
-
     }
 
     //process displaying menu
@@ -594,9 +589,51 @@ void process_chmod(
     )
 {
     //check for argument errors
-    if (validate_args(command, "arg1", arg2, SINGLE_ARG) == Error) {
+    if (validate_args(command, arg1, arg2, DOUBLE_ARG) == Error) {
         return;
     }
+
+    //ensure valid permissions flag
+    if (strcmp(arg2, "R") != 0 && strcmp(arg2, "RW") != 0 && strcmp(arg2, "RWE") != 0) {
+        printf("Error: Invalid permissions flag.\n");
+        return;
+    }
+
+    //traverse arg1 path to find file to change permissions
+    FSNode* source_node_parent = current;
+    char* return_name_source = "";
+    if (process_parsed_path(system, arg1, current, &source_node_parent, &return_name_source,
+        STOP_AT_LAST, DISABLE_CREATE, DISABLE_NAME) == Error)
+    {
+        return;
+    }
+
+    //ensure not root node
+    if (source_node_parent == system->root && strcmp(return_name_source, "~") == 0
+        || strcmp(return_name_source, "/") == 0) {
+        printf("Error: Cannot change permissions of the root node.\n");
+        return;
+    }
+
+    //find target node in parent
+    FSNode* target_node = find_node(source_node_parent, return_name_source);
+    if (target_node == NULL) {
+        printf("Error: Cannot change permissions '%s' -> No such file or directory.\n", return_name_source);
+        free(return_name_source);
+        return;
+    }
+
+    //change file permissions
+    Permissions permissions = -1;
+    if (strcmp(arg2, "R") == 0) {
+        permissions = Read;
+    } else if (strcmp(arg2, "RW") == 0) {
+        permissions = Read_Write;
+    } else {
+        permissions = Read_Write_Execute;
+    }
+
+    change_node_permissions(target_node, permissions);
 }
 
 
@@ -727,11 +764,12 @@ void process_history(
         return;
     }
 
-    //validate arg flag
+    //ensure valid arg flag
     if (strcmp(arg1, "-p") != 0 && strcmp(arg1, "-f") != 0) {
         return;
     }
 
+    //temp stack to hold pops
     Stack temp;
     init_stack(&temp);
     int count = 0;
@@ -748,8 +786,6 @@ void process_history(
             count++;
         }
     }
-
-    //clean up stack memory?
 
     //repopulate temp into history stack
     while (!is_empty(&temp)) {
