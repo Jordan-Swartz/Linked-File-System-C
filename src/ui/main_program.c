@@ -15,27 +15,52 @@ int main(int argc, char** argv) {
     Stack history_stack;
     init_stack(&history_stack);
 
-    // if (argc == 2) {
-    //     char* existing_system = (char*)argv[1];
-    //     system_load(&system, existing_system);
-    // } else {
-    //     printf("Error: missing file for system\n");
-    //     return Error;
-    // }
+    char* existing_system;
+    if (argc == 2) {
+        //load existing file
+        existing_system = (char*)argv[1];
+        system_load_from_json(&system, existing_system);
+    } else if (argc == 1) {
+        //no file provided set to default
+        existing_system = DEFAULT_SYSTEM_FILE;
+    }  else {
+        //too many args
+        printf("Error: too many input arguments.\n");
+        return Error;
+    }
+
+    //FIXME
+
+    //if default file doesn't exist, create one
+    if (!file_exists(existing_system)) {
+        printf("System file not found. Creating a new one: %s\n", existing_system);
+        //ensure data dir exists
+        mkdir("data", 0777);
+
+        //create new file
+        FILE* file = fopen(existing_system, "w");
+        if (file) {
+            fprintf(file, "{}"); //write empty obj
+            fclose(file);
+        } else {
+            printf("Error: Could not create system file.\n");
+            return 1;
+        }
+    }
 
     //TEST
-    FILE *file = fopen("/home/jordan/CLionProjects/Linked-File-System-C/data/test.txt", "r");
-    if (file == NULL) {
-        printf("Error: file not found\n");
-        return 1;
-    }
-    // The file exists, so close it
-    printf("File opened\n");
-    fclose(file);
+    // FILE *file = fopen("/home/jordan/CLionProjects/Linked-File-System-C/data/test.txt", "r");
+    // if (file == NULL) {
+    //     printf("Error: file not found\n");
+    //     return 1;
+    // }
+    // // The file exists, so close it
+    // printf("File opened\n");
+    // fclose(file);
 
     // Now pass the file path (string) to system_load
-    char* const existing_system = "/home/jordan/CLionProjects/Linked-File-System-C/data/test.txt";
-    system_load_from_json(&system, existing_system);
+    // char* const existing_system = "/home/jordan/CLionProjects/Linked-File-System-C/data/test.txt";
+    // system_load_from_json(&system, existing_system);
 
     //set current to system root
     FSNode* current = system.root;

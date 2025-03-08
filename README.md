@@ -10,7 +10,7 @@ The Linked-File-System-C project is a file system implementation that supports t
 
 ## 2: Featured Concepts
 1. Recursive Algorithms
-   - Implemented for node deletion and duplication
+   - Implemented for node deletion, duplication and serialization.
 2. DFS Traversal
    - Implemented for searching and retrieving nodes in the file system
 3. Directory Traversal and Path Resolution

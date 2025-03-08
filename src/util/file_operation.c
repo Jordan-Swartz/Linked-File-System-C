@@ -6,6 +6,11 @@
 /*Global Variables*/
 char* menu_content = NULL;
 
+int file_exists(const char* filename) {
+    struct stat buffer;
+    return (stat(filename, &buffer) == 0); // Returns 1 if exists, 0 otherwise
+}
+
 FSNode* json_to_fsnode(const cJSON* json_node, FSNode* parent) {
     //TODO
     return NULL;
@@ -23,6 +28,7 @@ void system_load_from_json(FileSystem* system, const char* existing_system) {
     //if file is empty create new system
     if (file_size == 0) {
         system_setup(system);
+        fclose(file);
         return;
     }
 
@@ -32,14 +38,29 @@ void system_load_from_json(FileSystem* system, const char* existing_system) {
 }
 
 cJSON* fsnode_to_json(const FSNode* node) {
-    //TODO
+    if (node)
     return NULL;
 }
 
 void system_save_to_json(FileSystem* system, const char* existing_system) {
     //open system file to write
     FILE* file = fopen("", "w");
+    if (!file) {
+        printf("Error: Could not open file for saving/.\n");
+        return;
+    }
+
+    //convert system into json object
+    cJSON* json_system = fsnode_to_json((system->root));
+
+    //convert json object to string and write to file
+    char* json_string = cJSON_Print(json_system);
+    fprintf(file, "%s", json_string);
     fclose(file);
+
+    //clean memory
+    cJSON_Delete(json_system);
+    free(json_string);
 }
 
 void load_menu() {
