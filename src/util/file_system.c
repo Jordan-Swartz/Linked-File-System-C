@@ -54,6 +54,7 @@ FSNode* create_node(
     strcpy(new_node->owner, system_username);
     new_node->type = type;
     new_node->permissions = Read_Write;
+    new_node->size = 0;
     new_node->child_head = NULL;
     new_node->next = NULL;
     new_node->previous = NULL;
@@ -76,6 +77,7 @@ FSNode* create_copy_node(FSNode* current, FSNode* destination) {
     strcpy(new_node->owner, current->owner);
     new_node->type = current->type;
     new_node->permissions = current->permissions;
+    new_node->size = 0;
     new_node->child_head = NULL;
     new_node->next = NULL;
     new_node->previous = NULL;

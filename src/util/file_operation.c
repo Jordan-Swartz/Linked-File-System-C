@@ -13,9 +13,8 @@ int file_exists(const char* filename) {
     return (stat(filename, &buffer) == 0);
 }
 
-// Function to generate a unique system filename
 char* generate_unique_filename() {
-    static char filename[256];  // Persistent buffer
+    static char filename[256];
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
     snprintf(filename, sizeof(filename), "%ssystem_%d%d%d_%d%d%d.json",
@@ -32,22 +31,31 @@ FSNode* json_to_fsnode(const cJSON* json_node, FSNode* parent) {
 void system_load_from_json(FileSystem* system, const char* existing_system) {
     //open system file to read
     FILE* file = fopen(existing_system, "r");
+    if (!file) {
+        printf("Error: Could not open file for reconstruction/.\n");
+        return;
+    }
 
     //get file size
     fseek(file, 0, SEEK_END);
     long file_size = ftell(file);
     rewind(file);
 
-    //if file is empty create new system
-    if (file_size == 0) {
-        system_setup(system);
-        fclose(file);
-        return;
-    }
+    //create buffer to read file into a string
+    char* buffer = (char*)malloc(sizeof(file_size + 1));
+    fread(buffer, 1, file_size, file);
+    buffer[file_size] = '\0';   //null terminate
 
-    //load existing system
+    //parse string into json object
+    cJSON* json_system = cJSON_Parse(buffer);
 
+    //parse json object and reconstruct system (start with root)
+    system->root = json_to_fsnode(json_system, NULL);
+
+    //clean up
     fclose(file);
+    cJSON_Delete(json_system);
+    free(buffer);
 }
 
 cJSON* fsnode_to_json(const FSNode* node) {
