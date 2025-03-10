@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "file_system.h"
 #include "file_operation.h"
 
@@ -8,7 +9,19 @@ char* menu_content = NULL;
 
 int file_exists(const char* filename) {
     struct stat buffer;
-    return (stat(filename, &buffer) == 0); // Returns 1 if exists, 0 otherwise
+    //return 1 if exists, 0 otherwise
+    return (stat(filename, &buffer) == 0);
+}
+
+// Function to generate a unique system filename
+char* generate_unique_filename() {
+    static char filename[256];  // Persistent buffer
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    snprintf(filename, sizeof(filename), "%ssystem_%d%d%d_%d%d%d.json",
+             DEFAULT_DIRECTORY, tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+             tm.tm_hour, tm.tm_min, tm.tm_sec);
+    return filename;
 }
 
 FSNode* json_to_fsnode(const cJSON* json_node, FSNode* parent) {
@@ -38,13 +51,40 @@ void system_load_from_json(FileSystem* system, const char* existing_system) {
 }
 
 cJSON* fsnode_to_json(const FSNode* node) {
-    if (node)
-    return NULL;
+    if (node == NULL) {
+        printf("Error: Could not convert system to json object for saving.\n");
+        return NULL;
+    }
+
+    //create json obj with node data
+    cJSON* json_node_obj = cJSON_CreateObject();
+    cJSON_AddStringToObject(json_node_obj, "name", node->name);
+    cJSON_AddStringToObject(json_node_obj, "owner", node->owner);
+    cJSON_AddStringToObject(json_node_obj, "type",node->type == Directory ? "directory" : "file");
+    cJSON_AddStringToObject(json_node_obj, "permissions",
+        (node->permissions == Read) ? "R" :
+             (node->permissions == Read_Write) ? "RW" : "RWE");
+    cJSON_AddNumberToObject(json_node_obj, "size", node->size);
+
+    //recursively serialize children of directory
+    if (node->type == Directory) {
+        cJSON* children_array = cJSON_CreateArray();
+        FSNode* iter = node->child_head;
+
+        while (iter != NULL) {
+            //create json obj for iter's children
+            cJSON_AddItemToArray(children_array, fsnode_to_json(iter));
+            iter = iter->next;
+        }
+        cJSON_AddItemToObject(json_node_obj, "children", children_array);
+    }
+
+    return json_node_obj;
 }
 
 void system_save_to_json(FileSystem* system, const char* existing_system) {
     //open system file to write
-    FILE* file = fopen("", "w");
+    FILE* file = fopen(existing_system, "w");
     if (!file) {
         printf("Error: Could not open file for saving/.\n");
         return;

@@ -21,7 +21,7 @@
 extern char* menu_content;
 
 /*Definitions*/
-#define DEFAULT_SYSTEM_FILE "./data/system.json"
+#define DEFAULT_DIRECTORY "data/"
 
 /*Function Declarations*/
 /**
@@ -31,6 +31,13 @@ extern char* menu_content;
  * @return Returns 1 if the file exists, 0 if not.
  */
 int file_exists(const char* filename);
+
+/**
+ * Generates a new unique file
+ * @return
+ */
+char* generate_unique_filename();
+
 /**
  * Recursively converts a cJSON object into an FSNode.
  *
