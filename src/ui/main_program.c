@@ -55,14 +55,16 @@ int main(int argc, char** argv) {
     //set current to system root
     FSNode* current = system.root;
 
-    //clear buffer before processing input
-    int ch;
-    while ((ch = getchar()) != '\n' && ch != Error)
-        display_menu();
+    //display menu and process input
+    display_menu();
+
+    if (argc != 2) {
+        int ch;
+        while ((ch = getchar()) != '\n' && ch != EOF);
+    }
 
     //process input
     do {
-        //display_menu();
     } while (process_input_command(&system, &current, &history_stack) != Exit);
 
     //save system state, free memory and end program
