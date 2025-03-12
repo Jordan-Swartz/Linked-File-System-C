@@ -1,14 +1,14 @@
-# Linked-File-System-C Project
+# Linked-File-System-C Project:
 A lightweight file system implementation in C with basic file operations, directory management, serialization/deserialization, and unit testing integration. 
 
 ---
 
-## 1: About the Project
+## 1: About the Project:
 The Linked-File-System-C project is a file system implementation that supports traditional bash-like operations. These operations include, but are not limited to: file creation, deletion, duplication, navigation, and retrieval. It is designed for learning and practicing data structures, memory management, system-level programming, and algorithmic strategies.
 
 ---
 
-## 2: Featured Concepts
+## 2: Featured Concepts:
 1. Recursive Algorithms
    - Implemented for node deletion, duplication and serialization.
 2. DFS Traversal
@@ -26,7 +26,7 @@ The Linked-File-System-C project is a file system implementation that supports t
       
 ---
 
-## 3: Running the Project
+## 3: Running the Project:
 
 ### Option 1: CMake
 1. Configure Project
@@ -77,13 +77,13 @@ history -p *or* -f                            - displays the command history for
 menu                                          - displays the menu
 exit                                          - exits the system
 ```
-📝 **Note:**  
+**Note:**  
 - The **root directory** is the top-level node in the system, and both `~` and `/` point to this node. Any commands involving absolute paths (`/some/path`) will start from the root. (`~`) is not traversable and will always refer to only the root.
 
 
 ---
 
-## 5: Technologies Used
+## 5: Technologies Used:
 1. C (99)
    - core programming language
 2. CMake
@@ -95,4 +95,15 @@ exit                                          - exits the system
 5. GitHub Actions
    - CI for automated builds
   
+---
+
+## 6: Resources Used:
+1. cJSON
+   - [cJSON Reading/Writing](https://www.geeksforgeeks.org/cjson-json-file-write-read-modify-in-c/) - GeeksForGeeks cJSON Guide
+2. Unity Testing
+   - [Unity Testing](https://www.throwtheswitch.org/unity) - Unity Website Resources
+3. Linux Commands
+   - [Linux Commands](https://www.digitalocean.com/community/tutorials/linux-commands) - Top 50 Linux Commands
+4. Graphs
+   - [Graph Theory](https://www.baeldung.com/cs/graphs-series) - Graph Data Structures and Algorithms
 ---
