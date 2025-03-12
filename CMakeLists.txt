@@ -38,3 +38,10 @@ target_compile_definitions(test_ui PRIVATE TEST_UI)
 
 #include unity config
 include(${CMAKE_CURRENT_LIST_DIR}/lib/unity/unityConfig.cmake)
+
+#add data directory in build path
+add_custom_target(copy_data ALL
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/data ${CMAKE_BINARY_DIR}/data
+)
+add_dependencies(LinkedFS copy_data)
