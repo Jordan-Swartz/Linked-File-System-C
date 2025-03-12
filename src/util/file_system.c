@@ -39,7 +39,8 @@ FSNode* create_node(
     const char* system_username,
     FSNode* current,
     const char* name,
-    NodeType type
+    NodeType type,
+    Permissions permissions
     )
 {
     //create node
@@ -53,7 +54,7 @@ FSNode* create_node(
     strcpy(new_node->name, name);
     strcpy(new_node->owner, system_username);
     new_node->type = type;
-    new_node->permissions = Read_Write;
+    new_node->permissions = permissions;
     new_node->size = 0;
     new_node->child_head = NULL;
     new_node->next = NULL;

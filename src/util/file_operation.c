@@ -4,6 +4,8 @@
 #include "file_system.h"
 #include "file_operation.h"
 
+#include <string.h>
+
 /*Global Variables*/
 char* menu_content = NULL;
 
@@ -24,8 +26,46 @@ char* generate_unique_filename() {
 }
 
 FSNode* json_to_fsnode(const cJSON* json_node, FSNode* parent) {
-    //TODO
-    return NULL;
+    if (json_node == NULL) {
+        printf("Error: Could not reconstruct system from json.\n");
+        return NULL;
+    }
+
+    //extract node data
+    const char* owner = cJSON_GetObjectItem(json_node, "owner")->valuestring;
+    const char* name = cJSON_GetObjectItem(json_node, "name")->valuestring;
+    const char* permissions_str = cJSON_GetObjectItem(json_node, "permissions")->valuestring;
+    const char* type_str = cJSON_GetObjectItem(json_node, "type")->valuestring;
+
+    //determine conditionals
+    Permissions permissions =
+        (strcmp(permissions_str, "R") == 0) ? Read :
+        (strcmp(permissions_str, "RW") == 0) ? Read_Write : Read_Write_Execute;
+    NodeType type = (strcmp(type_str, "file") == 0) ? File : Directory;
+
+    //create new node
+    FSNode* node = create_node(owner, parent, name, type, permissions);
+
+    //insert node into correct order within parent (skip root: parent == NULL)
+    if (parent != NULL) {
+        insert_node(parent, node);
+    }
+
+    //if copy_node is a file return
+    if (node->type == File) {
+        return;
+    }
+
+    //if node is a directory, retrieve and construct its children
+    cJSON* children_array = cJSON_GetObjectItem(json_node, "children");
+    if (cJSON_IsArray(children_array)) {
+        cJSON* child_json = NULL;
+        cJSON_ArrayForEach(child_json, children_array) {
+            json_to_fsnode(child_json, node);
+        }
+    }
+    //return root
+    return node;
 }
 
 void system_load_from_json(FileSystem* system, const char* existing_system) {
@@ -42,7 +82,7 @@ void system_load_from_json(FileSystem* system, const char* existing_system) {
     rewind(file);
 
     //create buffer to read file into a string
-    char* buffer = (char*)malloc(sizeof(file_size + 1));
+    char* buffer = (char*)malloc(file_size + 1);
     fread(buffer, 1, file_size, file);
     buffer[file_size] = '\0';   //null terminate
 
@@ -51,6 +91,10 @@ void system_load_from_json(FileSystem* system, const char* existing_system) {
 
     //parse json object and reconstruct system (start with root)
     system->root = json_to_fsnode(json_system, NULL);
+    strcpy(system->username, system->root->owner);
+    strcpy(system->host_signature, system->username);
+    strcat(system->host_signature, "@JDS");
+    printf("System successfully reconstructed.\n");
 
     //clean up
     fclose(file);
@@ -112,7 +156,7 @@ void system_save_to_json(FileSystem* system, const char* existing_system) {
 }
 
 void load_menu() {
-    FILE* file = fopen("../data/menu.txt", "r");
+    FILE* file = fopen("data/menu.txt", "r");
 
     if (file == NULL) {
         printf("Error: file not found\n");
@@ -137,6 +181,7 @@ void load_menu() {
     menu_content[file_size] = '\0';                 //fill last index with '\0'
 
     fclose(file);                                   //close file
+    printf("Menu successfully loaded.\n");
 }
 
 void free_menu() {

@@ -76,12 +76,14 @@ void root_setup(const FileSystem* system, FSNode* root);
  * @param current Pointer to the current directory.
  * @param name Name of the new node.
  * @param type Type of node (Directory or File).
+ * @param permissions Permissions of the node.
  * @return Pointer to the newly created node.
  */
 FSNode* create_node(const char* system_username,
                     FSNode* current,
                     const char* name,
-                    NodeType type
+                    NodeType type,
+                    Permissions permissions
 );
 
 /**
@@ -138,7 +140,7 @@ void display_directory_nodes(const FileSystem* system, const FSNode* current);
  *
  * @param current Pointer to the current directory.
  * @param change_to_name Name of the subdirectory to move into.
- * @return 
+ * @return
  */
 int change_directory_forward(FSNode** current, char* change_to_name);
 

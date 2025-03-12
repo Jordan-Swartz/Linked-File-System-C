@@ -17,7 +17,7 @@ int process_input_command(const FileSystem* system, FSNode** current, Stack* his
     //display current path
     display_current_path(system, (*current));
 
-    /////collect input
+    //collect input
     char input_str[1024];
     fgets(input_str, sizeof(input_str), stdin);           //get entire line
     input_str[strcspn(input_str, "\n")] = 0;        //remove newline char
@@ -208,7 +208,7 @@ int process_parsed_path(
             //handle node creation (mkdir)
             if (enable_create_node == ENABLE_CREATE) {
                 //create node
-                FSNode* new_node = create_node(system->username, current, parsed_path[i], Directory);
+                FSNode* new_node = create_node(system->username, current, parsed_path[i], Directory, Read_Write);
                 //insert node alphabetically
                 if (insert_node(current, new_node) != Success) {
                     printf("Error: '%s' A node with this name already exists.\n", parsed_path[i]);
@@ -294,7 +294,7 @@ void process_touch(
     }
 
     //make file node
-    FSNode* new_node = create_node(system->username, destination, arg2, File);
+    FSNode* new_node = create_node(system->username, destination, arg2, File, Read_Write);
     //insert node alphabetically
     if (insert_node(destination, new_node) != Success) {
         printf("Error: '%s' A node with this name already exists.\n", arg2);
