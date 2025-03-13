@@ -30,6 +30,7 @@ add_executable(test_ui
         src/util/file_operation.c
         src/util/memory_management.c
         src/util/stack.c
+        lib/cJSON/cJSON.c
 )
 target_link_libraries(test_ui unity)
 
