@@ -53,7 +53,7 @@ FSNode* json_to_fsnode(const cJSON* json_node, FSNode* parent) {
 
     //if copy_node is a file return
     if (node->type == File) {
-        return;
+        return node;
     }
 
     //if node is a directory, retrieve and construct its children
