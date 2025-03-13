@@ -3,7 +3,7 @@
 	"owner":	"jordan",
 	"type":	"directory",
 	"permissions":	"RW",
-	"size":	3,
+	"size":	26,
 	"children":	[{
 			"name":	"a",
 			"owner":	"jordan",
@@ -27,8 +27,162 @@
 									"owner":	"jordan",
 									"type":	"directory",
 									"permissions":	"RW",
-									"size":	0,
-									"children":	[]
+									"size":	1,
+									"children":	[{
+											"name":	"e",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"f",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"g",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"h",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"i",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"j",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"k",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"l",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	1,
+																									"children":	[{
+																											"name":	"m",
+																											"owner":	"jordan",
+																											"type":	"directory",
+																											"permissions":	"RW",
+																											"size":	1,
+																											"children":	[{
+																													"name":	"n",
+																													"owner":	"jordan",
+																													"type":	"directory",
+																													"permissions":	"RW",
+																													"size":	1,
+																													"children":	[{
+																															"name":	"o",
+																															"owner":	"jordan",
+																															"type":	"directory",
+																															"permissions":	"RW",
+																															"size":	1,
+																															"children":	[{
+																																	"name":	"p",
+																																	"owner":	"jordan",
+																																	"type":	"directory",
+																																	"permissions":	"RW",
+																																	"size":	1,
+																																	"children":	[{
+																																			"name":	"q",
+																																			"owner":	"jordan",
+																																			"type":	"directory",
+																																			"permissions":	"RW",
+																																			"size":	1,
+																																			"children":	[{
+																																					"name":	"r",
+																																					"owner":	"jordan",
+																																					"type":	"directory",
+																																					"permissions":	"RW",
+																																					"size":	1,
+																																					"children":	[{
+																																							"name":	"s",
+																																							"owner":	"jordan",
+																																							"type":	"directory",
+																																							"permissions":	"RW",
+																																							"size":	1,
+																																							"children":	[{
+																																									"name":	"t",
+																																									"owner":	"jordan",
+																																									"type":	"directory",
+																																									"permissions":	"RW",
+																																									"size":	1,
+																																									"children":	[{
+																																											"name":	"u",
+																																											"owner":	"jordan",
+																																											"type":	"directory",
+																																											"permissions":	"RW",
+																																											"size":	1,
+																																											"children":	[{
+																																													"name":	"v",
+																																													"owner":	"jordan",
+																																													"type":	"directory",
+																																													"permissions":	"RW",
+																																													"size":	1,
+																																													"children":	[{
+																																															"name":	"w",
+																																															"owner":	"jordan",
+																																															"type":	"directory",
+																																															"permissions":	"RW",
+																																															"size":	1,
+																																															"children":	[{
+																																																	"name":	"x",
+																																																	"owner":	"jordan",
+																																																	"type":	"directory",
+																																																	"permissions":	"RW",
+																																																	"size":	1,
+																																																	"children":	[{
+																																																			"name":	"y",
+																																																			"owner":	"jordan",
+																																																			"type":	"directory",
+																																																			"permissions":	"RW",
+																																																			"size":	1,
+																																																			"children":	[{
+																																																					"name":	"z",
+																																																					"owner":	"jordan",
+																																																					"type":	"directory",
+																																																					"permissions":	"RW",
+																																																					"size":	0,
+																																																					"children":	[]
+																																																				}]
+																																																		}]
+																																																}]
+																																														}]
+																																												}]
+																																										}]
+																																								}]
+																																						}]
+																																				}]
+																																		}]
+																																}]
+																														}]
+																												}]
+																										}]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
 								}]
 						}]
 				}]
@@ -49,8 +203,162 @@
 							"owner":	"jordan",
 							"type":	"directory",
 							"permissions":	"RW",
-							"size":	0,
-							"children":	[]
+							"size":	1,
+							"children":	[{
+									"name":	"e",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"f",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"g",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"h",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"i",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"j",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"k",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"l",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"m",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	1,
+																									"children":	[{
+																											"name":	"n",
+																											"owner":	"jordan",
+																											"type":	"directory",
+																											"permissions":	"RW",
+																											"size":	1,
+																											"children":	[{
+																													"name":	"o",
+																													"owner":	"jordan",
+																													"type":	"directory",
+																													"permissions":	"RW",
+																													"size":	1,
+																													"children":	[{
+																															"name":	"p",
+																															"owner":	"jordan",
+																															"type":	"directory",
+																															"permissions":	"RW",
+																															"size":	1,
+																															"children":	[{
+																																	"name":	"q",
+																																	"owner":	"jordan",
+																																	"type":	"directory",
+																																	"permissions":	"RW",
+																																	"size":	1,
+																																	"children":	[{
+																																			"name":	"r",
+																																			"owner":	"jordan",
+																																			"type":	"directory",
+																																			"permissions":	"RW",
+																																			"size":	1,
+																																			"children":	[{
+																																					"name":	"s",
+																																					"owner":	"jordan",
+																																					"type":	"directory",
+																																					"permissions":	"RW",
+																																					"size":	1,
+																																					"children":	[{
+																																							"name":	"t",
+																																							"owner":	"jordan",
+																																							"type":	"directory",
+																																							"permissions":	"RW",
+																																							"size":	1,
+																																							"children":	[{
+																																									"name":	"u",
+																																									"owner":	"jordan",
+																																									"type":	"directory",
+																																									"permissions":	"RW",
+																																									"size":	1,
+																																									"children":	[{
+																																											"name":	"v",
+																																											"owner":	"jordan",
+																																											"type":	"directory",
+																																											"permissions":	"RW",
+																																											"size":	1,
+																																											"children":	[{
+																																													"name":	"w",
+																																													"owner":	"jordan",
+																																													"type":	"directory",
+																																													"permissions":	"RW",
+																																													"size":	1,
+																																													"children":	[{
+																																															"name":	"x",
+																																															"owner":	"jordan",
+																																															"type":	"directory",
+																																															"permissions":	"RW",
+																																															"size":	1,
+																																															"children":	[{
+																																																	"name":	"y",
+																																																	"owner":	"jordan",
+																																																	"type":	"directory",
+																																																	"permissions":	"RW",
+																																																	"size":	1,
+																																																	"children":	[{
+																																																			"name":	"z",
+																																																			"owner":	"jordan",
+																																																			"type":	"directory",
+																																																			"permissions":	"RW",
+																																																			"size":	0,
+																																																			"children":	[]
+																																																		}]
+																																																}]
+																																														}]
+																																												}]
+																																										}]
+																																								}]
+																																						}]
+																																				}]
+																																		}]
+																																}]
+																														}]
+																												}]
+																										}]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
 						}]
 				}]
 		}, {
@@ -64,8 +372,2094 @@
 					"owner":	"jordan",
 					"type":	"directory",
 					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"e",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"f",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"g",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"h",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"i",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"j",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"k",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"l",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"m",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"n",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	1,
+																									"children":	[{
+																											"name":	"o",
+																											"owner":	"jordan",
+																											"type":	"directory",
+																											"permissions":	"RW",
+																											"size":	1,
+																											"children":	[{
+																													"name":	"p",
+																													"owner":	"jordan",
+																													"type":	"directory",
+																													"permissions":	"RW",
+																													"size":	1,
+																													"children":	[{
+																															"name":	"q",
+																															"owner":	"jordan",
+																															"type":	"directory",
+																															"permissions":	"RW",
+																															"size":	1,
+																															"children":	[{
+																																	"name":	"r",
+																																	"owner":	"jordan",
+																																	"type":	"directory",
+																																	"permissions":	"RW",
+																																	"size":	1,
+																																	"children":	[{
+																																			"name":	"s",
+																																			"owner":	"jordan",
+																																			"type":	"directory",
+																																			"permissions":	"RW",
+																																			"size":	1,
+																																			"children":	[{
+																																					"name":	"t",
+																																					"owner":	"jordan",
+																																					"type":	"directory",
+																																					"permissions":	"RW",
+																																					"size":	1,
+																																					"children":	[{
+																																							"name":	"u",
+																																							"owner":	"jordan",
+																																							"type":	"directory",
+																																							"permissions":	"RW",
+																																							"size":	1,
+																																							"children":	[{
+																																									"name":	"v",
+																																									"owner":	"jordan",
+																																									"type":	"directory",
+																																									"permissions":	"RW",
+																																									"size":	1,
+																																									"children":	[{
+																																											"name":	"w",
+																																											"owner":	"jordan",
+																																											"type":	"directory",
+																																											"permissions":	"RW",
+																																											"size":	1,
+																																											"children":	[{
+																																													"name":	"x",
+																																													"owner":	"jordan",
+																																													"type":	"directory",
+																																													"permissions":	"RW",
+																																													"size":	1,
+																																													"children":	[{
+																																															"name":	"y",
+																																															"owner":	"jordan",
+																																															"type":	"directory",
+																																															"permissions":	"RW",
+																																															"size":	1,
+																																															"children":	[{
+																																																	"name":	"z",
+																																																	"owner":	"jordan",
+																																																	"type":	"directory",
+																																																	"permissions":	"RW",
+																																																	"size":	0,
+																																																	"children":	[]
+																																																}]
+																																														}]
+																																												}]
+																																										}]
+																																								}]
+																																						}]
+																																				}]
+																																		}]
+																																}]
+																														}]
+																												}]
+																										}]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"d",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"e",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"f",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"g",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"h",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"i",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"j",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"k",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"l",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"m",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"n",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"o",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	1,
+																									"children":	[{
+																											"name":	"p",
+																											"owner":	"jordan",
+																											"type":	"directory",
+																											"permissions":	"RW",
+																											"size":	1,
+																											"children":	[{
+																													"name":	"q",
+																													"owner":	"jordan",
+																													"type":	"directory",
+																													"permissions":	"RW",
+																													"size":	1,
+																													"children":	[{
+																															"name":	"r",
+																															"owner":	"jordan",
+																															"type":	"directory",
+																															"permissions":	"RW",
+																															"size":	1,
+																															"children":	[{
+																																	"name":	"s",
+																																	"owner":	"jordan",
+																																	"type":	"directory",
+																																	"permissions":	"RW",
+																																	"size":	1,
+																																	"children":	[{
+																																			"name":	"t",
+																																			"owner":	"jordan",
+																																			"type":	"directory",
+																																			"permissions":	"RW",
+																																			"size":	1,
+																																			"children":	[{
+																																					"name":	"u",
+																																					"owner":	"jordan",
+																																					"type":	"directory",
+																																					"permissions":	"RW",
+																																					"size":	1,
+																																					"children":	[{
+																																							"name":	"v",
+																																							"owner":	"jordan",
+																																							"type":	"directory",
+																																							"permissions":	"RW",
+																																							"size":	1,
+																																							"children":	[{
+																																									"name":	"w",
+																																									"owner":	"jordan",
+																																									"type":	"directory",
+																																									"permissions":	"RW",
+																																									"size":	1,
+																																									"children":	[{
+																																											"name":	"x",
+																																											"owner":	"jordan",
+																																											"type":	"directory",
+																																											"permissions":	"RW",
+																																											"size":	1,
+																																											"children":	[{
+																																													"name":	"y",
+																																													"owner":	"jordan",
+																																													"type":	"directory",
+																																													"permissions":	"RW",
+																																													"size":	1,
+																																													"children":	[{
+																																															"name":	"z",
+																																															"owner":	"jordan",
+																																															"type":	"directory",
+																																															"permissions":	"RW",
+																																															"size":	0,
+																																															"children":	[]
+																																														}]
+																																												}]
+																																										}]
+																																								}]
+																																						}]
+																																				}]
+																																		}]
+																																}]
+																														}]
+																												}]
+																										}]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"e",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"f",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"g",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"h",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"i",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"j",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"k",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"l",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"m",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"n",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"o",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"p",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	1,
+																									"children":	[{
+																											"name":	"q",
+																											"owner":	"jordan",
+																											"type":	"directory",
+																											"permissions":	"RW",
+																											"size":	1,
+																											"children":	[{
+																													"name":	"r",
+																													"owner":	"jordan",
+																													"type":	"directory",
+																													"permissions":	"RW",
+																													"size":	1,
+																													"children":	[{
+																															"name":	"s",
+																															"owner":	"jordan",
+																															"type":	"directory",
+																															"permissions":	"RW",
+																															"size":	1,
+																															"children":	[{
+																																	"name":	"t",
+																																	"owner":	"jordan",
+																																	"type":	"directory",
+																																	"permissions":	"RW",
+																																	"size":	1,
+																																	"children":	[{
+																																			"name":	"u",
+																																			"owner":	"jordan",
+																																			"type":	"directory",
+																																			"permissions":	"RW",
+																																			"size":	1,
+																																			"children":	[{
+																																					"name":	"v",
+																																					"owner":	"jordan",
+																																					"type":	"directory",
+																																					"permissions":	"RW",
+																																					"size":	1,
+																																					"children":	[{
+																																							"name":	"w",
+																																							"owner":	"jordan",
+																																							"type":	"directory",
+																																							"permissions":	"RW",
+																																							"size":	1,
+																																							"children":	[{
+																																									"name":	"x",
+																																									"owner":	"jordan",
+																																									"type":	"directory",
+																																									"permissions":	"RW",
+																																									"size":	1,
+																																									"children":	[{
+																																											"name":	"y",
+																																											"owner":	"jordan",
+																																											"type":	"directory",
+																																											"permissions":	"RW",
+																																											"size":	1,
+																																											"children":	[{
+																																													"name":	"z",
+																																													"owner":	"jordan",
+																																													"type":	"directory",
+																																													"permissions":	"RW",
+																																													"size":	0,
+																																													"children":	[]
+																																												}]
+																																										}]
+																																								}]
+																																						}]
+																																				}]
+																																		}]
+																																}]
+																														}]
+																												}]
+																										}]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"f",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"g",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"h",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"i",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"j",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"k",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"l",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"m",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"n",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"o",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"p",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"q",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	1,
+																									"children":	[{
+																											"name":	"r",
+																											"owner":	"jordan",
+																											"type":	"directory",
+																											"permissions":	"RW",
+																											"size":	1,
+																											"children":	[{
+																													"name":	"s",
+																													"owner":	"jordan",
+																													"type":	"directory",
+																													"permissions":	"RW",
+																													"size":	1,
+																													"children":	[{
+																															"name":	"t",
+																															"owner":	"jordan",
+																															"type":	"directory",
+																															"permissions":	"RW",
+																															"size":	1,
+																															"children":	[{
+																																	"name":	"u",
+																																	"owner":	"jordan",
+																																	"type":	"directory",
+																																	"permissions":	"RW",
+																																	"size":	1,
+																																	"children":	[{
+																																			"name":	"v",
+																																			"owner":	"jordan",
+																																			"type":	"directory",
+																																			"permissions":	"RW",
+																																			"size":	1,
+																																			"children":	[{
+																																					"name":	"w",
+																																					"owner":	"jordan",
+																																					"type":	"directory",
+																																					"permissions":	"RW",
+																																					"size":	1,
+																																					"children":	[{
+																																							"name":	"x",
+																																							"owner":	"jordan",
+																																							"type":	"directory",
+																																							"permissions":	"RW",
+																																							"size":	1,
+																																							"children":	[{
+																																									"name":	"y",
+																																									"owner":	"jordan",
+																																									"type":	"directory",
+																																									"permissions":	"RW",
+																																									"size":	1,
+																																									"children":	[{
+																																											"name":	"z",
+																																											"owner":	"jordan",
+																																											"type":	"directory",
+																																											"permissions":	"RW",
+																																											"size":	0,
+																																											"children":	[]
+																																										}]
+																																								}]
+																																						}]
+																																				}]
+																																		}]
+																																}]
+																														}]
+																												}]
+																										}]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"g",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"h",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"i",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"j",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"k",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"l",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"m",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"n",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"o",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"p",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"q",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"r",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	1,
+																									"children":	[{
+																											"name":	"s",
+																											"owner":	"jordan",
+																											"type":	"directory",
+																											"permissions":	"RW",
+																											"size":	1,
+																											"children":	[{
+																													"name":	"t",
+																													"owner":	"jordan",
+																													"type":	"directory",
+																													"permissions":	"RW",
+																													"size":	1,
+																													"children":	[{
+																															"name":	"u",
+																															"owner":	"jordan",
+																															"type":	"directory",
+																															"permissions":	"RW",
+																															"size":	1,
+																															"children":	[{
+																																	"name":	"v",
+																																	"owner":	"jordan",
+																																	"type":	"directory",
+																																	"permissions":	"RW",
+																																	"size":	1,
+																																	"children":	[{
+																																			"name":	"w",
+																																			"owner":	"jordan",
+																																			"type":	"directory",
+																																			"permissions":	"RW",
+																																			"size":	1,
+																																			"children":	[{
+																																					"name":	"x",
+																																					"owner":	"jordan",
+																																					"type":	"directory",
+																																					"permissions":	"RW",
+																																					"size":	1,
+																																					"children":	[{
+																																							"name":	"y",
+																																							"owner":	"jordan",
+																																							"type":	"directory",
+																																							"permissions":	"RW",
+																																							"size":	1,
+																																							"children":	[{
+																																									"name":	"z",
+																																									"owner":	"jordan",
+																																									"type":	"directory",
+																																									"permissions":	"RW",
+																																									"size":	0,
+																																									"children":	[]
+																																								}]
+																																						}]
+																																				}]
+																																		}]
+																																}]
+																														}]
+																												}]
+																										}]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"h",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"i",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"j",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"k",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"l",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"m",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"n",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"o",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"p",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"q",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"r",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"s",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	1,
+																									"children":	[{
+																											"name":	"t",
+																											"owner":	"jordan",
+																											"type":	"directory",
+																											"permissions":	"RW",
+																											"size":	1,
+																											"children":	[{
+																													"name":	"u",
+																													"owner":	"jordan",
+																													"type":	"directory",
+																													"permissions":	"RW",
+																													"size":	1,
+																													"children":	[{
+																															"name":	"v",
+																															"owner":	"jordan",
+																															"type":	"directory",
+																															"permissions":	"RW",
+																															"size":	1,
+																															"children":	[{
+																																	"name":	"w",
+																																	"owner":	"jordan",
+																																	"type":	"directory",
+																																	"permissions":	"RW",
+																																	"size":	1,
+																																	"children":	[{
+																																			"name":	"x",
+																																			"owner":	"jordan",
+																																			"type":	"directory",
+																																			"permissions":	"RW",
+																																			"size":	1,
+																																			"children":	[{
+																																					"name":	"y",
+																																					"owner":	"jordan",
+																																					"type":	"directory",
+																																					"permissions":	"RW",
+																																					"size":	1,
+																																					"children":	[{
+																																							"name":	"z",
+																																							"owner":	"jordan",
+																																							"type":	"directory",
+																																							"permissions":	"RW",
+																																							"size":	0,
+																																							"children":	[]
+																																						}]
+																																				}]
+																																		}]
+																																}]
+																														}]
+																												}]
+																										}]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"i",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"j",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"k",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"l",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"m",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"n",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"o",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"p",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"q",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"r",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"s",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"t",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	1,
+																									"children":	[{
+																											"name":	"u",
+																											"owner":	"jordan",
+																											"type":	"directory",
+																											"permissions":	"RW",
+																											"size":	1,
+																											"children":	[{
+																													"name":	"v",
+																													"owner":	"jordan",
+																													"type":	"directory",
+																													"permissions":	"RW",
+																													"size":	1,
+																													"children":	[{
+																															"name":	"w",
+																															"owner":	"jordan",
+																															"type":	"directory",
+																															"permissions":	"RW",
+																															"size":	1,
+																															"children":	[{
+																																	"name":	"x",
+																																	"owner":	"jordan",
+																																	"type":	"directory",
+																																	"permissions":	"RW",
+																																	"size":	1,
+																																	"children":	[{
+																																			"name":	"y",
+																																			"owner":	"jordan",
+																																			"type":	"directory",
+																																			"permissions":	"RW",
+																																			"size":	1,
+																																			"children":	[{
+																																					"name":	"z",
+																																					"owner":	"jordan",
+																																					"type":	"directory",
+																																					"permissions":	"RW",
+																																					"size":	0,
+																																					"children":	[]
+																																				}]
+																																		}]
+																																}]
+																														}]
+																												}]
+																										}]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"j",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"k",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"l",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"m",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"n",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"o",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"p",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"q",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"r",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"s",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"t",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"u",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	1,
+																									"children":	[{
+																											"name":	"v",
+																											"owner":	"jordan",
+																											"type":	"directory",
+																											"permissions":	"RW",
+																											"size":	1,
+																											"children":	[{
+																													"name":	"w",
+																													"owner":	"jordan",
+																													"type":	"directory",
+																													"permissions":	"RW",
+																													"size":	1,
+																													"children":	[{
+																															"name":	"x",
+																															"owner":	"jordan",
+																															"type":	"directory",
+																															"permissions":	"RW",
+																															"size":	1,
+																															"children":	[{
+																																	"name":	"y",
+																																	"owner":	"jordan",
+																																	"type":	"directory",
+																																	"permissions":	"RW",
+																																	"size":	1,
+																																	"children":	[{
+																																			"name":	"z",
+																																			"owner":	"jordan",
+																																			"type":	"directory",
+																																			"permissions":	"RW",
+																																			"size":	0,
+																																			"children":	[]
+																																		}]
+																																}]
+																														}]
+																												}]
+																										}]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"k",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"l",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"m",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"n",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"o",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"p",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"q",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"r",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"s",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"t",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"u",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"v",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	1,
+																									"children":	[{
+																											"name":	"w",
+																											"owner":	"jordan",
+																											"type":	"directory",
+																											"permissions":	"RW",
+																											"size":	1,
+																											"children":	[{
+																													"name":	"x",
+																													"owner":	"jordan",
+																													"type":	"directory",
+																													"permissions":	"RW",
+																													"size":	1,
+																													"children":	[{
+																															"name":	"y",
+																															"owner":	"jordan",
+																															"type":	"directory",
+																															"permissions":	"RW",
+																															"size":	1,
+																															"children":	[{
+																																	"name":	"z",
+																																	"owner":	"jordan",
+																																	"type":	"directory",
+																																	"permissions":	"RW",
+																																	"size":	0,
+																																	"children":	[]
+																																}]
+																														}]
+																												}]
+																										}]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"l",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"m",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"n",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"o",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"p",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"q",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"r",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"s",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"t",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"u",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"v",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"w",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	1,
+																									"children":	[{
+																											"name":	"x",
+																											"owner":	"jordan",
+																											"type":	"directory",
+																											"permissions":	"RW",
+																											"size":	1,
+																											"children":	[{
+																													"name":	"y",
+																													"owner":	"jordan",
+																													"type":	"directory",
+																													"permissions":	"RW",
+																													"size":	1,
+																													"children":	[{
+																															"name":	"z",
+																															"owner":	"jordan",
+																															"type":	"directory",
+																															"permissions":	"RW",
+																															"size":	0,
+																															"children":	[]
+																														}]
+																												}]
+																										}]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"m",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"n",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"o",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"p",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"q",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"r",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"s",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"t",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"u",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"v",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"w",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"x",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	1,
+																									"children":	[{
+																											"name":	"y",
+																											"owner":	"jordan",
+																											"type":	"directory",
+																											"permissions":	"RW",
+																											"size":	1,
+																											"children":	[{
+																													"name":	"z",
+																													"owner":	"jordan",
+																													"type":	"directory",
+																													"permissions":	"RW",
+																													"size":	0,
+																													"children":	[]
+																												}]
+																										}]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"n",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"o",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"p",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"q",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"r",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"s",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"t",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"u",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"v",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"w",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"x",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"y",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	1,
+																									"children":	[{
+																											"name":	"z",
+																											"owner":	"jordan",
+																											"type":	"directory",
+																											"permissions":	"RW",
+																											"size":	0,
+																											"children":	[]
+																										}]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"o",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"p",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"q",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"r",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"s",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"t",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"u",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"v",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"w",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"x",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"y",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	1,
+																							"children":	[{
+																									"name":	"z",
+																									"owner":	"jordan",
+																									"type":	"directory",
+																									"permissions":	"RW",
+																									"size":	0,
+																									"children":	[]
+																								}]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"p",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"q",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"r",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"s",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"t",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"u",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"v",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"w",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"x",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"y",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	1,
+																					"children":	[{
+																							"name":	"z",
+																							"owner":	"jordan",
+																							"type":	"directory",
+																							"permissions":	"RW",
+																							"size":	0,
+																							"children":	[]
+																						}]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"q",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"r",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"s",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"t",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"u",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"v",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"w",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"x",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"y",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	1,
+																			"children":	[{
+																					"name":	"z",
+																					"owner":	"jordan",
+																					"type":	"directory",
+																					"permissions":	"RW",
+																					"size":	0,
+																					"children":	[]
+																				}]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"r",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"s",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"t",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"u",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"v",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"w",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"x",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"y",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	1,
+																	"children":	[{
+																			"name":	"z",
+																			"owner":	"jordan",
+																			"type":	"directory",
+																			"permissions":	"RW",
+																			"size":	0,
+																			"children":	[]
+																		}]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"s",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"t",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"u",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"v",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"w",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"x",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"y",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	1,
+															"children":	[{
+																	"name":	"z",
+																	"owner":	"jordan",
+																	"type":	"directory",
+																	"permissions":	"RW",
+																	"size":	0,
+																	"children":	[]
+																}]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"t",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"u",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"v",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"w",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"x",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"y",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	1,
+													"children":	[{
+															"name":	"z",
+															"owner":	"jordan",
+															"type":	"directory",
+															"permissions":	"RW",
+															"size":	0,
+															"children":	[]
+														}]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"u",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"v",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"w",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"x",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"y",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	1,
+											"children":	[{
+													"name":	"z",
+													"owner":	"jordan",
+													"type":	"directory",
+													"permissions":	"RW",
+													"size":	0,
+													"children":	[]
+												}]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"v",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"w",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"x",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"y",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	1,
+									"children":	[{
+											"name":	"z",
+											"owner":	"jordan",
+											"type":	"directory",
+											"permissions":	"RW",
+											"size":	0,
+											"children":	[]
+										}]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"w",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"x",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"y",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	1,
+							"children":	[{
+									"name":	"z",
+									"owner":	"jordan",
+									"type":	"directory",
+									"permissions":	"RW",
+									"size":	0,
+									"children":	[]
+								}]
+						}]
+				}]
+		}, {
+			"name":	"x",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"y",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
+					"size":	1,
+					"children":	[{
+							"name":	"z",
+							"owner":	"jordan",
+							"type":	"directory",
+							"permissions":	"RW",
+							"size":	0,
+							"children":	[]
+						}]
+				}]
+		}, {
+			"name":	"y",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	1,
+			"children":	[{
+					"name":	"z",
+					"owner":	"jordan",
+					"type":	"directory",
+					"permissions":	"RW",
 					"size":	0,
 					"children":	[]
 				}]
+		}, {
+			"name":	"z",
+			"owner":	"jordan",
+			"type":	"directory",
+			"permissions":	"RW",
+			"size":	0,
+			"children":	[]
 		}]
 }
