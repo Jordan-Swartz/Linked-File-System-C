@@ -50,6 +50,7 @@ int main(int argc, char** argv) {
 
         //setup new system
         system_setup(&system);
+        //clear_input_buffer();
     }
 
     //set current to system root
@@ -57,11 +58,6 @@ int main(int argc, char** argv) {
 
     //display menu and process input
     display_menu();
-
-    if (argc != 2) {
-        int ch;
-        while ((ch = getchar()) != '\n' && ch != EOF);
-    }
 
     //process input
     do {

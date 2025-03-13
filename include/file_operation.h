@@ -27,14 +27,14 @@ extern char* menu_content;
 /**
  * Checks to see if a file exists.
  *
- * @param filename The file to check existence for
+ * @param filename The file to check existence for.
  * @return Returns 1 if the file exists, 0 if not.
  */
 int file_exists(const char* filename);
 
 /**
- * Generates a new unique file
- * @return
+ * Generates a new unique file.
+ * @return unique file system name.
  */
 char* generate_unique_filename();
 

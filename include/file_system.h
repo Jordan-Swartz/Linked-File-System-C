@@ -55,6 +55,11 @@ extern const char* PermissionsNames[];
 
 /*Function Declarations*/
 /**
+ * Clears the stdin buffer
+ */
+void clear_input_buffer(void);
+
+/**
  * Initializes the file system.
  *
  * @param system Pointer to the file system.

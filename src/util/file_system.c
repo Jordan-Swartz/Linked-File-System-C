@@ -8,10 +8,21 @@
 const char* NodeTypeNames[] = {"D", "F"};
 const char* PermissionsNames[] = {"R____", "R_W__", "R_W_E"};
 
+void clear_input_buffer(void) {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
 void system_setup(FileSystem* system) {
     //set up system
-    printf("Enter system username: ");
-    scanf("%s", system->username);
+    char buffer[100];
+    do {
+        printf("Enter system username: ");
+        fgets(buffer, sizeof(buffer), stdin);
+        buffer[strcspn(buffer, "\n")] = 0;
+    } while(strlen(buffer) == 0 || strspn(buffer, " \t") == strlen(buffer));
+
+    strcpy(system->username, buffer);
     strcpy(system->host_signature, system->username);
     strcat(system->host_signature, "@JDS");
 
@@ -22,8 +33,14 @@ void system_setup(FileSystem* system) {
 
 void root_setup(const FileSystem* system, FSNode* root) {
     //set up root
-    printf("Enter root name: ");
-    scanf("%s", root->name);
+    char buffer[100];
+    do {
+        printf("Enter root name: ");
+        fgets(buffer, sizeof(buffer), stdin);
+        buffer[strcspn(buffer, "\n")] = 0;
+    } while(strlen(buffer) == 0 || strspn(buffer, " \t") == strlen(buffer));
+
+    strcpy(root->name, buffer);
     strcpy(root->owner, system->username);
     root->type = Directory;
     root->permissions = Read_Write;
