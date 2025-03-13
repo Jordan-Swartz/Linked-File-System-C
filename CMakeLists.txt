@@ -45,3 +45,4 @@ add_custom_target(copy_data ALL
         ${CMAKE_SOURCE_DIR}/data ${CMAKE_BINARY_DIR}/data
 )
 add_dependencies(LinkedFS copy_data)
+add_dependencies(test_ui copy_data)

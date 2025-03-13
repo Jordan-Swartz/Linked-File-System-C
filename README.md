@@ -19,7 +19,7 @@ The Linked-File-System-C project is a file system implementation that supports t
    - Implemented for moving, renaming, and inserting nodes within the tree hierarchy
 5. Memory Management
    - Implemented to use dynamic memory allocation and deallocation for data handling
-6. JSON serialization/deserialization
+6. JSON Serialization/Deserialization
    - Implemented to save and restore file system states
 7. Unit Testing
    - Implemented for function validation
@@ -27,6 +27,7 @@ The Linked-File-System-C project is a file system implementation that supports t
 ---
 
 ## 3: Running the Project:
+- The project supports JSON serialization so that it can be executed with an existing system. If no existing system is provided as a command line argument then, by default, the program will create and save a new one.
 
 ### Option 1: CMake
 1. Configure Project
@@ -35,10 +36,14 @@ The Linked-File-System-C project is a file system implementation that supports t
 2. Build Project
    - `cmake --build build`
      
-3. Run Program (cd build)
+3. Run Program: New System (in build directory)
    - `./LinkedFS`
-     
-4. Run Unit Tests (cd build)
+
+4. Run Program: Existing System (in build directory)   
+   - `./LinkedFS data/test_system_1.json`
+   - `./LinkedFS path/to/your_system_file.json`
+   
+5. Run Unit Tests (in build directory)
    - `./test_ui`
 
 ### Option 2: build.sh (No CMake Installation)
@@ -47,11 +52,15 @@ The Linked-File-System-C project is a file system implementation that supports t
      
 2. Execute Script
    - `./build.sh`
-     
-3. Run Program (cd build)
+
+3. Run Program: New System (in build directory)
    - `./LinkedFS`
+
+4. Run Program: Existing System (in build directory)
+   - `./LinkedFS data/test_system_2.json`
+   - `./LinkedFS path/to/your_system_file.json`
      
-4. Run Unit Tests (cd build)
+5. Run Unit Tests (in build directory)
    - `./test_ui`
      
 ---
@@ -79,7 +88,7 @@ exit                                          - exits the system
 ```
 **Note:**  
 - The **root directory** is the top-level node in the system, and both `~` and `/` point to this node. Any commands involving absolute paths (`/some/path`) will start from the root. (`~`) is not traversable and will always refer to only the root.
-
+- the [demo directory](https://github.com/Jordan-Swartz/Linked-File-System-C/tree/dev/demo) contains images of each command in use for additional examples.
 
 ---
 
