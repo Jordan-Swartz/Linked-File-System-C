@@ -14,108 +14,120 @@ void display_menu() {
 }
 
 int process_input_command(const FileSystem* system, FSNode** current, Stack* history_stack) {
-    //display current path
-    display_current_path(system, (*current));
+    while (1) {
+        //display current path
+        display_current_path(system, (*current));
 
-    //collect input
-    char input_str[1024];
-    fgets(input_str, sizeof(input_str), stdin);           //get entire line
-    input_str[strcspn(input_str, "\n")] = 0;        //remove newline char
+        //collect input
+        char input_str[1024];
+        //grab line and check for whitespace
+        if (fgets(input_str, sizeof(input_str), stdin) == NULL) {
+            printf("Error: Failed to collect input.\n");
+            continue;
+        }
 
-    //parse command and arg
-    char* command = strtok(input_str, " ");
-    char* argument = strtok(NULL, " ");
-    char* argument2 = strtok(NULL, " ");
+        input_str[strcspn(input_str, "\n")] = 0;        //remove newline char
 
-    //add command to history stack
-    push(history_stack, strdup(command), STACK_STRING);
+        if (strspn(input_str, " \t") == strlen(input_str)) {
+            printf("Error: No command entered. Please try again.\n");
+            continue;  // Re-prompt user
+        }
 
-    //default return status
-    int status = Success;
+        //parse command and arg
+        char* command = strtok(input_str, " ");
+        char* argument = strtok(NULL, " ");
+        char* argument2 = strtok(NULL, " ");
 
-    if (command == NULL) {
-        printf("Error: No command entered\n");
-        return Error;
+        //add command to history stack
+        push(history_stack, strdup(command), STACK_STRING);
+
+        //default return status
+        int status = Success;
+
+        if (command == NULL) {
+            printf("Error: No command entered\n");
+            return Error;
+        }
+
+        //process make directory
+        if (strcmp(command, "mkdir") == 0) {
+            process_mkdir(system, command, argument, argument2, (*current));
+        }
+
+        //process make file
+        else if (strcmp(command, "touch") == 0) {
+            process_touch(system, command, argument, argument2, (*current));
+        }
+
+        //process delete file or directory
+        else if (strcmp(command, "rm") == 0) {
+            process_rm(system, command, argument, argument2, current);
+        }
+
+        //process display current path
+        else if (strcmp(command, "pwd") == 0) {
+            process_pwd((*current), system->root);
+        }
+
+        //process changing directory
+        else if (strcmp(command, "cd") == 0) {
+            process_cd(system, command, argument, argument2, current);
+        }
+
+        //process display directory contents
+        else if (strcmp(command, "ls") == 0)  {
+            process_ls(system, command, argument, argument2, (*current));
+        }
+
+        //process move file or directory
+        else if (strcmp(command, "mv") == 0) {
+            process_mv(system, command, argument, argument2, (*current));
+        }
+
+        //process rename file or directory
+        else if (strcmp(command, "rn") == 0) {
+            process_rn(system, command, argument, argument2, (*current));
+        }
+
+        //process changing permissions for file
+        else if (strcmp(command, "chmod") == 0) {
+            process_chmod(system, command, argument, argument2, (*current));
+        }
+
+        //process copying file or directory into a new destination
+        else if (strcmp(command, "cp") == 0) {
+            process_cp(system, command, argument, argument2, (*current));
+        }
+
+        //process finding file or directory in current directory
+        else if (strcmp(command, "find") == 0) {
+            process_find(system, command, argument, argument2, (*current));
+        }
+
+        //process displaying command history for the current session
+        else if (strcmp(command, "history") == 0) {
+            process_history(history_stack, command, argument, argument2);
+        }
+
+        //process displaying menu
+        else if (strcmp(command, "menu") == 0) {
+            display_menu();
+        }
+
+        //process exit system
+        else if (strcmp(command, "exit") == 0)  {
+            printf("Exiting System...\n");
+            status = Exit;
+        }
+
+        //process unknown command
+        else {
+            printf("Error: '%s' command not found\n", command);
+            status = Error;
+        }
+
+        return status;
     }
-
-    //process make directory
-    if (strcmp(command, "mkdir") == 0) {
-        process_mkdir(system, command, argument, argument2, (*current));
-    }
-
-    //process make file
-    else if (strcmp(command, "touch") == 0) {
-        process_touch(system, command, argument, argument2, (*current));
-    }
-
-    //process delete file or directory
-    else if (strcmp(command, "rm") == 0) {
-         process_rm(system, command, argument, argument2, current);
-    }
-
-    //process display current path
-    else if (strcmp(command, "pwd") == 0) {
-        process_pwd((*current), system->root);
-    }
-
-    //process changing directory
-    else if (strcmp(command, "cd") == 0) {
-        process_cd(system, command, argument, argument2, current);
-    }
-
-    //process display directory contents
-    else if (strcmp(command, "ls") == 0)  {
-        process_ls(system, command, argument, argument2, (*current));
-    }
-
-    //process move file or directory
-    else if (strcmp(command, "mv") == 0) {
-        process_mv(system, command, argument, argument2, (*current));
-    }
-
-    //process rename file or directory
-    else if (strcmp(command, "rn") == 0) {
-        process_rn(system, command, argument, argument2, (*current));
-    }
-
-    //process changing permissions for file
-    else if (strcmp(command, "chmod") == 0) {
-        process_chmod(system, command, argument, argument2, (*current));
-    }
-
-    //process copying file or directory into a new destination
-    else if (strcmp(command, "cp") == 0) {
-        process_cp(system, command, argument, argument2, (*current));
-    }
-
-    //process finding file or directory in current directory
-    else if (strcmp(command, "find") == 0) {
-        process_find(system, command, argument, argument2, (*current));
-    }
-
-    //process displaying command history for the current session
-    else if (strcmp(command, "history") == 0) {
-        process_history(history_stack, command, argument, argument2);
-    }
-
-    //process displaying menu
-    else if (strcmp(command, "menu") == 0) {
-        display_menu();
-    }
-
-    //process exit system
-    else if (strcmp(command, "exit") == 0)  {
-        printf("Exiting System...\n");
-        status = Exit;
-    }
-
-    //process unknown command
-    else {
-        printf("Error: '%s' command not found\n", command);
-        status = Error;
-    }
-
-    return status;
 }
 
 int validate_args(const char* command, const char* arg1, const char* arg2, const int arg_condition) {
