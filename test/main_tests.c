@@ -18,7 +18,6 @@ int main(void) {
     RUN_TEST(test_is_subdirectory);
     RUN_TEST(test_find_node);
 
-
     //ui_tests
     RUN_TEST(test_validate_args_single_arg_success);
     RUN_TEST(test_validate_args_single_arg_fail);
