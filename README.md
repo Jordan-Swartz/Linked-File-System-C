@@ -27,7 +27,7 @@ The Linked-File-System-C project is a file system implementation that supports t
 ---
 
 ## 3: Running the Project:
-- The project supports JSON serialization so that it can be executed with an existing system. If no existing system is provided as a command line argument then, by default, the program will create and save a new one.
+- The project supports JSON serialization so that it can be executed with an existing system. If no existing system is provided as a command line argument then, by default, the program will create and save a new one. The project also allows the optional execution of unit tests (Step 6).
 
 ### Option 1: CMake
 1. Configure Project
@@ -35,15 +35,18 @@ The Linked-File-System-C project is a file system implementation that supports t
      
 2. Build Project
    - `cmake --build build`
-     
-3. Run Program: New System (in build directory)
+
+3. Change to 'build' Directory
+   - `cd build`
+
+4. Run Program: New System
    - `./LinkedFS`
 
-4. Run Program: Existing System (in build directory)   
-   - `./LinkedFS data/test_system_1.json`
+5. Run Program: Existing System
+   - `./LinkedFS data/test_system_2.json`
    - `./LinkedFS path/to/your_system_file.json`
-   
-5. Run Unit Tests (in build directory)
+
+6. Run Unit Tests
    - `./test_ui`
 
 ### Option 2: build.sh (No CMake Installation)
@@ -53,14 +56,17 @@ The Linked-File-System-C project is a file system implementation that supports t
 2. Execute Script
    - `./build.sh`
 
-3. Run Program: New System (in build directory)
+3. Change to 'build' Directory
+   - `cd build`
+   
+4. Run Program: New System
    - `./LinkedFS`
 
-4. Run Program: Existing System (in build directory)
+5. Run Program: Existing System
    - `./LinkedFS data/test_system_2.json`
    - `./LinkedFS path/to/your_system_file.json`
      
-5. Run Unit Tests (in build directory)
+6. Run Unit Tests
    - `./test_ui`
      
 ---
