@@ -30,6 +30,7 @@ add_executable(test_ui
         src/util/file_operation.c
         src/util/memory_management.c
         src/util/stack.c
+        lib/cJSON/cJSON.c
 )
 target_link_libraries(test_ui unity)
 
@@ -38,3 +39,11 @@ target_compile_definitions(test_ui PRIVATE TEST_UI)
 
 #include unity config
 include(${CMAKE_CURRENT_LIST_DIR}/lib/unity/unityConfig.cmake)
+
+#add data directory in build path
+add_custom_target(copy_data ALL
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/data ${CMAKE_BINARY_DIR}/data
+)
+add_dependencies(LinkedFS copy_data)
+add_dependencies(test_ui copy_data)

@@ -8,10 +8,21 @@
 const char* NodeTypeNames[] = {"D", "F"};
 const char* PermissionsNames[] = {"R____", "R_W__", "R_W_E"};
 
+void clear_input_buffer(void) {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
 void system_setup(FileSystem* system) {
     //set up system
-    printf("Enter system username: ");
-    scanf("%s", system->username);
+    char buffer[100];
+    do {
+        printf("Enter system username: ");
+        fgets(buffer, sizeof(buffer), stdin);
+        buffer[strcspn(buffer, "\n")] = 0;
+    } while(strlen(buffer) == 0 || strspn(buffer, " \t") == strlen(buffer));
+
+    strcpy(system->username, buffer);
     strcpy(system->host_signature, system->username);
     strcat(system->host_signature, "@JDS");
 
@@ -22,8 +33,14 @@ void system_setup(FileSystem* system) {
 
 void root_setup(const FileSystem* system, FSNode* root) {
     //set up root
-    printf("Enter root name: ");
-    scanf("%s", root->name);
+    char buffer[100];
+    do {
+        printf("Enter root name: ");
+        fgets(buffer, sizeof(buffer), stdin);
+        buffer[strcspn(buffer, "\n")] = 0;
+    } while(strlen(buffer) == 0 || strspn(buffer, " \t") == strlen(buffer));
+
+    strcpy(root->name, buffer);
     strcpy(root->owner, system->username);
     root->type = Directory;
     root->permissions = Read_Write;
@@ -39,7 +56,8 @@ FSNode* create_node(
     const char* system_username,
     FSNode* current,
     const char* name,
-    NodeType type
+    NodeType type,
+    Permissions permissions
     )
 {
     //create node
@@ -53,7 +71,8 @@ FSNode* create_node(
     strcpy(new_node->name, name);
     strcpy(new_node->owner, system_username);
     new_node->type = type;
-    new_node->permissions = Read_Write;
+    new_node->permissions = permissions;
+    new_node->size = 0;
     new_node->child_head = NULL;
     new_node->next = NULL;
     new_node->previous = NULL;
@@ -76,6 +95,7 @@ FSNode* create_copy_node(FSNode* current, FSNode* destination) {
     strcpy(new_node->owner, current->owner);
     new_node->type = current->type;
     new_node->permissions = current->permissions;
+    new_node->size = 0;
     new_node->child_head = NULL;
     new_node->next = NULL;
     new_node->previous = NULL;
@@ -139,11 +159,12 @@ char** dfs_search(FSNode* start, char* name) {
     int arr_index = 0;
 
     //enqueue start node
-    push(&stack,start);
+    push(&stack, start, STACK_NODE);
 
-    while (is_empty(&stack) != 1) {
+    while (!is_empty(&stack)) {
         //pop top node from stack
-        FSNode* current = pop(&stack);
+        StackItem* item = (StackItem*)pop(&stack);
+        FSNode* current = (FSNode*)item->data;
 
         //if node match, build path to match
         if (strcmp(current->name, name) == 0) {
@@ -154,7 +175,7 @@ char** dfs_search(FSNode* start, char* name) {
         //traverse children and add to stack
         FSNode* iter = current->child_head;
         while (iter != NULL) {
-            push(&stack, iter);
+            push(&stack, iter, STACK_NODE);
             iter = iter->next;
         }
     }
@@ -234,6 +255,10 @@ void change_directory_backward(FSNode** current) {
 
 void set_current(FSNode** current, FSNode* change_to_node) {
     (*current) = change_to_node;
+}
+
+void change_node_permissions(FSNode* node, Permissions permissions) {
+    node->permissions = permissions;
 }
 
 char** parse_path(const char* argument) {

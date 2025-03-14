@@ -15,11 +15,29 @@
 #define FILE_OPERATION_H
 
 #include <cJSON/cJSON.h>
+#include <sys/stat.h>
 
 /*Global Variables*/
 extern char* menu_content;
 
+/*Definitions*/
+#define DEFAULT_DIRECTORY "data/"
+
 /*Function Declarations*/
+/**
+ * Checks to see if a file exists.
+ *
+ * @param filename The file to check existence for.
+ * @return Returns 1 if the file exists, 0 if not.
+ */
+int file_exists(const char* filename);
+
+/**
+ * Generates a new unique file.
+ * @return unique file system name.
+ */
+char* generate_unique_filename();
+
 /**
  * Recursively converts a cJSON object into an FSNode.
  *
@@ -40,7 +58,7 @@ void system_load_from_json(FileSystem* system, const char* existing_system);
 /**
  * Recursively converts an FSNode structure into a cJSON object.
  *
- * @param node Pointer to the FSNode structure to convert.
+ * @param node Pointer to the FSNode structure to convert (starts at root).
  * @return Pointer to a cJSON object representing the file system node.
  */
 cJSON* fsnode_to_json(const FSNode* node);

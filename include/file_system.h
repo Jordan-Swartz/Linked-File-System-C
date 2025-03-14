@@ -55,6 +55,11 @@ extern const char* PermissionsNames[];
 
 /*Function Declarations*/
 /**
+ * Clears the stdin buffer
+ */
+void clear_input_buffer(void);
+
+/**
  * Initializes the file system.
  *
  * @param system Pointer to the file system.
@@ -76,12 +81,14 @@ void root_setup(const FileSystem* system, FSNode* root);
  * @param current Pointer to the current directory.
  * @param name Name of the new node.
  * @param type Type of node (Directory or File).
+ * @param permissions Permissions of the node.
  * @return Pointer to the newly created node.
  */
 FSNode* create_node(const char* system_username,
                     FSNode* current,
                     const char* name,
-                    NodeType type
+                    NodeType type,
+                    Permissions permissions
 );
 
 /**
@@ -138,7 +145,7 @@ void display_directory_nodes(const FileSystem* system, const FSNode* current);
  *
  * @param current Pointer to the current directory.
  * @param change_to_name Name of the subdirectory to move into.
- * @return 
+ * @return
  */
 int change_directory_forward(FSNode** current, char* change_to_name);
 
@@ -156,6 +163,14 @@ void change_directory_backward(FSNode** current);
  * @param change_to_node Pointer to the new current directory.
  */
 void set_current(FSNode** current, FSNode* change_to_node);
+
+/**
+ * Changes the permissions of a specified node.
+ *
+ * @param node The node that is being modified.
+ * @param permissions The permissions to modify with.
+ */
+void change_node_permissions(FSNode* node, Permissions permissions);
 
 /**
  * Parses a file path into individual directory names.
