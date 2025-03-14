@@ -94,7 +94,7 @@ exit                                          - exits the system
 ```
 **Note:**  
 - The **root directory** is the top-level node in the system, and both `~` and `/` point to this node. Any commands involving absolute paths (`/some/path`) will start from the root. (`~`) is not traversable and will always refer to only the root.
-- the [demo directory](https://github.com/Jordan-Swartz/Linked-File-System-C/tree/dev/demo) contains images of each command in use for additional examples.
+- the [demo directory](https://github.com/Jordan-Swartz/Linked-File-System-C/tree/master/demo) contains images of each command in use for additional examples.
 
 ---
 
