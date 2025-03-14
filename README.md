@@ -27,7 +27,7 @@ The Linked-File-System-C project is a file system implementation that supports t
 ---
 
 ## 3: Running the Project:
-- The project supports JSON serialization so that it can be executed with an existing system. If no existing system is provided as a command line argument then, by default, the program will create and save a new one. The project also allows the optional execution of unit tests (Step 6).
+- The project supports [JSON Serialization](https://github.com/Jordan-Swartz/Linked-File-System-C/blob/master/src/util/file_operation.c) so that it can be executed with an existing system. If an existing system is not provided as a command line argument then, by default, the program will create and save a new one.  [Test Systems](https://github.com/Jordan-Swartz/Linked-File-System-C/blob/master/data/test_system_2.json) are available for use and can be found in the  [data directory](https://github.com/Jordan-Swartz/Linked-File-System-C/tree/master/data). The project also allows the optional execution of unit tests (Step 6).
 
 ### Option 1: CMake
 1. Configure Project
@@ -125,6 +125,7 @@ exit                                          - exits the system
 ---
 
 ## 7: Testing:
+- [Unit Tests](https://github.com/Jordan-Swartz/Linked-File-System-C/tree/master/test) contain tests for the core system logic and UI processing.
 - Unity Testing Report For Passing Unit Tests:
 
 ![testing.png](test/test_report/testing_report.png)
