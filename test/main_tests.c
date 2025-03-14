@@ -22,6 +22,11 @@ int main(void) {
     //ui_tests
     RUN_TEST(test_validate_args_single_arg_success);
     RUN_TEST(test_validate_args_single_arg_fail);
+    RUN_TEST(test_process_mkdir);
+    RUN_TEST(test_process_touch);
+    RUN_TEST(test_process_cd);
+    RUN_TEST(test_process_mv);
+    RUN_TEST(test_process_chmod);
 
     return UNITY_END();
 }

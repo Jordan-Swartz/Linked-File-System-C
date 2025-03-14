@@ -1,5 +1,5 @@
 /**
-* @file main_tests.h
+ * @file main_tests.h
  * @brief Defines the test methods for program validation.
  *
  * This header file declares the flow of test functions for validating the system's functionality,
