@@ -24,13 +24,17 @@ add_executable(LinkedFS ${SOURCES})
 
 #test executable
 add_executable(test_ui
-        test/process_ui_commands_tests.c
+        test/ui_tests.c
         src/ui/ui.c
         src/util/file_system.c
         src/util/file_operation.c
         src/util/memory_management.c
         src/util/stack.c
         lib/cJSON/cJSON.c
+        test/main_tests.c
+        include/main_tests.h
+        test/file_system_tests.c
+        include/file_system_tests.h
 )
 target_link_libraries(test_ui unity)
 

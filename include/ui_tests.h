@@ -1,5 +1,5 @@
 /**
- * @file process_ui_commands_tests.h
+ * @file ui_tests.h
  * @brief Defines the test methods for processing ui commands.
  *
  * This header file declares unit test functions for validating argument parsing
