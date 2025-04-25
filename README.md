@@ -1,14 +1,14 @@
-# Linked-File-System-C Project:
+# ⚙️ Linked-File-System-C Project ⚙️
 A lightweight file system implementation in C with basic file operations, directory management, serialization/deserialization, and unit testing integration. 
 
 ---
 
-## 1: About the Project:
+## 1: 📌 About the Project:
 The Linked-File-System-C project is a file system implementation that supports traditional bash-like operations. These operations include, but are not limited to: file creation, deletion, duplication, navigation, and retrieval. It is designed for learning and practicing data structures, memory management, system-level programming, and algorithmic strategies.
 
 ---
 
-## 2: Featured Concepts:
+## 2: ✔ Featured Concepts:
 1. Recursive Algorithms
    - Implemented for node deletion, duplication and serialization.
 2. DFS Traversal
@@ -26,7 +26,7 @@ The Linked-File-System-C project is a file system implementation that supports t
       
 ---
 
-## 3: Running the Project:
+## 3: 🚀 Running the Project:
 - The project supports [JSON Serialization](https://github.com/Jordan-Swartz/Linked-File-System-C/blob/master/src/util/file_operation.c) so that it can be executed with an existing system. If an existing system is not provided as a command line argument then, by default, the program will create and save a new one.  [Test Systems](https://github.com/Jordan-Swartz/Linked-File-System-C/blob/master/data/test_system_2.json) are available for use and can be found in the  [data directory](https://github.com/Jordan-Swartz/Linked-File-System-C/tree/master/data). The project also allows the optional execution of unit tests (Step 6).
 
 ### Option 1: CMake
@@ -71,7 +71,7 @@ The Linked-File-System-C project is a file system implementation that supports t
      
 ---
 
-## 4: File System Commands:
+## 4: 🔍 File System Commands:
 
 ```
 mkdir <new_directory/new_directory/..>        - makes a directory in the current directory (supports nested creation)
@@ -98,7 +98,7 @@ exit                                          - exits the system
 
 ---
 
-## 5: Technologies Used:
+## 5: 🛠 Technologies Used:
 1. C (99)
    - core programming language
 2. CMake
@@ -112,7 +112,7 @@ exit                                          - exits the system
   
 ---
 
-## 6: Resources Used:
+## 6: 📚 Resources Used:
 1. cJSON
    - [cJSON Reading/Writing](https://www.geeksforgeeks.org/cjson-json-file-write-read-modify-in-c/) - GeeksForGeeks cJSON Guide
 2. Unity Testing
@@ -124,7 +124,7 @@ exit                                          - exits the system
    
 ---
 
-## 7: Testing:
+## 7: 🧪 Testing:
 - [Unit Tests](https://github.com/Jordan-Swartz/Linked-File-System-C/tree/master/test) contain tests for the core system logic and UI processing.
 - Unity Testing Report For Passing Unit Tests:
 
